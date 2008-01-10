@@ -1,43 +1,4 @@
-# = poker-hand.rb - Poker hand evaluator for Ruby
-#
-# == Author
-#
-# Robert Olson mailto:rko618@gmail.com
-#
-# == License
-#
-# This is free software; you can redistribute it and/or modify it under the
-# terms of the BSD lisence as outlined the LICENSE file in this
-# project's directory.
-#
-# == Download
-#
-# The latest version of <b>ruby poker</b> can be found at
-#
-# * http://rubyforge.org/frs/?group_id=5257
-#
-# The homepage of this library is located at
-#
-# * http://rubyforge.org/projects/rubypoker/
-#
-# == Description
-#
-# This class handles poker logic for 5 card poker hands.
-# 
-# Card representations can be passed to the PokerHand constructor as a string or an array.
-# Face cards (cards ten, jack, queen, king, and ace) can be created using their
-# value (10, 11, 12, 13, 14) or letter representation (T, J, Q, K, A)
-#
-# == Examples
-#
-# In this section some examples show what can be done with this class.
-#
-# hand1 = PokerHand.new("8H 9C TC JD QH")
-# hand2 = PokerHand.new(["3D", "3C", "3S", "13D", "14H"])
-# puts hand1.rank           => 4
-# puts hand2.rank           => 3
-# puts hand1 > hand2        => true
-
+# poker_hand.rb
 
 class Array
   # if any element occurs more than once in the array remove all occurances of that element
@@ -61,7 +22,7 @@ class Array
 
     return counts.collect {|key,value| value > 1 ? key : nil }.compact.sort
   end
-end
+end # class Array
 
 class PokerHand
 
