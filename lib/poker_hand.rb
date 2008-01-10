@@ -1,5 +1,47 @@
+# = poker-hand.rb - Poker hand evaluator for Ruby
+#
+# == Author
+#
+# Robert Olson mailto:rko618@gmail.com
+#
+# == License
+#
+# This is free software; you can redistribute it and/or modify it under the
+# terms of the BSD lisence as outlined the LICENSE file in this
+# project's directory.
+#
+# == Download
+#
+# The latest version of <b>ruby poker</b> can be found at
+#
+# * http://rubyforge.org/frs/?group_id=5257
+#
+# The homepage of this library is located at
+#
+# * http://rubyforge.org/projects/rubypoker/
+#
+# == Description
+#
+# This class handles poker logic for 5 card poker hands.
+# 
+# Card representations can be passed to the PokerHand constructor as a string or an array.
+# Face cards (cards ten, jack, queen, king, and ace) can be created using their
+# value (10, 11, 12, 13, 14) or letter representation (T, J, Q, K, A)
+#
+# == Examples
+#
+# In this section some examples show what can be done with this class.
+#
+# hand1 = PokerHand.new("8H 9C TC JD QH")
+# hand2 = PokerHand.new(["3D", "3C", "3S", "13D", "14H"])
+# puts hand1.rank           => 4
+# puts hand2.rank           => 3
+# puts hand1 > hand2        => true
+
+
 class Array
   # if any element occurs more than once in the array remove all occurances of that element
+  # [1, 1, 2, 3] => [2, 3]
   def singles
     counts = Hash.new(0)
     self.each do |value|
@@ -22,16 +64,14 @@ class Array
 end
 
 class PokerHand
-  # POSSIBLE_VALUES = ('2'..'9').to_a + ["T", "J", "Q", "K", "A"]
-  
-  ###### CARD CLASS #######
+
   class Card
     attr_reader :suit, :value
 
     def initialize card_str
       card_str = card_str.gsub("T","10").gsub("J","11").gsub("Q","12").gsub("K","13").gsub("A","14")
       @value = card_str[0, card_str.length-1].to_i
-      @suit = card_str[1,1]
+      @suit = card_str[-1,1]
     end
 
     def <=> card2
@@ -41,8 +81,7 @@ class PokerHand
     def to_s
       @value.to_s + @suit
     end
-  end
-  ##### END CARD CLASS #####
+  end # class Card
   
   
   include Comparable
@@ -50,13 +89,27 @@ class PokerHand
   
   def initialize cards
     @cards = []
-    cards.each {|c| @cards << Card.new(c)}
-    
     @values_hash = Hash.new(0)
-    @cards.each {|c| @values_hash[c.value] += 1}
+    
+    begin
+      if cards.class == String
+        cards = cards.split(/\s+/)
+      elsif cards.class != Array
+        # Input is neither a Sting or Array - throw exception
+        raise
+      end
+    
+      cards.each {|c| @cards << Card.new(c)}
+      
+      @cards.each {|c| @values_hash[c.value] += 1}
+    rescue
+      raise "Unable to process cards input. Please check the documentation for acceptable input formats"
+    end
   end
   
-  # Returns an array of all the values in the hand. Probably NOT SORTED
+  # Returns an array of all the values in the hand. Does not
+  # sort the values before returning them so Array#sort should
+  # be called on the return value if sorting is desired.
   def values
     @cards.collect {|c| c.value}
   end
@@ -178,4 +231,4 @@ class PokerHand
   def to_s
     @cards.inject("") {|str, c| str << "#{c.to_s} "}.rstrip
   end
-end
+end # class PokerHand
