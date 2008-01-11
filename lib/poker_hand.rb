@@ -24,9 +24,52 @@ class Array
   end
 end # class Array
 
+
 class PokerHand
+  # I hate shoving the Rank and Card classes in here but its neccessary
+  # to keep the program in one file
+  
+  class Rank
+    include Comparable
+    attr_accessor :value  
+      
+    HIGH_CARD = 0
+    PAIR = 1
+    TWO_PAIR = 2
+    THREE_OF_A_KIND = 3
+    STRAIGHT = 4
+    FLUSH = 5
+    FULL_HOUSE = 6
+    FOUR_OF_A_KIND = 7
+    STRAIGHT_FLUSH = 8
+    ROYAL_FLUSH = 9
+    
+    def initialize v
+      @value = v
+    end
+
+    def to_s
+      case @value
+        when 0: "High Card"
+        when 1: "Pair"
+        when 2: "Two Pair"
+        when 3: "Three of a Kind"
+        when 4: "Straight"
+        when 5: "Flush"
+        when 6: "Full House"
+        when 7: "Four of a Kind"
+        when 8: "Straight Flush"
+        when 9: "Royal Flush"
+      end
+    end
+    
+    def <=> other
+      @value <=> other.value
+    end
+  end   # class Rank
 
   class Card
+    include Comparable
     attr_reader :suit, :value
 
     def initialize card_str
@@ -54,7 +97,7 @@ class PokerHand
     
     begin
       if cards.class == String
-        cards = cards.split(/\s+/)
+        cards = cards.split
       elsif cards.class != Array
         # Input is neither a Sting or Array - throw exception
         raise
@@ -66,6 +109,10 @@ class PokerHand
     rescue
       raise "Unable to process cards input. Please check the documentation for acceptable input formats"
     end
+  end
+  
+  def rank
+    @rank ||= self.determine_rank
   end
   
   # Returns an array of all the values in the hand. Does not
@@ -127,35 +174,11 @@ class PokerHand
     @values_hash.select {|k, v| v == 2}.size == 1
   end
 
-  def rank
-    if royal_flush?
-      return 9
-    elsif straight_flush?
-      return 8
-    elsif four_of_a_kind?
-      return 7
-    elsif full_house?
-      return 6
-    elsif flush?
-      return 5
-    elsif straight?
-      return 4
-    elsif three_of_a_kind?
-      return 3
-    elsif two_pair?
-      return 2
-    elsif one_pair?
-      return 1
-    else  # high card
-      return 0
-    end
-  end
-
   def <=> hand2
     if self.rank != hand2.rank
       self.rank <=> hand2.rank
     else  # we have a tie... do a tie breaker
-      case self.rank    # both hands have the same rank
+      case self.rank.value    # both hands have the same rank
       when 0, 4, 5, 8  # highest card, straight, flush, straight flush
         # check who has the highest card, if same move to the next card, etc
         self.values.sort.reverse <=> hand2.values.sort.reverse
@@ -191,5 +214,32 @@ class PokerHand
   
   def to_s
     @cards.inject("") {|str, c| str << "#{c.to_s} "}.rstrip
+  end
+  
+  protected
+  
+  def determine_rank
+    if royal_flush?
+      r = Rank::ROYAL_FLUSH
+    elsif straight_flush?
+      r = Rank::STRAIGHT_FLUSH
+    elsif four_of_a_kind?
+      r = Rank::FOUR_OF_A_KIND
+    elsif full_house?
+      r = Rank::FULL_HOUSE
+    elsif flush?
+      r = Rank::FLUSH
+    elsif straight?
+      r = Rank::STRAIGHT
+    elsif three_of_a_kind?
+      r = Rank::THREE_OF_A_KIND
+    elsif two_pair?
+      r = Rank::TWO_PAIR
+    elsif one_pair?
+      r = Rank::PAIR
+    else
+      r = Rank::HIGH_CARD
+    end
+    return Rank.new(r)
   end
 end # class PokerHand

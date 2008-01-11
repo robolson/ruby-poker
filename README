@@ -34,6 +34,8 @@ In this section some examples show what can be done with this class.
 
     hand1 = PokerHand.new("8H 9C TC JD QH")
     hand2 = PokerHand.new(["3D", "3C", "3S", "13D", "14H"])
-    puts hand1.rank           => 4
-    puts hand2.rank           => 3
+    puts hand1                => 8H 9C 10C 11D 12H
+    puts hand1.rank           => Straight
+    puts hand2                => 3D 3C 3S 13D 14H
+    puts hand2.rank           => Three of a Kind
     puts hand1 > hand2        => true
