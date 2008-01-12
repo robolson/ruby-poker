@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require 'test/unit'
 require 'rubygems'
-require '../lib/ruby-poker'
+require 'ruby-poker'
 
 class TestPokerHand < Test::Unit::TestCase
   def setup

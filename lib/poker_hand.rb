@@ -1,12 +1,10 @@
-# poker_hand.rb
-
 require 'poker_helper.rb'
 require 'rank.rb'
 require 'card.rb'
 
 class PokerHand
     
-  include ArrayHelper
+  include PokerHelper
   include Comparable
   attr_reader :cards, :values_hash
   

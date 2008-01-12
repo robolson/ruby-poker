@@ -6,7 +6,7 @@ require "rake/gempackagetask"
 spec = Gem::Specification::new do |s|
   s.name = "ruby-poker"
   s.summary = "Ruby library for determining the winner in a game of poker." 
-  s.version = "0.1.1" 
+  s.version = "0.1.2" 
   
   s.rubyforge_project = "rubypoker"
   s.platform = Gem::Platform::RUBY 
