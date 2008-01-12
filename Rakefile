@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 require "rubygems"
 Gem::manage_gems
 require "rake/gempackagetask"
@@ -10,10 +11,8 @@ spec = Gem::Specification::new do |s|
   s.rubyforge_project = "rubypoker"
   s.platform = Gem::Platform::RUBY 
   
-  s.files = FileList["lib/*.rb"]
+  s.files = FileList["{examples,lib,test}/**/*"]
   s.require_path = "lib" 
-  
-  s.autorequire = "ruby-poker"
 
   s.has_rdoc = true 
   s.extra_rdoc_files = ["README", "CHANGELOG", "LICENSE"]

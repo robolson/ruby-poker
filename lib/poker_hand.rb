@@ -1,6 +1,6 @@
 # poker_hand.rb
 
-require 'array_helper.rb'
+require 'poker_helper.rb'
 require 'rank.rb'
 require 'card.rb'
 
@@ -104,17 +104,17 @@ class PokerHand
         hand1_pair = @values_hash.index(2)  # get key(card value) of the duplicate pair
         hand2_pair = hand2.values_hash.index(2)
         if hand1_pair == hand2_pair
-          return self.values.singles.reverse <=> hand2.values.singles.reverse
+          return singles(self.values).reverse <=> singles(hand2.values).reverse
         else
           return hand1_pair <=> hand2_pair
         end
       when 2  # two people with two pairs
         # check who has the higher pair, if the pairs are the same
         # then remove the pairs and check for highest card
-        hand1_pairs = self.values.duplicates.reverse
-        hand2_pairs = hand2.values.duplicates.reverse
+        hand1_pairs = duplicates(self.values).reverse
+        hand2_pairs = duplicates(hand2.values).reverse
         if hand1_pairs == hand2_pairs
-          return self.values.singles <=> hand2.values.singles   # there will be only one card remaining
+          return singles(self.values) <=> singles(hand2.values)   # there will be only one card remaining
         else
           return hand1_pairs <=> hand2_pairs
         end

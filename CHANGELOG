@@ -1,5 +1,10 @@
 2008-01-10 (0.1.0)
     * Initial version
-2008-01-11 (0.1.1)
+2008-01-12 (0.1.1)
     * Ranks are now a class.
+    * Extracted card, rank, and arrays methods to individual files
     * Added gem packaging
+2008-01-12 (0.1.2)
+    * Fixed critical bug that was stopping the whole program to not work
+    * Added some test cases as a result
+    * More test cases coming soon
