@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>&lt;=&gt; (PokerHand)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>     <span class="ruby-comment cmt"># File lib/poker_hand.rb, line 93</span>
+ 93:   <span class="ruby-keyword kw">def</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">hand2</span>
+ 94:     <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">rank</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">hand2</span>.<span class="ruby-identifier">rank</span>
+ 95:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">rank</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">hand2</span>.<span class="ruby-identifier">rank</span>
+ 96:     <span class="ruby-keyword kw">else</span>  <span class="ruby-comment cmt"># we have a tie... do a tie breaker</span>
+ 97:       <span class="ruby-keyword kw">case</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">rank</span>.<span class="ruby-identifier">value</span>    <span class="ruby-comment cmt"># both hands have the same rank</span>
+ 98:       <span class="ruby-keyword kw">when</span> <span class="ruby-value">0</span>, <span class="ruby-value">4</span>, <span class="ruby-value">5</span>, <span class="ruby-value">8</span>  <span class="ruby-comment cmt"># highest card, straight, flush, straight flush</span>
+ 99:         <span class="ruby-comment cmt"># check who has the highest card, if same move to the next card, etc</span>
+100:         <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">reverse</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">hand2</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">reverse</span>
+101:       <span class="ruby-keyword kw">when</span> <span class="ruby-value">1</span>  <span class="ruby-comment cmt"># two people with one pair</span>
+102:         <span class="ruby-comment cmt"># check which pair is higher, if the pairs are the same then remove the pairs and check</span>
+103:         <span class="ruby-comment cmt"># for highest card</span>
+104:         <span class="ruby-identifier">hand1_pair</span> = <span class="ruby-ivar">@values_hash</span>.<span class="ruby-identifier">index</span>(<span class="ruby-value">2</span>)  <span class="ruby-comment cmt"># get key(card value) of the duplicate pair</span>
+105:         <span class="ruby-identifier">hand2_pair</span> = <span class="ruby-identifier">hand2</span>.<span class="ruby-identifier">values_hash</span>.<span class="ruby-identifier">index</span>(<span class="ruby-value">2</span>)
+106:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">hand1_pair</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">hand2_pair</span>
+107:           <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">singles</span>.<span class="ruby-identifier">reverse</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">hand2</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">singles</span>.<span class="ruby-identifier">reverse</span>
+108:         <span class="ruby-keyword kw">else</span>
+109:           <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">hand1_pair</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">hand2_pair</span>
+110:         <span class="ruby-keyword kw">end</span>
+111:       <span class="ruby-keyword kw">when</span> <span class="ruby-value">2</span>  <span class="ruby-comment cmt"># two people with two pairs</span>
+112:         <span class="ruby-comment cmt"># check who has the higher pair, if the pairs are the same</span>
+113:         <span class="ruby-comment cmt"># then remove the pairs and check for highest card</span>
+114:         <span class="ruby-identifier">hand1_pairs</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">duplicates</span>.<span class="ruby-identifier">reverse</span>
+115:         <span class="ruby-identifier">hand2_pairs</span> = <span class="ruby-identifier">hand2</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">duplicates</span>.<span class="ruby-identifier">reverse</span>
+116:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">hand1_pairs</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">hand2_pairs</span>
+117:           <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">singles</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">hand2</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">singles</span>   <span class="ruby-comment cmt"># there will be only one card remaining</span>
+118:         <span class="ruby-keyword kw">else</span>
+119:           <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">hand1_pairs</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">hand2_pairs</span>
+120:         <span class="ruby-keyword kw">end</span>
+121:       <span class="ruby-keyword kw">when</span> <span class="ruby-value">3</span>, <span class="ruby-value">6</span>  <span class="ruby-comment cmt"># three_of_a_kind, full house</span>
+122:         <span class="ruby-ivar">@values_hash</span>.<span class="ruby-identifier">index</span>(<span class="ruby-value">3</span>) <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">hand2</span>.<span class="ruby-identifier">values_hash</span>.<span class="ruby-identifier">index</span>(<span class="ruby-value">3</span>)
+123:       <span class="ruby-keyword kw">when</span> <span class="ruby-value">7</span>  <span class="ruby-comment cmt"># four of a kind</span>
+124:         <span class="ruby-ivar">@values_hash</span>.<span class="ruby-identifier">index</span>(<span class="ruby-value">4</span>) <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">hand2</span>.<span class="ruby-identifier">values_hash</span>.<span class="ruby-identifier">index</span>(<span class="ruby-value">4</span>)
+125:       <span class="ruby-keyword kw">when</span> <span class="ruby-value">9</span>  <span class="ruby-comment cmt"># royal flush</span>
+126:         <span class="ruby-keyword kw">return</span> <span class="ruby-value">0</span>  <span class="ruby-comment cmt"># royal flushes always tie</span>
+127:       <span class="ruby-keyword kw">end</span>
+128:     <span class="ruby-keyword kw">end</span>
+129:   <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

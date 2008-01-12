@@ -1,108 +1,24 @@
 # poker_hand.rb
 
-class Array
-  # if any element occurs more than once in the array remove all occurances of that element
-  # [1, 1, 2, 3] => [2, 3]
-  def singles
-    counts = Hash.new(0)
-    self.each do |value|
-      counts[value] += 1
-    end
-
-    return counts.collect {|key,value| value == 1 ? key : nil }.compact.sort
-  end
-  
-  # Returns an array containing values that we duplicated in the original array
-  # [1, 2, 3, 1] => [1]
-  def duplicates
-    counts = Hash.new(0)
-    self.each do |value|
-      counts[value] += 1
-    end
-
-    return counts.collect {|key,value| value > 1 ? key : nil }.compact.sort
-  end
-end # class Array
-
+require 'array_helper.rb'
+require 'rank.rb'
+require 'card.rb'
 
 class PokerHand
-  # I hate shoving the Rank and Card classes in here but its neccessary
-  # to keep the program in one file
-  
-  class Rank
-    include Comparable
-    attr_accessor :value  
-      
-    HIGH_CARD = 0
-    PAIR = 1
-    TWO_PAIR = 2
-    THREE_OF_A_KIND = 3
-    STRAIGHT = 4
-    FLUSH = 5
-    FULL_HOUSE = 6
-    FOUR_OF_A_KIND = 7
-    STRAIGHT_FLUSH = 8
-    ROYAL_FLUSH = 9
     
-    def initialize v
-      @value = v
-    end
-
-    def to_s
-      case @value
-        when 0: "High Card"
-        when 1: "Pair"
-        when 2: "Two Pair"
-        when 3: "Three of a Kind"
-        when 4: "Straight"
-        when 5: "Flush"
-        when 6: "Full House"
-        when 7: "Four of a Kind"
-        when 8: "Straight Flush"
-        when 9: "Royal Flush"
-      end
-    end
-    
-    def <=> other
-      @value <=> other.value
-    end
-  end   # class Rank
-
-  class Card
-    include Comparable
-    attr_reader :suit, :value
-
-    def initialize card_str
-      card_str = card_str.gsub("T","10").gsub("J","11").gsub("Q","12").gsub("K","13").gsub("A","14")
-      @value = card_str[0, card_str.length-1].to_i
-      @suit = card_str[-1,1]
-    end
-
-    def <=> card2
-      @value <=> card2.value
-    end
-
-    def to_s
-      @value.to_s + @suit
-    end
-  end # class Card
-  
-  
+  include ArrayHelper
   include Comparable
   attr_reader :cards, :values_hash
   
   def initialize cards
-    @cards = []
+    @cards = Array.new
     @values_hash = Hash.new(0)
-    
+
     begin
       if cards.class == String
         cards = cards.split
-      elsif cards.class != Array
-        # Input is neither a Sting or Array - throw exception
-        raise
       end
-    
+
       cards.each {|c| @cards << Card.new(c)}
       
       @cards.each {|c| @values_hash[c.value] += 1}
@@ -122,12 +38,12 @@ class PokerHand
     @cards.collect {|c| c.value}
   end
   
-  # Flush: All cards of the same suit.
+  # Flush if the cards are all the same suit.
   def flush?
     @cards.collect {|c| c.suit}.uniq.size == 1
   end
   
-  # Straight: All cards are consecutive values.
+  # Straight if all cards are consecutive values.
   def straight?
     straight = true   # innocent until proven guilty
     c_values = self.values.sort

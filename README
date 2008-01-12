@@ -7,18 +7,17 @@ Robert Olson mailto:rko618@gmail.com
 == License
 
 This is free software; you can redistribute it and/or modify it under the
-terms of the BSD license as outlined the LICENSE file in this
-project's directory.
+terms of the BSD license. See LICENSE for more details.
 
 == Download
 
-The latest version of **ruby poker** can be found at
+The latest version of <b>ruby poker</b> can be found at
 
 * http://rubyforge.org/frs/?group_id=5257
 
-The homepage of this library is located at
+The homepage of this project is located at
 
-* http://rubyforge.org/projects/rubypoker/
+* http://rubyforge.org/projects/rubypoker
 
 == Description
 

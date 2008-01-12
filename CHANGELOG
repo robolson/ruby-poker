@@ -1,0 +1,5 @@
+2008-01-10 (0.1.0)
+    * Initial version
+2008-01-11 (0.1.1)
+    * Ranks are now a class.
+    * Added gem packaging
