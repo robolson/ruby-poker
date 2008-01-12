@@ -10,12 +10,12 @@ spec = Gem::Specification::new do |s|
   s.rubyforge_project = "rubypoker"
   s.platform = Gem::Platform::RUBY 
   
-  s.autorequire = "rubypoker"
-  
   s.files = FileList["lib/*.rb"]
   s.require_path = "lib" 
+  
+  s.autorequire = "ruby-poker"
 
-  s.has_rdoc = File::exist? "docs" 
+  s.has_rdoc = true 
   s.extra_rdoc_files = ["README", "CHANGELOG", "LICENSE"]
   
   s.test_files = Dir.glob("test/*.rb")
@@ -40,5 +40,5 @@ end
 
 task :docs do
   `rm -rf doc`
-  `rdoc --line-numbers -U README CHANGELOG LICENSE lib/*.rb`
+  `rdoc --line-numbers -U README CHANGELOG LICENSE lib/card.rb lib/rank.rb lib/poker_hand.rb`
 end
