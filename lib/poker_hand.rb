@@ -42,6 +42,9 @@ class PokerHand
   end
   
   # Straight if all cards are consecutive values.
+  #
+  #--
+  # TODO: Change to allow for Ace to be high or low
   def straight?
     straight = true   # innocent until proven guilty
     c_values = self.values.sort

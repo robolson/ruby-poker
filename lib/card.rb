@@ -7,7 +7,7 @@ class PokerHand
     def initialize card_str
       card_str = card_str.gsub("T","10").gsub("J","11").gsub("Q","12").gsub("K","13").gsub("A","14")
       @value = card_str[0, card_str.length-1].to_i
-      @suit = card_str[-1,1]
+      @suit = card_str[-1,1].capitalize
     end
 
     def <=> card2
