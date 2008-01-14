@@ -26,16 +26,16 @@ class PokerHand
     # Returns the text representation of the poker rank. Ex. "Two Pair"
     def to_s
       case @value
-        when 0: "High Card"
-        when 1: "Pair"
-        when 2: "Two Pair"
-        when 3: "Three of a Kind"
-        when 4: "Straight"
-        when 5: "Flush"
-        when 6: "Full House"
-        when 7: "Four of a Kind"
-        when 8: "Straight Flush"
-        when 9: "Royal Flush"
+        when 0 then "High Card"
+        when 1 then "Pair"
+        when 2 then "Two Pair"
+        when 3 then "Three of a Kind"
+        when 4 then "Straight"
+        when 5 then "Flush"
+        when 6 then "Full House"
+        when 7 then "Four of a Kind"
+        when 8 then "Straight Flush"
+        when 9 then "Royal Flush"
         else "Unknown"
       end
     end
