@@ -214,12 +214,12 @@ class PokerHand
     @hand.join(" ")
   end
   
-  def <=> other_hand
-    self.score <=> other_hand.score
-  end
-
   def to_s
     just_cards + " (" + hand_rating + ")"
+  end
+  
+  def <=> other_hand
+    self.score <=> other_hand.score
   end
   
   protected

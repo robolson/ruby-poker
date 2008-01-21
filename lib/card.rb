@@ -30,12 +30,14 @@ class Card
 
   def Card.face_value(face)
     if (face)
-      FACE_VALUES[face] - 1
+      FACE_VALUES[face.upcase] - 1
     else
       nil
     end
   end
 
+  protected
+  
   def build_from_string(card)
     build_from_face_suit(card[0,1], card[1,1])
   end
@@ -55,6 +57,8 @@ class Card
   def build_from_face_suit_values(face, suit)
     build_from_value((face - 1) + (suit * FACES.size()))
   end
+  
+  public
 
   # got a little carried away with this constructor ;-)
   def initialize(*value)
@@ -83,6 +87,6 @@ class Card
   end
 
   def <=> card2
-    @value <=> card2.value
+    @face <=> card2.face
   end
 end

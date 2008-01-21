@@ -21,11 +21,11 @@ The homepage of this project is located at
 
 == Description
 
-This class handles poker logic for 5 card poker hands.
+Ruby-Poker handles the logic for poker hands.
 
 Card representations can be passed to the PokerHand constructor as a string or an array.
-Face cards (cards ten, jack, queen, king, and ace) can be created using their
-value (10, 11, 12, 13, 14) or letter representation (T, J, Q, K, A)
+Face cards (cards ten, jack, queen, king, and ace) are created using their 
+letter representation (T, J, Q, K, A).
 
 == Examples
 
@@ -34,8 +34,15 @@ In this section some examples show what can be done with this class.
     hand1 = PokerHand.new("8H 9C TC JD QH")
     hand2 = PokerHand.new(["3D", "3C", "3S", "KD", "AH"])
     puts hand1                => 8h 9c Tc Jd Qh (Straight)
-    puts hand1.just_cards     => 8h 9c Tc Jd Qh (Straight)    
+    puts hand1.just_cards     => 8h 9c Tc Jd Qh
     puts hand1.rank           => Straight
     puts hand2.just_cards     => 3d 3c 3s Kd Ah
     puts hand2.rank           => Three of a kind
     puts hand1 > hand2        => true
+
+== Background
+
+I (Robert Olson) wrote all of the code in the original version of ruby-poker which only
+allowed for hands of 5 cards. I later discovered the amazing poker solving code written by
+Patrick Hurley for [RubyQuiz #24]http://rubyquiz.com/quiz24.html and merged it into
+ruby-poker 0.2.0.

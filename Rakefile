@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+
 require "rubygems"
 Gem::manage_gems
 require "rake/gempackagetask"
@@ -24,7 +25,6 @@ spec = Gem::Specification::new do |s|
   s.homepage = "http://rubyforge.org/projects/rubypoker/"
 end
 
-
 Rake::GemPackageTask.new(spec) do |pkg| 
   pkg.need_tar = true 
 end
@@ -35,6 +35,22 @@ task :default => "pkg/#{spec.name}-#{spec.version}.gem" do
    puts "********** WARNING: stray puts left in code"
   end
   puts "generated latest version"
+end
+
+desc "Run the ruby-poker test suite"
+task :test do 
+  Dir['test/**/test_*.rb'].all? do |file|
+    system("ruby -Ilib #{file}")
+  end or raise "Failures"
+end
+
+task :autotest do
+  ruby "-I lib -w ./bin/autotest"
+end
+
+task :zentest do
+  `zentest card.rb test_card.rb > test_card_2.rb`
+  `zentest ruby-poker.rb test_poker_hand.rb > test_poker_hand_2.rb`
 end
 
 task :docs do
