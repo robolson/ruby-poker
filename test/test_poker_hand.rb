@@ -102,10 +102,16 @@ class TestPokerHand < Test::Unit::TestCase
     assert !PokerHand.new("6D 7C 5D 5H 3S").two_pair?
   end
   
+  def test_matching
+    assert_match(/9c/, @trips)
+  end
+  
   def test_comparisons
     assert_equal(0, @trips <=> @trips)
-    assert_equal(1, PokerHand.new("5C JC 2H 5S 3D") <=> PokerHand.new("6D 7C 5D 5H 3S"))
-    assert_equal(-1, PokerHand.new("6D 7C 5D 5H 3S") <=> PokerHand.new("5C JC 2H 5S 3D"))
+    hand1 = PokerHand.new("5C JC 2H 5S 3D")
+    hand2 = PokerHand.new("6D 7C 5D 5H 3S")
+    assert_equal(1, hand1 <=> hand2)
+    assert_equal(-1, hand2 <=> hand1)
   end
 end
 
