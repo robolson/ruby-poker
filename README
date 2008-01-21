@@ -36,7 +36,7 @@ In this section some examples show what can be done with this class.
     puts hand1                => 8h 9c Tc Jd Qh (Straight)
     puts hand1.just_cards     => 8h 9c Tc Jd Qh
     puts hand1.rank           => Straight
-    puts hand2.just_cards     => 3d 3c 3s Kd Ah
+    puts hand2                => 3d 3c 3s Kd Ah (Three of a kind)
     puts hand2.rank           => Three of a kind
     puts hand1 > hand2        => true
 

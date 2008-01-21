@@ -29,6 +29,7 @@ Rake::GemPackageTask.new(spec) do |pkg|
   pkg.need_tar = true 
 end
 
+desc "Generate a new gem"
 task :default => "pkg/#{spec.name}-#{spec.version}.gem" do
   putsCheck = `grep puts lib/*`
   if putsCheck.size > 0
