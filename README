@@ -32,9 +32,10 @@ value (10, 11, 12, 13, 14) or letter representation (T, J, Q, K, A)
 In this section some examples show what can be done with this class.
 
     hand1 = PokerHand.new("8H 9C TC JD QH")
-    hand2 = PokerHand.new(["3D", "3C", "3S", "13D", "14H"])
-    puts hand1                => 8H 9C 10C 11D 12H
+    hand2 = PokerHand.new(["3D", "3C", "3S", "KD", "AH"])
+    puts hand1                => 8h 9c Tc Jd Qh (Straight)
+    puts hand1.just_cards     => 8h 9c Tc Jd Qh (Straight)    
     puts hand1.rank           => Straight
-    puts hand2                => 3D 3C 3S 13D 14H
-    puts hand2.rank           => Three of a Kind
+    puts hand2.just_cards     => 3d 3c 3s Kd Ah
+    puts hand2.rank           => Three of a kind
     puts hand1 > hand2        => true

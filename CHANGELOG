@@ -8,3 +8,7 @@
     * Fixed critical bug that was stopping the whole program to not work
     * Added some test cases as a result
     * More test cases coming soon
+2008-01-20 (0.2.0)
+    * Merged Patrick Hurley's poker solver
+    * Added support for hands with >5 cards
+    * to_s on a PokerHand now includes the rank after the card list
