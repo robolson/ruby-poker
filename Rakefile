@@ -55,5 +55,5 @@ end
 
 task :docs do
   `rm -rf doc`
-  `rdoc --line-numbers -U README CHANGELOG LICENSE lib/card.rb lib/rank.rb lib/poker_hand.rb`
+  `rdoc --line-numbers -U README CHANGELOG LICENSE lib/card.rb lib/ruby-poker.rb`
 end

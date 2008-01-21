@@ -44,5 +44,5 @@ In this section some examples show what can be done with this class.
 
 I (Robert Olson) wrote all of the code in the original version of ruby-poker which only
 allowed for hands of 5 cards. I later discovered the amazing poker solving code written by
-Patrick Hurley for [RubyQuiz #24]http://rubyquiz.com/quiz24.html and merged it into
+Patrick Hurley for http://rubyquiz.com/quiz24.html and merged it into
 ruby-poker 0.2.0.
