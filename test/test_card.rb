@@ -14,6 +14,12 @@ class TestCard < Test::Unit::TestCase
     @c4 = Card.new("qS")
   end
   
+  def test_build_from_card
+    c1 = Card.new("2c")
+    c2 = Card.new(c1)
+    assert_equal("2c", c2.to_s)
+  end
+  
   def test_class_face_value
     assert_equal(0, Card.face_value('L'))
     assert_equal(13, Card.face_value('A'))

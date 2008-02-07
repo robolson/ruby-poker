@@ -6,16 +6,18 @@ class PokerHand
   
   def initialize(cards = [])
     if cards.is_a? Array
-      @hand = cards.map { |str| Card.new(str.to_s) }
+      @hand = cards.map do |card|
+        if card.is_a? Card
+          card
+        else
+          Card.new(card.to_s)
+        end
+      end
     elsif cards.respond_to?(:to_str)
       @hand = cards.scan(/\S{2,3}/).map { |str| Card.new(str) }
     else
       @hand = cards
     end
-  end
-
-  def face_values
-    @hand.map { |c| c.face }
   end
 
   def by_suit
@@ -210,8 +212,27 @@ class PokerHand
     score[1] + " (#{hand_rating})"
   end
 
+  # Returns string representation of the hand without the rank
+  #
+  #     PokerHand.new(["3c", "Kh"]).just_cards     # => "3c Kh"
   def just_cards
     @hand.join(" ")
+  end
+  
+  # Returns an array of the card values in the hand.
+  # The values returned are 1 less than the value on the card.
+  # For example: 2's will be shown as 1.
+  #
+  #     PokerHand.new(["3c", "Kh"]).face_values     # => [2, 12]
+  def face_values
+    @hand.map { |c| c.face }
+  end
+  
+  # Returns the number of cards in the hand.
+  #
+  #     PokerHand.new(["2c", "3d"]).size         # => 2
+  def size
+    @hand.size
   end
   
   def to_s
@@ -220,6 +241,30 @@ class PokerHand
   
   def <=> other_hand
     self.score <=> other_hand.score
+  end
+  
+  # do some voodoo to pass all other opperators through array
+  def + other_hand
+    @hand + other_hand.hand
+  end
+  
+  # Add a card to the hand
+  # 
+  #     hand = PokerHand.new("5d")
+  #     hand << "6s"          # => Add a six of spades to the hand by passing a string
+  #     hand << ["7h", "8d"]  # => Add multiple cards to the hand using an array
+  def << new_cards
+    # If they only passed one card we need to place it in an array for processing
+    new_cards = [new_cards] if new_cards.is_a?(Card)
+    
+    # luckily .each behaves nicely regardless of whether new_cards is a string or array
+    new_cards.each do |nc|
+      @hand << Card.new(nc)
+    end
+  end
+  
+  def delete card
+    @hand.delete(Card.new(card))
   end
   
   protected

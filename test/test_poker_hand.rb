@@ -106,6 +106,10 @@ class TestPokerHand < Test::Unit::TestCase
     assert_match(/9c/, @trips)
   end
   
+  def test_size
+    assert_equal(2, PokerHand.new(["2c", "3d"]).size)
+  end
+  
   def test_comparisons
     assert_equal(0, @trips <=> @trips)
     hand1 = PokerHand.new("5C JC 2H 5S 3D")
@@ -113,6 +117,17 @@ class TestPokerHand < Test::Unit::TestCase
     assert_equal(1, hand1 <=> hand2)
     assert_equal(-1, hand2 <=> hand1)
   end
+  
+  def test_appending
+    ph = PokerHand.new()
+    ph << "Qd"
+    assert_equal("Qd", ph.just_cards)
+  end
+  
+  def test_delete
+    ph = PokerHand.new("Ac")
+    ph.delete("Ac")
+    assert_equal(Array.new, ph.hand)
+  end
 end
 
-# Number of errors detected: 20

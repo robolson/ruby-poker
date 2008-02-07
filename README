@@ -21,7 +21,8 @@ The homepage of this project is located at
 
 == Description
 
-Ruby-Poker handles the logic for poker hands.
+Ruby-Poker handles the logic for getting the rank of a poker hand. It can also be used
+to compare two or more hands to determine which hand has the highest poker value.
 
 Card representations can be passed to the PokerHand constructor as a string or an array.
 Face cards (cards ten, jack, queen, king, and ace) are created using their 
@@ -42,7 +43,6 @@ In this section some examples show what can be done with this class.
 
 == Background
 
-I (Robert Olson) wrote all of the code in the original version of ruby-poker which only
-allowed for hands of 5 cards. I later discovered the amazing poker solving code written by
-Patrick Hurley for http://rubyquiz.com/quiz24.html and merged it into
-ruby-poker 0.2.0.
+I (Robert Olson) wrote all of the code in the original version of ruby-poker which limited
+hands to only 5 cards. As of the 0.2.0 release ruby-poker is based on Patrick Hurley's
+Texas Holdem code from http://rubyquiz.com/quiz24.html which I merged into ruby-poker.

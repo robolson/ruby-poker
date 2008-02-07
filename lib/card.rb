@@ -58,12 +58,21 @@ class Card
     build_from_value((face - 1) + (suit * FACES.size()))
   end
   
+  # Constructs this card object from another card object
+  def build_from_card(card)
+    @value = card.value
+    @suit = card.suit
+    @face = card.face
+  end
+  
   public
 
   # got a little carried away with this constructor ;-)
   def initialize(*value)
     if (value.size == 1)
-      if (value[0].respond_to?(:to_str))
+      if (value[0].respond_to?(:to_card))
+        build_from_card(value[0])
+      elsif (value[0].respond_to?(:to_str))
         build_from_string(value[0])
       elsif (value[0].respond_to?(:to_int))
         build_from_value(value[0])
@@ -84,6 +93,11 @@ class Card
 
   def to_s
     FACES[@face].chr + SUITS[@suit].chr
+  end
+  
+  # If to_card is called on a `Card` it should return itself
+  def to_card
+    self
   end
 
   def <=> card2
