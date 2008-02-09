@@ -67,7 +67,6 @@ class Card
   
   public
 
-  # got a little carried away with this constructor ;-)
   def initialize(*value)
     if (value.size == 1)
       if (value[0].respond_to?(:to_card))
@@ -91,6 +90,9 @@ class Card
   attr_reader :suit, :face, :value
   include Comparable
 
+  # Returns a string containing the representation of Card
+  #
+  # Card.new("7c").to_s                   # => "7c"
   def to_s
     FACES[@face].chr + SUITS[@suit].chr
   end
@@ -99,7 +101,11 @@ class Card
   def to_card
     self
   end
-
+  
+  # Compare the face value of this card with another card. Returns:
+  # -1 if self is less than card2
+  # 0 if self is the same face value of card2
+  # 1 if self is greater than card2
   def <=> card2
     @face <=> card2.face
   end

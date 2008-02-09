@@ -55,6 +55,6 @@ task :zentest do
 end
 
 task :docs do
-  `rm -rf doc`
-  `rdoc --line-numbers -U README CHANGELOG LICENSE lib/card.rb lib/ruby-poker.rb`
+  `rm -rf doc/*`
+  `rdoc --op doc/ --line-numbers -U README CHANGELOG LICENSE lib/card.rb lib/ruby-poker.rb`
 end

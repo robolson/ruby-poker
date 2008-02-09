@@ -17,4 +17,3 @@
 2008-02-07 (0.2.1)
     * Cards can be added to a hand after it is created by using (<<) on a PokerHand
     * Cards can be deleted from a hand with PokerHand.delete()
-    * Added to_card to Card which returns itself.

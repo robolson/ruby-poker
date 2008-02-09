@@ -4,6 +4,11 @@ class PokerHand
   include Comparable
   attr_reader :hand
   
+  # Returns a new PokerHand object. Accepts the cards represented
+  # in a string or an array
+  #
+  # PokerHand.new("3d 5c 8h Ks")   # => #<PokerHand:0x5c673c ...
+  # PokerHand.new(["3d", "5c", "8h", "Ks"])  # => #<PokerHand:0x5c2d6c ...
   def initialize(cards = [])
     if cards.is_a? Array
       @hand = cards.map do |card|
@@ -20,16 +25,40 @@ class PokerHand
     end
   end
 
+  # Returns a new PokerHand object with the cards sorted by suit
+  # The suit order is spades, hearts, diamonds, clubs
+  #
+  # PokerHand.new("3d 5c 8h Ks").by_suit.just_cards   # => "Ks 8h 3d 5c"
   def by_suit
     PokerHand.new(@hand.sort_by { |c| [c.suit, c.face] }.reverse)
   end
 
+  # Returns a new PokerHand object with the cards sorted by value
+  # with the highest value first.
+  #
+  # PokerHand.new("3d 5c 8h Ks").by_face.just_cards   # => "Ks 8h 5c 3d"
   def by_face
     PokerHand.new(@hand.sort_by { |c| [c.face, c.suit] }.reverse)
   end
+  
+  # Returns string representation of the hand without the rank
+  #
+  #     PokerHand.new(["3c", "Kh"]).just_cards     # => "3c Kh"
+  def just_cards
+    @hand.join(" ")
+  end
+  
+  # Returns an array of the card values in the hand.
+  # The values returned are 1 less than the value on the card.
+  # For example: 2's will be shown as 1.
+  #
+  #     PokerHand.new(["3c", "Kh"]).face_values     # => [2, 12]
+  def face_values
+    @hand.map { |c| c.face }
+  end
 
   def =~ (re)
-    re.match(@hand.join(' '))
+    re.match(just_cards)
   end
 
   def royal_flush?
@@ -194,6 +223,9 @@ class PokerHand
     ['Highest Card',    :highest_card? ],
   ]
 
+  # Returns the verbose hand rating
+  #
+  #     PokerHand.new("4s 5h 6c 7d 8s").hand_rating     # => "Straight"
   def hand_rating
     OPS.map { |op|
       (method(op[1]).call()) ? op[0] : false
@@ -201,7 +233,7 @@ class PokerHand
   end
   
   alias :rank :hand_rating
-
+  
   def score
     OPS.map { |op|
       method(op[1]).call()
@@ -211,41 +243,24 @@ class PokerHand
   def arranged_hand
     score[1] + " (#{hand_rating})"
   end
-
-  # Returns string representation of the hand without the rank
-  #
-  #     PokerHand.new(["3c", "Kh"]).just_cards     # => "3c Kh"
-  def just_cards
-    @hand.join(" ")
-  end
   
-  # Returns an array of the card values in the hand.
-  # The values returned are 1 less than the value on the card.
-  # For example: 2's will be shown as 1.
+  # Returns string with a listing of the cards in the hand followed by the hand's rank.
   #
-  #     PokerHand.new(["3c", "Kh"]).face_values     # => [2, 12]
-  def face_values
-    @hand.map { |c| c.face }
-  end
-  
-  # Returns the number of cards in the hand.
-  #
-  #     PokerHand.new(["2c", "3d"]).size         # => 2
-  def size
-    @hand.size
-  end
-  
+  #     h = PokerHand.new("8c 8s")
+  #     h.to_s                      # => "8c 8s (Pair)"
   def to_s
     just_cards + " (" + hand_rating + ")"
   end
   
-  def <=> other_hand
-    self.score <=> other_hand.score
+  # Returns an array of `Card` objects that make up the `PokerHand`.
+  def to_a
+    @hand
   end
   
-  # do some voodoo to pass all other opperators through array
-  def + other_hand
-    @hand + other_hand.hand
+  alias :to_ary :to_a
+  
+  def <=> other_hand
+    self.score <=> other_hand.score
   end
   
   # Add a card to the hand
@@ -263,8 +278,22 @@ class PokerHand
     end
   end
   
+  # Remove a card from the hand.
+  #
+  #     hand = PokerHand.new("5d Jd")
+  #     hand.delete("Jd")           # => #<Card:0x5d0674 @value=23, @face=10, @suit=1>
+  #     hand.just_cards             # => "5d"
   def delete card
     @hand.delete(Card.new(card))
+  end
+  
+  RESOLVING_METHODS = ['size', '+', '-']
+  RESOLVING_METHODS.each do |method|
+    class_eval %{
+      def #{method}(*args, &block)
+        @hand.#{method}(*args, &block)
+      end
+    }
   end
   
   protected

@@ -107,7 +107,7 @@ class TestPokerHand < Test::Unit::TestCase
   end
   
   def test_size
-    assert_equal(2, PokerHand.new(["2c", "3d"]).size)
+    assert_equal(2, PokerHand.new("2c 3d").size)
   end
   
   def test_comparisons
