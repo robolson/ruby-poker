@@ -7,8 +7,8 @@ class PokerHand
   # Returns a new PokerHand object. Accepts the cards represented
   # in a string or an array
   #
-  # PokerHand.new("3d 5c 8h Ks")   # => #<PokerHand:0x5c673c ...
-  # PokerHand.new(["3d", "5c", "8h", "Ks"])  # => #<PokerHand:0x5c2d6c ...
+  #     PokerHand.new("3d 5c 8h Ks")   # => #<PokerHand:0x5c673c ...
+  #     PokerHand.new(["3d", "5c", "8h", "Ks"])  # => #<PokerHand:0x5c2d6c ...
   def initialize(cards = [])
     if cards.is_a? Array
       @hand = cards.map do |card|
@@ -28,7 +28,7 @@ class PokerHand
   # Returns a new PokerHand object with the cards sorted by suit
   # The suit order is spades, hearts, diamonds, clubs
   #
-  # PokerHand.new("3d 5c 8h Ks").by_suit.just_cards   # => "Ks 8h 3d 5c"
+  #     PokerHand.new("3d 5c 8h Ks").by_suit.just_cards   # => "Ks 8h 3d 5c"
   def by_suit
     PokerHand.new(@hand.sort_by { |c| [c.suit, c.face] }.reverse)
   end
@@ -36,7 +36,7 @@ class PokerHand
   # Returns a new PokerHand object with the cards sorted by value
   # with the highest value first.
   #
-  # PokerHand.new("3d 5c 8h Ks").by_face.just_cards   # => "Ks 8h 5c 3d"
+  #     PokerHand.new("3d 5c 8h Ks").by_face.just_cards   # => "Ks 8h 5c 3d"
   def by_face
     PokerHand.new(@hand.sort_by { |c| [c.face, c.suit] }.reverse)
   end

@@ -7,7 +7,7 @@ require "rake/gempackagetask"
 spec = Gem::Specification::new do |s|
   s.name = "ruby-poker"
   s.summary = "Ruby library for determining the winner in a game of poker." 
-  s.version = "0.2.0" 
+  s.version = "0.2.1" 
   
   s.rubyforge_project = "rubypoker"
   s.platform = Gem::Platform::RUBY 
@@ -55,6 +55,5 @@ task :zentest do
 end
 
 task :docs do
-  `rm -rf doc/*`
-  `rdoc --op doc/ --line-numbers -U README CHANGELOG LICENSE lib/card.rb lib/ruby-poker.rb`
+  `rdoc --line-numbers -U README CHANGELOG LICENSE lib/card.rb lib/ruby-poker.rb`
 end
