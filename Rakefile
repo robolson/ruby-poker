@@ -45,15 +45,18 @@ task :test do
   end or raise "Failures"
 end
 
+desc "Start autotest"
 task :autotest do
   ruby "-I lib -w ./bin/autotest"
 end
 
+desc "Create Zentest tests"
 task :zentest do
   `zentest card.rb test_card.rb > test_card_2.rb`
   `zentest ruby-poker.rb test_poker_hand.rb > test_poker_hand_2.rb`
 end
 
+desc "Generate rdocs"
 task :docs do
-  `rdoc --line-numbers -U README CHANGELOG LICENSE lib/card.rb lib/ruby-poker.rb`
+  `rdoc --inline-source -U README CHANGELOG LICENSE lib/card.rb lib/ruby-poker.rb`
 end

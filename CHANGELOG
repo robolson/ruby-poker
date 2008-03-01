@@ -14,6 +14,6 @@
     * Straights with a low Ace count now
     * to_s on a PokerHand now includes the rank after the card list
     * Finally wrote the Unit Tests suite
-2008-02-07 (0.2.1)
+2008-02-08 (0.2.1)
     * Cards can be added to a hand after it is created by using (<<) on a PokerHand
     * Cards can be deleted from a hand with PokerHand.delete()
