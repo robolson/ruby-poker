@@ -17,3 +17,5 @@
 2008-02-08 (0.2.1)
     * Cards can be added to a hand after it is created by using (<<) on a PokerHand
     * Cards can be deleted from a hand with PokerHand.delete()
+2008-02-06 (0.2.2)
+    * Fixed bug where two hands that had the same values but different suits returned not equal
