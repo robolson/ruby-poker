@@ -1,13 +1,14 @@
 #!/usr/bin/env ruby
 
-require "rubygems"
+require 'rubygems'
 Gem::manage_gems
-require "rake/gempackagetask"
+require 'rake/gempackagetask'
+require 'rake/rdoctask'
 
 spec = Gem::Specification::new do |s|
   s.name = "ruby-poker"
   s.summary = "Ruby library for determining the winner in a game of poker." 
-  s.version = "0.2.1" 
+  s.version = "0.2.2" 
   
   s.rubyforge_project = "rubypoker"
   s.platform = Gem::Platform::RUBY 
@@ -56,7 +57,13 @@ task :zentest do
   `zentest ruby-poker.rb test_poker_hand.rb > test_poker_hand_2.rb`
 end
 
-desc "Generate rdocs"
-task :docs do
-  `rdoc --inline-source -U README CHANGELOG LICENSE lib/card.rb lib/ruby-poker.rb`
+desc 'Generate documentation.'
+Rake::RDocTask.new(:rdoc) do |rdoc|
+  rdoc.rdoc_dir = 'doc'
+  rdoc.title    = 'Ruby-Poker Gem'
+  rdoc.options << '--all' << '--inline-source'
+  rdoc.rdoc_files.include('README')
+  rdoc.rdoc_files.include('CHANGELOG')
+  rdoc.rdoc_files.include('LICENSE')
+  rdoc.rdoc_files.include('lib/*.rb')
 end

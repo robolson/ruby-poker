@@ -111,11 +111,18 @@ class TestPokerHand < Test::Unit::TestCase
   end
   
   def test_comparisons
-    assert_equal(0, @trips <=> @trips)
     hand1 = PokerHand.new("5C JC 2H 5S 3D")
     hand2 = PokerHand.new("6D 7C 5D 5H 3S")
     assert_equal(1, hand1 <=> hand2)
     assert_equal(-1, hand2 <=> hand1)
+  end
+  
+  def test_equality
+    assert_equal(0, @trips <=> @trips)
+    
+    hand1 = PokerHand.new("Ac Qc Ks Kd 9d 3c")
+    hand2 = PokerHand.new("Ah Qs 9h Kh Kc 3s")
+    assert_equal(0, hand1 <=> hand2)
   end
   
   def test_appending
