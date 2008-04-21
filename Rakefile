@@ -1,23 +1,36 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
 Gem::manage_gems
-require 'rake/gempackagetask'
 require 'rake/rdoctask'
+require "rake/testtask"
+require 'rake/gempackagetask'
+
+begin
+  require "rubygems"
+rescue LoadError
+  nil
+end
+
+RUBYPOKER_VERSION = "0.2.4"
+
+task :default => [:test]
 
 spec = Gem::Specification::new do |s|
   s.name = "ruby-poker"
-  s.summary = "Ruby library for determining the winner in a game of poker." 
-  s.version = "0.2.2" 
+  s.summary = "Ruby library for comparing poker hands and determining the winner." 
+  s.version = RUBYPOKER_VERSION
   
   s.rubyforge_project = "rubypoker"
-  s.platform = Gem::Platform::RUBY 
+  s.platform = Gem::Platform::RUBY
   
-  s.files = FileList["{examples,lib,test}/**/*"]
+  s.files =  Dir.glob("{examples,lib,test}/**/**/*") + ["Rakefile"]
   s.require_path = "lib" 
 
   s.has_rdoc = true 
   s.extra_rdoc_files = ["README", "CHANGELOG", "LICENSE"]
+  s.rdoc_options << '--title' << 'Ruby Poker Documentation' <<
+                    '--main'  << 'README' <<
+                    '--inline-source' << '-q'
   
   s.test_files = Dir.glob("test/*.rb")
 
@@ -30,25 +43,15 @@ Rake::GemPackageTask.new(spec) do |pkg|
   pkg.need_tar = true 
 end
 
-desc "Generate a new gem"
-task :default => "pkg/#{spec.name}-#{spec.version}.gem" do
-  putsCheck = `grep puts lib/*`
-  if putsCheck.size > 0
-   puts "********** WARNING: stray puts left in code"
-  end
-  puts "generated latest version"
-end
-
-desc "Run the ruby-poker test suite"
-task :test do 
-  Dir['test/**/test_*.rb'].all? do |file|
-    system("ruby -Ilib #{file}")
-  end or raise "Failures"
+Rake::TestTask.new do |test|
+  test.libs << "test"
+  test.test_files = Dir[ "test/test_*.rb" ]
+  test.verbose = true
 end
 
 desc "Start autotest"
 task :autotest do
-  ruby "-I lib -w ./bin/autotest"
+  ruby "-I lib -w /usr/bin/autotest"
 end
 
 desc "Create Zentest tests"
@@ -57,13 +60,10 @@ task :zentest do
   `zentest ruby-poker.rb test_poker_hand.rb > test_poker_hand_2.rb`
 end
 
-desc 'Generate documentation.'
 Rake::RDocTask.new(:rdoc) do |rdoc|
-  rdoc.rdoc_dir = 'doc'
-  rdoc.title    = 'Ruby-Poker Gem'
+  rdoc.rdoc_files.include('README', 'CHANGELOG', 'LICENSE', 'lib/')
+  rdoc.main     = 'README'
+  rdoc.rdoc_dir = 'doc/html'
+  rdoc.title    = 'Ruby Poker Documentation'
   rdoc.options << '--all' << '--inline-source'
-  rdoc.rdoc_files.include('README')
-  rdoc.rdoc_files.include('CHANGELOG')
-  rdoc.rdoc_files.include('LICENSE')
-  rdoc.rdoc_files.include('lib/*.rb')
 end
