@@ -128,7 +128,9 @@ class TestPokerHand < Test::Unit::TestCase
   def test_appending
     ph = PokerHand.new()
     ph << "Qd"
-    assert_equal("Qd", ph.just_cards)
+    ph << Card.new("2D")
+    ph << ["3d", "4d"]
+    assert_equal("Qd 2d 3d 4d", ph.just_cards)
   end
   
   def test_delete

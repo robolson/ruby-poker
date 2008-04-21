@@ -269,10 +269,10 @@ class PokerHand
   #     hand << "6s"          # => Add a six of spades to the hand by passing a string
   #     hand << ["7h", "8d"]  # => Add multiple cards to the hand using an array
   def << new_cards
-    # If they only passed one card we need to place it in an array for processing
-    new_cards = [new_cards] if new_cards.is_a?(Card)
+    if new_cards.is_a?(Card) || new_cards.is_a?(String)
+      new_cards = [new_cards]
+    end
     
-    # luckily .each behaves nicely regardless of whether new_cards is a string or array
     new_cards.each do |nc|
       @hand << Card.new(nc)
     end

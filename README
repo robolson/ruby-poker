@@ -43,6 +43,6 @@ In this section some examples show what can be done with this class.
 
 == Background
 
-I (Robert Olson) wrote all of the code in the original version of ruby-poker which limited
-hands to only 5 cards. As of the 0.2.0 release ruby-poker is based on Patrick Hurley's
-Texas Holdem code from http://rubyquiz.com/quiz24.html which I merged into ruby-poker.
+The original version of ruby-poker was written entirely by myself (Robert Olson).
+As of the 0.2.0 release ruby-poker incorporates Patrick Hurley's Texas 
+Holdem code from http://rubyquiz.com/quiz24.html which I merged into ruby-poker.
