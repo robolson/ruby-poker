@@ -41,6 +41,10 @@ In this section some examples show what can be done with this class.
     puts hand2.rank           => Three of a kind
     puts hand1 > hand2        => true
 
+== Compatibility
+
+Ruby-Poker is compatible with Ruby 1.8 and Ruby 1.9.
+
 == Background
 
 The original version of ruby-poker was written entirely by myself (Robert Olson).

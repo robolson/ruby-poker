@@ -41,6 +41,7 @@ end
 
 Rake::GemPackageTask.new(spec) do |pkg| 
   pkg.need_tar = true 
+  pkg.need_zip = true
 end
 
 Rake::TestTask.new do |test|
@@ -65,5 +66,5 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.main     = 'README'
   rdoc.rdoc_dir = 'doc/html'
   rdoc.title    = 'Ruby Poker Documentation'
-  rdoc.options << '--all' << '--inline-source'
+  rdoc.options << '--inline-source'
 end

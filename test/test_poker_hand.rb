@@ -13,8 +13,9 @@ class TestPokerHand < Test::Unit::TestCase
     @straight = PokerHand.new("8H 9D TS JH QC AS")
   end
   
-  def test_arranged_hand
-    assert_equal("As Ah Ac 9c 2d (Three of a kind)", @trips.arranged_hand)
+  def test_sort_using_rank
+    ph = PokerHand.new("AS 3S 5S 2S 4S")
+    assert_equal("5s 4s 3s 2s As", ph.sort_using_rank)
   end
 
   def test_by_face

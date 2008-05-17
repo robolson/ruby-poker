@@ -1,24 +1,41 @@
-2008-01-10 (0.1.0)
-    * Initial version
-2008-01-12 (0.1.1)
-    * Ranks are now a class.
-    * Extracted card, rank, and arrays methods to individual files
-    * Added gem packaging
-2008-01-12 (0.1.2)
-    * Fixed critical bug that was stopping the whole program to not work
-    * Added some test cases as a result
-    * More test cases coming soon
+2008-05-17 (0.2.5)
+    * Replaced `PokerHand#arranged_hand` with `PokerHand#sort_using_rank` which is more descriptive. This loosely corresponds to bug #20194.
+    
+2008-04-20 (0.2.4)
+    * Modernized the Rakefile
+    * Updated to be compatible with Ruby 1.9    
+    
+2008-04-06 (0.2.2)
+    * Fixed bug where two hands that had the same values but different suits returned not equal    
+    
+2008-02-08 (0.2.1)
+    * Cards can be added to a hand after it is created by using (<<) on a PokerHand
+    * Cards can be deleted from a hand with PokerHand.delete()
+    
 2008-01-21 (0.2.0)
     * Merged Patrick Hurley's poker solver
     * Added support for hands with >5 cards
     * Straights with a low Ace count now
     * to_s on a PokerHand now includes the rank after the card list
-    * Finally wrote the Unit Tests suite
-2008-02-08 (0.2.1)
-    * Cards can be added to a hand after it is created by using (<<) on a PokerHand
-    * Cards can be deleted from a hand with PokerHand.delete()
-2008-04-06 (0.2.2)
-    * Fixed bug where two hands that had the same values but different suits returned not equal
-2008-04-20 (0.2.4)
-    * Modernized the Rakefile
-    * Updated to be compatible with Ruby 1.9
+    * Finally wrote the Unit Tests suite      
+    
+2008-01-12 (0.1.2)
+    * Fixed critical bug that was stopping the whole program to not work
+    * Added some test cases as a result
+    * More test cases coming soon      
+    
+2008-01-12 (0.1.1)
+    * Ranks are now a class.
+    * Extracted card, rank, and arrays methods to individual files
+    * Added gem packaging
+        
+2008-01-10 (0.1.0)
+    * Initial version
+
+
+
+
+
+
+
+    

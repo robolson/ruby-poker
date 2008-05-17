@@ -47,6 +47,7 @@ class PokerHand
   def just_cards
     @hand.join(" ")
   end
+  alias :cards :just_cards
   
   # Returns an array of the card values in the hand.
   # The values returned are 1 less than the value on the card.
@@ -240,8 +241,14 @@ class PokerHand
     }.find([0]) { |score| score }
   end
 
-  def arranged_hand
-    score[1] + " (#{hand_rating})"
+  # Returns a string of the hand arranged based on its rank. Usually this will be the
+  # same as `by_face` but there are some cases where it makes a difference.
+  #
+  #     ph = PokerHand.new("AS 3S 5S 2S 4S")
+  #     ph.sort_using_rank        # => "5s 4s 3s 2s As"
+  #     ph.by_face.just_cards       # => "As 5s 4s 3s 2s"   
+  def sort_using_rank
+    score[1]
   end
   
   # Returns string with a listing of the cards in the hand followed by the hand's rank.
