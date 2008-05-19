@@ -135,13 +135,16 @@ class PokerHand
       transform = delta_transform
       # note we can have more than one delta 0 that we
       # need to shuffle to the back of the hand
-      until transform.match(/^\S{3}( [1-9x]\S\S)+( 0\S\S)*$/) do
-        transform.gsub!(/(\s0\S\S)(.*)/, "\\2\\1")
+      i = 0
+      until transform.match(/^\S{3}( [1-9x]\S\S)+( 0\S\S)*$/) or i >= hand.size  do
+        # only do this once per card in the hand to avoid entering an
+        # infinite loop if all of the cards in the hand are the same
+        transform.gsub!(/(\s0\S\S)(.*)/, "\\2\\1")    # moves the front card to the back of the string
+        i += 1
       end
       if (md = (/.(.). 1.. 1.. 1.. 1../.match(transform)))
         high_card = Card::face_value(md[1])
-        arranged_hand = fix_low_ace_display(md[0] + ' ' +
-            md.pre_match + ' ' + md.post_match)
+        arranged_hand = fix_low_ace_display(md[0] + ' ' + md.pre_match + ' ' + md.post_match)
         result = [[5, high_card], arranged_hand]
       end
     end
@@ -303,7 +306,7 @@ class PokerHand
     }
   end
   
-  protected
+  # protected
   
   def arrange_hand(md)
       hand = if (md.respond_to?(:to_str))

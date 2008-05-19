@@ -139,5 +139,12 @@ class TestPokerHand < Test::Unit::TestCase
     ph.delete("Ac")
     assert_equal(Array.new, ph.hand)
   end
+  
+  def test_five_of_a_kind
+    # there is no five of a kind. This just tests to make sure
+    # that ruby-poker doesn't crash if given 5 of the same card
+    ph = PokerHand.new("KS KS KS KS KS")
+    assert_equal("Four of a kind", ph.rank)
+  end
 end
 
