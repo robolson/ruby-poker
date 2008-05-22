@@ -110,6 +110,8 @@ class Card
     @face <=> card2.face
   end
   
+  # Returns true if the cards are the same card. Meaning they
+  # have the same suit and the same face value.
   def == card2
     @value == card2.value
   end

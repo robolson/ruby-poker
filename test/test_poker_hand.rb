@@ -142,5 +142,17 @@ class TestPokerHand < Test::Unit::TestCase
     ph = PokerHand.new("KS KS KS KS KS")
     assert_equal("Four of a kind", ph.rank)
   end
+  
+  def test_duplicates
+    ph = PokerHand.new("2d")
+    PokerHand.allow_duplicates = true
+    ph << "2d"
+    assert_equal("2d 2d", ph.just_cards)
+    
+    PokerHand.allow_duplicates = false
+    assert_raise RuntimeError do
+      ph << "2d"
+    end
+  end
 end
 

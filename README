@@ -41,6 +41,16 @@ In this section some examples show what can be done with this class.
     puts hand2.rank           => Three of a kind
     puts hand1 > hand2        => true
 
+== Duplicates
+
+By default ruby-poker will raise an exception if you try to add the same card to a hand
+twice. You can tell ruby-poker to allow duplicates by doing the following
+
+    PokerHand.allow_duplicates = true
+    
+Place that line near the beginning of your program. Once allow_duplicates is set to true
+_all_ poker hands will accept duplicates.
+
 == Compatibility
 
 Ruby-Poker is compatible with Ruby 1.8 and Ruby 1.9.

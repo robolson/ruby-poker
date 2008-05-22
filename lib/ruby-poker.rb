@@ -62,6 +62,12 @@ class PokerHand
     @hand.map { |c| c.face }
   end
 
+  # The =~ method does a regular expression match on the cards in this hand.
+  # This can be useful for many purposes. A common use is the check if a card
+  # exists in a hand.
+  #
+  #     PokerHand.new("3d 4d 5d") =~ /8h/           # => nil
+  #     PokerHand.new("3d 4d 5d") =~ /4d/           # => #<MatchData:0x615e18>
   def =~ (re)
     re.match(just_cards)
   end
@@ -288,6 +294,10 @@ class PokerHand
     end
     
     new_cards.each do |nc|
+      unless @@allow_duplicates
+        raise "A card with the value #{nc} already exists in this hand. Set PokerHand.allow_duplicates to true if you want to be able to add a card more than once." if self =~ /#{nc}/
+      end
+      
       @hand << Card.new(nc)
     end
   end
