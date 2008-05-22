@@ -4,6 +4,10 @@ class PokerHand
   include Comparable
   attr_reader :hand
   
+  @@allow_duplicates = false    # false by default
+  def self.allow_duplicates; @@allow_duplicates; end
+  def self.allow_duplicates=(v); @@allow_duplicates = v; end
+  
   # Returns a new PokerHand object. Accepts the cards represented
   # in a string or an array
   #

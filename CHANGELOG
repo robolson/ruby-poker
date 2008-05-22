@@ -1,5 +1,7 @@
-2008-05-17 (0.2.5)
+2008-05-17 (0.3.0)
+    * Changed Card.== to compare based on card suit and face value. Before it only compared the face value of two cards.
     * Replaced `PokerHand#arranged_hand` with `PokerHand#sort_using_rank` which is more descriptive. This loosely corresponds to bug #20194.
+    * Fixed Bug [#20196] 'rank' goes into an infinite loop.
     
 2008-04-20 (0.2.4)
     * Modernized the Rakefile

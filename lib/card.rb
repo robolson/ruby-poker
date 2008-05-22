@@ -109,4 +109,8 @@ class Card
   def <=> card2
     @face <=> card2.face
   end
+  
+  def == card2
+    @value == card2.value
+  end
 end

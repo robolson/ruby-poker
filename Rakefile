@@ -11,7 +11,7 @@ rescue LoadError
   nil
 end
 
-RUBYPOKER_VERSION = "0.2.4"
+RUBYPOKER_VERSION = "0.3.0"
 
 task :default => [:test]
 
@@ -53,12 +53,6 @@ end
 desc "Start autotest"
 task :autotest do
   ruby "-I lib -w /usr/bin/autotest"
-end
-
-desc "Create Zentest tests"
-task :zentest do
-  `zentest card.rb test_card.rb > test_card_2.rb`
-  `zentest ruby-poker.rb test_poker_hand.rb > test_poker_hand_2.rb`
 end
 
 Rake::RDocTask.new(:rdoc) do |rdoc|
