@@ -4,7 +4,7 @@ class PokerHand
   include Comparable
   attr_reader :hand
   
-  @@allow_duplicates = false    # false by default
+  @@allow_duplicates = true    # true by default
   def self.allow_duplicates; @@allow_duplicates; end
   def self.allow_duplicates=(v); @@allow_duplicates = v; end
   

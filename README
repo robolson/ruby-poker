@@ -43,13 +43,13 @@ In this section some examples show what can be done with this class.
 
 == Duplicates
 
-By default ruby-poker will raise an exception if you try to add the same card to a hand
-twice. You can tell ruby-poker to allow duplicates by doing the following
+By default ruby-poker will not raise an exception if you add the same card to a hand
+twice. You can tell ruby-poker to not allow duplicates by doing the following
 
-    PokerHand.allow_duplicates = true
+    PokerHand.allow_duplicates = false
     
-Place that line near the beginning of your program. Once allow_duplicates is set to true
-_all_ poker hands will accept duplicates.
+Place that line near the beginning of your program. The change is program wide so
+once allow_duplicates is set to false _all_ poker hands will not accept duplicates.
 
 == Compatibility
 
