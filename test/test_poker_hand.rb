@@ -12,6 +12,9 @@ class TestPokerHand < Test::Unit::TestCase
   def test_sort_using_rank
     ph = PokerHand.new("AS 3S 5S 2S 4S")
     assert_equal("5s 4s 3s 2s As", ph.sort_using_rank)
+    
+    ph = PokerHand.new("AS AH KD 3D 3C")
+    assert_equal("As Ah 3d 3c Kd", ph.sort_using_rank)
   end
 
   def test_by_face
@@ -26,17 +29,17 @@ class TestPokerHand < Test::Unit::TestCase
     assert_equal([1, 8, 13, 13, 13], @trips.face_values)
   end
 
-  def test_flush_eh
+  def test_flush
     assert @flush.flush?
     assert !@trips.flush?
   end
 
-  def test_four_of_a_kind_eh
+  def test_four_of_a_kind
     assert !@trips.four_of_a_kind?
     assert PokerHand.new("AD 9C AS AH AC")
   end
 
-  def test_full_house_eh
+  def test_full_house
     assert !@trips.full_house?
     assert @full_boat.full_house?
   end
@@ -56,7 +59,7 @@ class TestPokerHand < Test::Unit::TestCase
     assert_not_nil @trips.rank
   end
 
-  def test_highest_card_eh
+  def test_highest_card
     # hard to test, make sure it does not return null
     assert PokerHand.new("2D 4S 6C 8C TH").highest_card?
   end
@@ -65,12 +68,12 @@ class TestPokerHand < Test::Unit::TestCase
     assert_equal("2d 9c As Ah Ac", @trips.just_cards)
   end
 
-  def test_pair_eh
+  def test_pair
     assert !PokerHand.new("5C JC 2H 7S 3D").pair?
     assert PokerHand.new("6D 7C 5D 5H 3S").pair?
   end
   
-  def test_royal_flush_eh
+  def test_royal_flush
     assert !@flush.royal_flush?
     assert PokerHand.new("AD KD QD JD TD").royal_flush?
   end
@@ -79,22 +82,22 @@ class TestPokerHand < Test::Unit::TestCase
     assert_equal([4, 13, 8, 1], @trips.score[0])
   end
 
-  def test_straight_eh
+  def test_straight
     assert @straight.straight?
     assert PokerHand.new("AH 2S 3D 4H 5D").straight?
   end
 
-  def test_straight_flush_eh
+  def test_straight_flush
     assert !@flush.straight_flush?
     assert !@straight.straight_flush?
     assert PokerHand.new("8H 9H TH JH QH AS").straight_flush?
   end
 
-  def test_three_of_a_kind_eh
+  def test_three_of_a_kind
     assert @trips.three_of_a_kind?
   end
 
-  def test_two_pair_eh
+  def test_two_pair
     assert PokerHand.new("2S 2D TH TD 4S").two_pair?
     assert !PokerHand.new("6D 7C 5D 5H 3S").two_pair?
   end

@@ -180,17 +180,24 @@ class PokerHand
   end
 
   def two_pair?
+    # \1 is the face value of the first pair
+    # \2 is the card in between the first pair and the second pair
+    # \3 is the face value of the second pair
     if (md = (by_face =~ /(.). \1.(.*) (.). \3./))
-      # get kicker
-      arranged_hand = arrange_hand(md[0] + ' ' +
+      # to get the kicker this does the following
+      # md[0] is the regex matched above which includes the first pair and
+      # the second pair but also some cards in the middle so we sub them out
+      # then we add on the cards that came before the first pair, the cards that
+      # we in between, and the cards that came after.
+      arranged_hand = arrange_hand(md[0].sub(md[2], '') + ' ' +
           md.pre_match + ' ' + md[2] + ' ' + md.post_match)
       arranged_hand.match(/(?:\S\S ){4}(\S)/)
       [
         [
           3,
-          Card::face_value(md[1]),
-          Card::face_value(md[3]),
-          Card::face_value($1)
+          Card::face_value(md[1]),    # face value of the first pair
+          Card::face_value(md[3]),    # face value of the second pair
+          Card::face_value($1)        # face value of the kicker
         ],
         arranged_hand
       ]
@@ -322,14 +329,16 @@ class PokerHand
   
   # protected
   
+  # if md is a string, arrange_hand will remove extra white space
+  # if md is a MatchData, arrange_hand returns the matched segment
+  # followed by the pre_match and the post_match
   def arrange_hand(md)
       hand = if (md.respond_to?(:to_str))
         md
       else
         md[0] + ' ' + md.pre_match + md.post_match
       end
-      hand.gsub!(/\s+/, ' ')
-      hand.gsub(/\s+$/,'')
+      hand.strip.squeeze(" ")   # remove extra whitespace
   end
   
   def delta_transform(use_suit = false)

@@ -3,6 +3,7 @@
     * Replaced `PokerHand#arranged_hand` with `PokerHand#sort_using_rank` which is more descriptive. This loosely corresponds to bug #20194.
     * Bug [#20196] 'rank' goes into an infinite loop.
     * Bug [#20195] Allows the same card to be entered into the hand.
+    * Bug [#20344] sort_using_rank does not return expected results
     
 2008-04-20 (0.2.4)
     * Modernized the Rakefile
