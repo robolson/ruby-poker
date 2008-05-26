@@ -9,12 +9,16 @@ class TestPokerHand < Test::Unit::TestCase
     @straight = PokerHand.new("8H 9D TS JH QC AS")
   end
   
+  # there are a lot of combinations that should be tested here. I will add more
+  # troublesome cases as I think of them.
   def test_sort_using_rank
-    ph = PokerHand.new("AS 3S 5S 2S 4S")
-    assert_equal("5s 4s 3s 2s As", ph.sort_using_rank)
+    assert_equal("As Ah Ac 9c 2d", @trips.sort_using_rank)
+    assert_equal("4s 4d 4c 2h 2d", @full_boat.sort_using_rank)
+    assert_equal("Qd Td 7d 6d 3d 2s 5h", @flush.sort_using_rank)
+    assert_equal("Qc Jh Ts 9d 8h As", @straight.sort_using_rank)
     
-    ph = PokerHand.new("AS AH KD 3D 3C")
-    assert_equal("As Ah 3d 3c Kd", ph.sort_using_rank)
+    assert_equal("As Ah 3d 3c Kd", PokerHand.new("AS AH KD 3D 3C").sort_using_rank)
+    assert_equal("As Ah 3d 3c 2d", PokerHand.new("2D AS AH 3D 3C").sort_using_rank)
   end
 
   def test_by_face

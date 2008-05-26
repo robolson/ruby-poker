@@ -1,3 +1,4 @@
+# This is a sample Deck implementation.
 class Deck
   def shuffle
     deck_size = @cards.size
