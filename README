@@ -49,7 +49,8 @@ twice. You can tell ruby-poker to not allow duplicates by doing the following
     PokerHand.allow_duplicates = false
     
 Place that line near the beginning of your program. The change is program wide so
-once allow_duplicates is set to false _all_ poker hands will not accept duplicates.
+once allow_duplicates is set to false, _all_ poker hands will raise an exception
+if a duplicate card is added to the hand.
 
 == Compatibility
 
