@@ -262,7 +262,7 @@ class PokerHand
   end
 
   # Returns a string of the hand arranged based on its rank. Usually this will be the
-  # same as `by_face` but there are some cases where it makes a difference.
+  # same as by_face but there are some cases where it makes a difference.
   #
   #     ph = PokerHand.new("AS 3S 5S 2S 4S")
   #     ph.sort_using_rank        # => "5s 4s 3s 2s As"
@@ -318,7 +318,7 @@ class PokerHand
     @hand.delete(Card.new(card))
   end
   
-  RESOLVING_METHODS = ['size', '+', '-']
+  RESOLVING_METHODS = [:size, :+, :-]
   RESOLVING_METHODS.each do |method|
     class_eval %{
       def #{method}(*args, &block)
