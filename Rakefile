@@ -55,7 +55,7 @@ task :autotest do
   ruby "-I lib -w /usr/bin/autotest"
 end
 
-Rake::RDocTask.new(:rdoc) do |rdoc|
+Rake::RDocTask.new(:docs) do |rdoc|
   rdoc.rdoc_files.include('README', 'CHANGELOG', 'LICENSE', 'lib/')
   rdoc.main     = 'README'
   rdoc.rdoc_dir = 'doc/html'
