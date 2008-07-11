@@ -150,20 +150,37 @@ class TestPokerHand < Test::Unit::TestCase
     assert_equal("Four of a kind", ph.rank)
   end
   
-  def test_duplicates
-    ph = PokerHand.new("2d")
-    
-    PokerHand.allow_duplicates = false
-    assert_raise RuntimeError do
-      ph << "2d"
+  def test_allows_duplicates_on_create
+    assert_nothing_raised RuntimeError do
+      PokerHand.new("3s 3s")
     end
+  end
+  
+  def test_does_not_allow_duplicates_on_create
+    PokerHand.allow_duplicates = false
+    
     assert_raise RuntimeError do
       PokerHand.new("3s 3s")
     end
     
-    PokerHand.allow_duplicates = true   # default behavior
+    PokerHand.allow_duplicates = true
+  end
+  
+  def test_allows_duplicates_after_create
+    ph = PokerHand.new("2d")
     ph << "2d"
     assert_equal("2d 2d", ph.just_cards)
+  end
+  
+  def test_does_not_allow_duplicates_after_create
+    PokerHand.allow_duplicates = false
+    
+    ph = PokerHand.new("2d")    
+    assert_raise RuntimeError do
+      ph << "2d"
+    end
+    
+    PokerHand.allow_duplicates = true
   end
 end
 

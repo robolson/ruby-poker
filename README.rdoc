@@ -6,13 +6,9 @@ Robert Olson (rko618 [at] gmail [dot] com)
 
 == Description
 
-Ruby-Poker handles the logic for getting the rank of a poker hand. It can also
-be used to compare two or more hands to determine which hand has the highest
-poker value.
+Ruby-Poker handles the logic for getting the rank of a poker hand. It can also be used to compare two or more hands to determine which hand has the highest poker value.
 
-Card representations can be passed to the PokerHand constructor as a string or
-an array. Face cards (cards ten, jack, queen, king, and ace) are created using
-their letter representation (T, J, Q, K, A).
+Card representations can be passed to the PokerHand constructor as a string or an array. Face cards (cards ten, jack, queen, king, and ace) are created using their letter representation (T, J, Q, K, A).
 
 == Install
 
@@ -33,27 +29,20 @@ In this section some examples show what can be done with this class.
 
 == Duplicates
 
-By default ruby-poker will not raise an exception if you add the same card to a
-hand twice. You can tell ruby-poker to not allow duplicates by doing the 
-following
+By default ruby-poker will not raise an exception if you add the same card to a hand twice. You can tell ruby-poker to not allow duplicates by doing the  following
 
     PokerHand.allow_duplicates = false
     
-Place that line near the beginning of your program. The change is program wide
-so once allow_duplicates is set to false, _all_ poker hands will raise an
-exception if a duplicate card is added to the hand.
+Place that line near the beginning of your program. The change is program wide so once allow_duplicates is set to false, _all_ poker hands will raise an exception if a duplicate card is added to the hand.
 
 == Compatibility
 
 Ruby-Poker is compatible with Ruby 1.8 and Ruby 1.9.
 
-== Background
+== History
 
-The original version of ruby-poker was written entirely by myself (Robert
-Olson). As of the 0.2.0 release ruby-poker incorporates Patrick Hurley's Texas 
-Holdem code from http://rubyquiz.com/quiz24.html which I merged into ruby-poker.
+In 0.2.0 release Patrick Hurley's Texas Holdem code from http://rubyquiz.com/quiz24.html was merged into ruby-poker.
 
 == License
 
-This is free software; you can redistribute it and/or modify it under the
-terms of the BSD license. See LICENSE for more details.
+This is free software; you can redistribute it and/or modify it under the terms of the BSD license. See LICENSE for more details.
