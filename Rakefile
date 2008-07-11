@@ -29,14 +29,14 @@ spec = Gem::Specification::new do |s|
   s.has_rdoc = true 
   s.extra_rdoc_files = ["README", "CHANGELOG", "LICENSE"]
   s.rdoc_options << '--title' << 'Ruby Poker Documentation' <<
-                    '--main'  << 'README' <<
+                    '--main'  << 'README.rdoc' <<
                     '--inline-source' << '-q'
   
   s.test_files = Dir.glob("test/*.rb")
 
   s.author = "Robert Olson"
   s.email = "rko618@gmail.com"
-  s.homepage = "http://rubyforge.org/projects/rubypoker/"
+  s.homepage = "http://github.com/robolson/ruby-poker"
 end
 
 Rake::GemPackageTask.new(spec) do |pkg| 
@@ -56,8 +56,8 @@ task :autotest do
 end
 
 Rake::RDocTask.new(:docs) do |rdoc|
-  rdoc.rdoc_files.include('README', 'CHANGELOG', 'LICENSE', 'lib/')
-  rdoc.main     = 'README'
+  rdoc.rdoc_files.include('README.rdoc', 'CHANGELOG', 'LICENSE', 'lib/')
+  rdoc.main     = 'README.rdoc'
   rdoc.rdoc_dir = 'doc/html'
   rdoc.title    = 'Ruby Poker Documentation'
   rdoc.options << '--inline-source'
