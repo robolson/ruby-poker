@@ -2,7 +2,7 @@
 
 == Author
 
-Robert Olson (rko618 [at] gmail [dot] com)
+Robert Olson (rko618 [at] gmail)
 
 == Description
 
@@ -18,6 +18,9 @@ Card representations can be passed to the PokerHand constructor as a string or a
 
 In this section some examples show what can be done with this class.
 
+    require 'rubygems'
+    require 'ruby-poker'
+    
     hand1 = PokerHand.new("8H 9C TC JD QH")
     hand2 = PokerHand.new(["3D", "3C", "3S", "KD", "AH"])
     puts hand1                => 8h 9c Tc Jd Qh (Straight)
@@ -29,7 +32,7 @@ In this section some examples show what can be done with this class.
 
 == Duplicates
 
-By default ruby-poker will not raise an exception if you add the same card to a hand twice. You can tell ruby-poker to not allow duplicates by doing the  following
+By default ruby-poker will not raise an exception if you add the same card to a hand twice. You can tell ruby-poker to not allow duplicates by doing the following
 
     PokerHand.allow_duplicates = false
     
@@ -41,7 +44,7 @@ Ruby-Poker is compatible with Ruby 1.8 and Ruby 1.9.
 
 == History
 
-In 0.2.0 release Patrick Hurley's Texas Holdem code from http://rubyquiz.com/quiz24.html was merged into ruby-poker.
+In the 0.2.0 release Patrick Hurley's Texas Holdem code from http://rubyquiz.com/quiz24.html was merged into ruby-poker.
 
 == License
 
