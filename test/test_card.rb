@@ -52,4 +52,8 @@ class TestCard < Test::Unit::TestCase
     assert_not_equal(@c1, c)
     assert_equal(@c1, @c1)
   end
+  
+  def test_hash
+    assert_equal(15, @c1.hash)
+  end
 end
