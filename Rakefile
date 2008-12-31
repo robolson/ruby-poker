@@ -12,7 +12,7 @@ end
 
 RUBYPOKER_VERSION = "0.3.0"
 
-Gem::Specification.new do |s|
+spec = Gem::Specification.new do |s|
   s.name     = "ruby-poker"
   s.version  = RUBYPOKER_VERSION
   s.date     = "2008-05-17"
