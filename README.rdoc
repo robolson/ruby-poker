@@ -1,8 +1,8 @@
-= Poker hand evaluator for Ruby
+= Poker library in Ruby
 
 == Author
 
-Robert Olson (rko618 [at] gmail)
+Rob Olson (rko618 [at] gmail)
 
 == Description
 
