@@ -115,4 +115,11 @@ class Card
   def == card2
     @value == card2.value
   end
+  alias :eql? :==
+  
+  # Compute a hash-code for this Card. Two Cards with the same
+  # content will have the same hash code (and will compare using eql?). 
+  def hash
+    @value.hash
+  end
 end

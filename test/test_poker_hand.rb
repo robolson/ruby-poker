@@ -114,6 +114,13 @@ class TestPokerHand < Test::Unit::TestCase
     assert_equal(2, PokerHand.new("2c 3d").size)
   end
   
+  def test_uniq
+    uniq_ph = PokerHand.new("3s 4s 3s").uniq
+    assert_equal(PokerHand, uniq_ph.class)
+    assert_equal(2, uniq_ph.size)
+    # add an assert_contains once switch to shoulda
+  end
+  
   def test_comparisons
     hand1 = PokerHand.new("5C JC 2H 5S 3D")
     hand2 = PokerHand.new("6D 7C 5D 5H 3S")

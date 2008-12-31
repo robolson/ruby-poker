@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-Gem::manage_gems
 require 'rake/rdoctask'
 require "rake/testtask"
 require 'rake/gempackagetask'
@@ -12,8 +11,6 @@ rescue LoadError
 end
 
 RUBYPOKER_VERSION = "0.3.0"
-
-task :default => [:test]
 
 spec = Gem::Specification::new do |s|
   s.name = "ruby-poker"
@@ -48,6 +45,7 @@ Rake::TestTask.new do |test|
   test.libs << "test"
   test.test_files = Dir[ "test/test_*.rb" ]
   test.verbose = true
+  test.warning = true
 end
 
 desc "Start autotest"

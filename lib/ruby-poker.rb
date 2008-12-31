@@ -27,6 +27,8 @@ class PokerHand
     else
       @hand = cards
     end
+    
+    check_for_duplicates if !@@allow_duplicates
   end
 
   # Returns a new PokerHand object with the cards sorted by suit
@@ -318,6 +320,12 @@ class PokerHand
     @hand.delete(Card.new(card))
   end
   
+  # Same concept as Array#uniq
+  def uniq
+    PokerHand.new(@hand.uniq)
+  end
+  
+  # Resolving methods are just passed directly down to the @hand array
   RESOLVING_METHODS = [:size, :+, :-]
   RESOLVING_METHODS.each do |method|
     class_eval %{
@@ -327,7 +335,13 @@ class PokerHand
     }
   end
   
-  # protected
+  protected
+  
+  def check_for_duplicates
+    if @hand.size != @hand.uniq.size && !@@allow_duplicates
+      raise "You are attempting to create a hand that contains duplicate cards. Set PokerHand.allow_duplicates to true if you do not want to ignore this error."
+    end
+  end
   
   # if md is a string, arrange_hand will remove extra white space
   # if md is a MatchData, arrange_hand returns the matched segment
