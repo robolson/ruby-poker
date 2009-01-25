@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name     = "ruby-poker"
-  s.version  = "0.3.0"
-  s.date     = "2008-05-17"
+  s.version  = "0.3.1"
+  s.date     = "2009-01-24"
   s.rubyforge_project = "rubypoker"
   s.platform = Gem::Platform::RUBY
   s.summary = "Poker library in Ruby"

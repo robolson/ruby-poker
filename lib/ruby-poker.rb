@@ -289,7 +289,7 @@ class PokerHand
   alias :to_ary :to_a
   
   def <=> other_hand
-    self.score[0] <=> other_hand.score[0]
+    self.score[0].compact <=> other_hand.score[0].compact
   end
   
   # Add a card to the hand

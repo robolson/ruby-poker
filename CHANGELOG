@@ -1,7 +1,11 @@
+2009-01-24 (0.3.1)
+    * Bug [#23623] undefined method <=> for nil:NilClass
+    
 2008-12-30 (0.3.1)
-    * Fixed bug (#20407) Raise an exception when creating a new hand with duplicates
+    * Bug (#20407) Raise an exception when creating a new hand with duplicates
     * Added PokerHand#uniq method
     * Removed deprecated `Gem::manage_gems` from Rakefile
+
 2008-05-17 (0.3.0)
     * Changed Card#== to compare based on card suit and face value. Before it only compared the face value of two cards. Warning: This change may potentially break your program if you were comparing Card objects directly.
     * Replaced `PokerHand#arranged_hand` with `PokerHand#sort_using_rank` which is more descriptive. This loosely corresponds to bug #20194.

@@ -10,12 +10,12 @@ rescue LoadError
   nil
 end
 
-RUBYPOKER_VERSION = "0.3.0"
+RUBYPOKER_VERSION = "0.3.1"
 
 spec = Gem::Specification.new do |s|
   s.name     = "ruby-poker"
   s.version  = RUBYPOKER_VERSION
-  s.date     = "2008-05-17"
+  s.date     = "2009-01-24"
   s.rubyforge_project = "rubypoker"
   s.platform = Gem::Platform::RUBY
   s.summary = "Poker library in Ruby"
