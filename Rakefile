@@ -37,7 +37,7 @@ spec = Gem::Specification.new do |s|
     "test/test_poker_hand.rb"]
   s.require_paths << 'lib'
   
-  s.extra_rdoc_files = ["README", "CHANGELOG", "LICENSE"]
+  s.extra_rdoc_files = ["README.rdoc", "CHANGELOG", "LICENSE"]
   s.rdoc_options << '--title' << 'Ruby Poker Documentation' <<
                     '--main'  << 'README.rdoc' <<
                     '--inline-source' << '-q'
