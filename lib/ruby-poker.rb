@@ -258,6 +258,11 @@ class PokerHand
   alias :rank :hand_rating
   
   def score
+    # OPS.map returns an array containing the result of calling each OPS method again
+    # the poker hand. The non-nil cell closest to the front of the array represents
+    # the highest ranking.
+    # find([0]) returns [0] instead of nil if the hand does not match any of the rankings
+    # which is not likely to occur since every hand should at least have a highest card
     OPS.map { |op|
       method(op[1]).call()
     }.find([0]) { |score| score }
