@@ -344,7 +344,7 @@ class PokerHand
   
   def check_for_duplicates
     if @hand.size != @hand.uniq.size && !@@allow_duplicates
-      raise "You are attempting to create a hand that contains duplicate cards. Set PokerHand.allow_duplicates to true if you do not want to ignore this error."
+      raise "Attempting to create a hand that contains duplicate cards. Set PokerHand.allow_duplicates to true if you do not want to ignore this error."
     end
   end
   

@@ -1,8 +1,10 @@
 = Poker library in Ruby
+===
 
-== Author
-
-Rob Olson (rko618 [at] gmail)
+Author:: {Rob Olson}[http://thinkingdigitally.com]
+Email:: rko618 [at] gmail.com
+Bug Tracker:: http://rubyforge.org/tracker/?group_id=5257
+GitHub:: http://github.com/robolson/ruby-poker/
 
 == Description
 
@@ -14,9 +16,7 @@ Card representations can be passed to the PokerHand constructor as a string or a
 
     sudo gem install ruby-poker
 
-== Examples
-
-In this section some examples show what can be done with this class.
+== Example
 
     require 'rubygems'
     require 'ruby-poker'
@@ -40,7 +40,7 @@ Place that line near the beginning of your program. The change is program wide s
 
 == Compatibility
 
-Ruby-Poker is compatible with Ruby 1.8 and Ruby 1.9.
+Ruby-Poker is compatible with Ruby 1.8.6 and Ruby 1.9.1.
 
 == History
 
