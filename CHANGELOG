@@ -1,3 +1,8 @@
+2009-01-24 (0.4.0)
+    * Renamed Deck.shuffle to Deck.shuffle! in the sample Deck class
+    * Changed protected methods in PokerHand to private
+    * Added natural_value method to Card
+
 2009-01-24 (0.3.1)
     * Bug [#23623] undefined method <=> for nil:NilClass
     

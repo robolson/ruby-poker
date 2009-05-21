@@ -11,14 +11,19 @@ class TestCard < Test::Unit::TestCase
   end
   
   def test_build_from_card
-    c1 = Card.new("2c")
-    c2 = Card.new(c1)
-    assert_equal("2c", c2.to_s)
+    assert_equal("9c", Card.new(@c1).to_s)
   end
   
   def test_class_face_value
-    assert_equal(0, Card.face_value('L'))
+    assert_nil(Card.face_value('L'))
     assert_equal(13, Card.face_value('A'))
+  end
+
+  def test_build_from_value
+    assert_equal(@c1, Card.new(7))
+    assert_equal(@c2, Card.new(22))
+    assert_equal(@c3, Card.new(37))
+    assert_equal(@c4, Card.new(52))
   end
 
   def test_face
@@ -42,6 +47,12 @@ class TestCard < Test::Unit::TestCase
     assert_equal(52, @c4.value)
   end
   
+  def test_natural_value
+    assert_equal(1, Card.new("AC").natural_value)
+    assert_equal(15, Card.new("2D").natural_value)
+    assert_equal(52, Card.new("KS").natural_value)
+  end
+
   def test_comparison
     assert(@c1 < @c2)
     assert(@c3 > @c2)

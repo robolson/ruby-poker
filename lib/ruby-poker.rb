@@ -271,7 +271,7 @@ class PokerHand
   # Returns a string of the hand arranged based on its rank. Usually this will be the
   # same as by_face but there are some cases where it makes a difference.
   #
-  #     ph = PokerHand.new("AS 3S 5S 2S 4S")
+  #     ph = PokerHand.new("As 3s 5s 2s 4s")
   #     ph.sort_using_rank        # => "5s 4s 3s 2s As"
   #     ph.by_face.just_cards       # => "As 5s 4s 3s 2s"   
   def sort_using_rank

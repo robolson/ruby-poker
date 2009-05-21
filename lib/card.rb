@@ -5,11 +5,7 @@ class Card
     'c' => 0,
     'd' => 1,
     'h' => 2,
-    's' => 3,
-    'C' => 0,
-    'D' => 1,
-    'H' => 2,
-    'S' => 3,
+    's' => 3
   }
   FACE_VALUES = {
     'L' =>  1,   # this is a magic low ace
@@ -25,23 +21,20 @@ class Card
     'J' => 11,
     'Q' => 12,
     'K' => 13,
-    'A' => 14,
+    'A' => 14
   }
 
   def Card.face_value(face)
-    if (face)
-      FACE_VALUES[face.upcase] - 1
-    else
+    face.upcase!
+    if face == 'L' || !FACE_VALUES.has_key?(face)
       nil
+    else
+      FACE_VALUES[face] - 1
     end
   end
 
-  protected
+  private
   
-  def build_from_string(card)
-    build_from_face_suit(card[0,1], card[1,1])
-  end
-
   def build_from_value(value)
     @value = value
     @suit  = value / FACES.size()
@@ -49,6 +42,7 @@ class Card
   end
 
   def build_from_face_suit(face, suit)
+    suit.downcase!
     @face  = Card::face_value(face)
     @suit  = SUIT_LOOKUP[suit]
     @value = (@suit * FACES.size()) + (@face - 1)
@@ -56,6 +50,10 @@ class Card
 
   def build_from_face_suit_values(face, suit)
     build_from_value((face - 1) + (suit * FACES.size()))
+  end
+  
+  def build_from_string(card)
+    build_from_face_suit(card[0,1], card[1,1])
   end
   
   # Constructs this card object from another card object
@@ -121,5 +119,21 @@ class Card
   # content will have the same hash code (and will compare using eql?). 
   def hash
     @value.hash
+  end
+  
+  # A card's natural value is the closer to it's intuitive value in a deck
+  # in the range of 1 to 52. Aces are low with a value of 1. Uses the bridge
+  # order of suits: clubs, diamonds, hearts, and spades. The formula used is:
+  # If the suit is clubs, the natural value is the face value (remember
+  # Aces are low). If the suit is diamonds, it is the clubs value plus 13.
+  # If the suit is hearts, it is plus 26. If it is spades, it is plus 39.
+  #
+  #     Card.new("Ac").natural_value    # => 1
+  #     Card.new("Kc").natural_value    # => 12
+  #     Card.new("Ad").natural_value    # => 13
+  def natural_value
+    natural_face = @face == 13 ? 1 : @face+1  # flip Ace from 13 to 1 and
+                                              # increment everything else by 1
+    natural_face + @suit * 13
   end
 end
