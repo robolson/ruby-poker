@@ -1,13 +1,5 @@
 # This is a sample Deck implementation.
 class Deck
-  def shuffle
-    deck_size = @cards.size
-    (deck_size * 2).times do
-      pos1, pos2 = rand(deck_size), rand(deck_size)
-      @cards[pos1], @cards[pos2] = @cards[pos2], @cards[pos1]
-    end
-  end
-
   def initialize
     @cards = []
     Card::SUITS.each_byte do |suit|
@@ -16,7 +8,12 @@ class Deck
         @cards.push(Card.new(face.chr, suit.chr))
       end
     end
-    shuffle()
+    shuffle!
+  end
+  
+  def shuffle!
+    @cards = @cards.sort_by { rand }
+    return self
   end
 
   # removes a single card from the top of the deck and returns it

@@ -3,7 +3,6 @@
 
 Author:: {Rob Olson}[http://thinkingdigitally.com]
 Email:: rko618 [at] gmail.com
-Bug Tracker:: http://rubyforge.org/tracker/?group_id=5257
 GitHub:: http://github.com/robolson/ruby-poker/
 
 == Description
@@ -44,7 +43,7 @@ Ruby-Poker is compatible with Ruby 1.8.6 and Ruby 1.9.1.
 
 == History
 
-In the 0.2.0 release Patrick Hurley's Texas Holdem code from http://rubyquiz.com/quiz24.html was merged into ruby-poker.
+In the 0.2.0 release Patrick Hurley's Texas Holdem code from http://www.rubyquiz.com/quiz24.html was merged into ruby-poker.
 
 == License
 

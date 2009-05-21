@@ -340,7 +340,7 @@ class PokerHand
     }
   end
   
-  protected
+  private
   
   def check_for_duplicates
     if @hand.size != @hand.uniq.size && !@@allow_duplicates
@@ -359,7 +359,10 @@ class PokerHand
       end
       hand.strip.squeeze(" ")   # remove extra whitespace
   end
-  
+
+  # delta transform creates a version of the cards where the delta
+  # between card values is in the string, so a regexp can then match a
+  # straight and/or straight flush
   def delta_transform(use_suit = false)
     aces = @hand.select { |c| c.face == Card::face_value('A') }
     aces.map! { |c| Card.new(1,c.suit) }
