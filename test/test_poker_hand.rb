@@ -114,6 +114,8 @@ class TestPokerHand < Test::Unit::TestCase
     end
   
     should "return the correct number of cards in the hand" do
+      assert_equal(0, PokerHand.new.size)
+      assert_equal(1, PokerHand.new("2c").size)
       assert_equal(2, PokerHand.new("2c 3d").size)
     end
   
@@ -144,6 +146,16 @@ class TestPokerHand < Test::Unit::TestCase
       ph = PokerHand.new("Ac")
       ph.delete("Ac")
       assert_equal(Array.new, ph.hand)
+    end
+    
+    should "detect the two highest pairs when there are more than two" do
+      ph = PokerHand.new("7d 7s 4d 4c 2h 2d")
+      assert_equal([3, 6, 3, 1], ph.two_pair?[0])
+      # Explanation of [3, 6, 3, 1]
+      # 3: the number for a two pair
+      # 6: highest pair is two 7's
+      # 3: second highest pair is two 4's
+      # 1: kicker is a 2
     end
   
     context "when duplicates are allowed" do
