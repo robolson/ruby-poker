@@ -8,10 +8,10 @@ class Deck
         @cards.push(Card.new(face.chr, suit.chr))
       end
     end
-    shuffle!
+    shuffle
   end
   
-  def shuffle!
+  def shuffle
     @cards = @cards.sort_by { rand }
     return self
   end
