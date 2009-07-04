@@ -12,6 +12,8 @@ end
 
 RUBYPOKER_VERSION = "0.3.1"
 
+task :default => [:test]
+
 spec = Gem::Specification.new do |s|
   s.name     = "ruby-poker"
   s.version  = RUBYPOKER_VERSION
@@ -25,23 +27,22 @@ spec = Gem::Specification.new do |s|
   s.homepage = "http://github.com/robolson/ruby-poker"
   s.has_rdoc = true
   s.files    = ["CHANGELOG", 
-		"examples/deck.rb", 
-		"examples/quick_example.rb", 
-		"lib/card.rb", 
-		"lib/ruby-poker.rb", 
-		"LICENSE", 
-		"Rakefile", 
-		"README.rdoc", 
-		"ruby-poker.gemspec"]
-  s.test_files = ["test/test_card.rb", 
-    "test/test_poker_hand.rb"]
+                "examples/deck.rb", 
+                "examples/quick_example.rb", 
+                "lib/card.rb", 
+                "lib/ruby-poker.rb", 
+                "LICENSE", 
+                "Rakefile", 
+                "README.rdoc", 
+                "ruby-poker.gemspec"]
+  s.test_files = ["test/test_card.rb", "test/test_poker_hand.rb"]
   s.require_paths << 'lib'
-  
+
   s.extra_rdoc_files = ["README.rdoc", "CHANGELOG", "LICENSE"]
   s.rdoc_options << '--title' << 'Ruby Poker Documentation' <<
                     '--main'  << 'README.rdoc' <<
                     '--inline-source' << '-q'
-  
+
   # s.add_dependency("thoughtbot-shoulda", ["> 2.0.0"])
 end
 
