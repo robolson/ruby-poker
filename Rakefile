@@ -1,18 +1,12 @@
-#!/usr/bin/env ruby
-
-require 'rake/rdoctask'
-require "rake/testtask"
-require 'rake/gempackagetask'
+require 'rubygems'
+require 'rake'
 
 begin
-  require "rubygems"
+  require 'metric_fu'
 rescue LoadError
-  nil
 end
 
 RUBYPOKER_VERSION = "0.3.1"
-
-task :default => [:test]
 
 spec = Gem::Specification.new do |s|
   s.name     = "ruby-poker"
@@ -29,13 +23,14 @@ spec = Gem::Specification.new do |s|
   s.files    = ["CHANGELOG", 
                 "examples/deck.rb", 
                 "examples/quick_example.rb", 
-                "lib/card.rb", 
-                "lib/ruby-poker.rb", 
+                "lib/ruby-poker.rb",
+                "lib/ruby-poker/card.rb", 
+                "lib/ruby-poker/poker_hand.rb", 
                 "LICENSE", 
                 "Rakefile", 
                 "README.rdoc", 
                 "ruby-poker.gemspec"]
-  s.test_files = ["test/test_card.rb", "test/test_poker_hand.rb"]
+  s.test_files = ["test/test_helper.rb", "test/test_card.rb", "test/test_poker_hand.rb"]
   s.require_paths << 'lib'
 
   s.extra_rdoc_files = ["README.rdoc", "CHANGELOG", "LICENSE"]
@@ -46,14 +41,15 @@ spec = Gem::Specification.new do |s|
   # s.add_dependency("thoughtbot-shoulda", ["> 2.0.0"])
 end
 
+require 'rake/gempackagetask'
 Rake::GemPackageTask.new(spec) do |pkg| 
   pkg.need_tar = true 
   pkg.need_zip = true
 end
 
-Rake::TestTask.new do |test|
-  test.libs << "test"
-  test.test_files = Dir[ "test/test_*.rb" ]
+require 'rake/testtask'
+Rake::TestTask.new(:test) do |test|
+  test.libs << 'lib' << 'test'
   test.verbose = true
   test.warning = true
 end
@@ -63,10 +59,12 @@ task :autotest do
   ruby "-I lib -w /usr/bin/autotest"
 end
 
+require 'rake/rdoctask'
 Rake::RDocTask.new(:docs) do |rdoc|
-  rdoc.rdoc_files.include('README.rdoc', 'CHANGELOG', 'LICENSE', 'lib/')
   rdoc.main     = 'README.rdoc'
-  rdoc.rdoc_dir = 'doc/html'
-  rdoc.title    = 'Ruby Poker Documentation'
-  rdoc.options << '--inline-source'
+  rdoc.rdoc_dir = 'rdoc'
+  rdoc.title    = "Ruby Poker #{RUBYPOKER_VERSION}"
+  rdoc.rdoc_files.include('README.rdoc', 'CHANGELOG', 'LICENSE', 'lib/**/*.rb')
 end
+
+task :default => :test

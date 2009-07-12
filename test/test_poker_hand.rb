@@ -1,6 +1,4 @@
-require 'ruby-poker.rb'
-require 'rubygems'
-require 'shoulda'
+require File.expand_path(File.dirname(__FILE__) + '/test_helper')
 
 class TestPokerHand < Test::Unit::TestCase
   context "A PokerHand instance" do

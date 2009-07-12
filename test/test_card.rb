@@ -1,5 +1,4 @@
-require 'test/unit'
-require 'card.rb'
+require File.expand_path(File.dirname(__FILE__) + '/test_helper')
 
 class TestCard < Test::Unit::TestCase
   def setup

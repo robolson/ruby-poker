@@ -1,4 +1,5 @@
-2009-06-21 (0.3.2)
+2009-07-12 (0.3.2)
+    * Reorganized ruby-poker's lib folder to match the standard layout for gems. This makes ruby-poker compatible with Rip.
     * Bug [#26276] improper two_pair? behavior. Applied patch by Uro.
     * Changed protected methods in PokerHand to private
     * Added natural_value method to Card
