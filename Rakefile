@@ -6,18 +6,18 @@ begin
 rescue LoadError
 end
 
-RUBYPOKER_VERSION = "0.3.1"
+RUBYPOKER_VERSION = "0.3.2"
 
 spec = Gem::Specification.new do |s|
   s.name     = "ruby-poker"
   s.version  = RUBYPOKER_VERSION
-  s.date     = "2009-01-24"
+  s.date     = "2009-07-27"
   s.rubyforge_project = "rubypoker"
   s.platform = Gem::Platform::RUBY
   s.summary = "Poker library in Ruby"
   s.description = "Ruby library for comparing poker hands and determining the winner."
   s.author  = "Rob Olson"
-  s.email    = "rko618@gmail.com"
+  s.email    = "rob@thinkingdigitally.com"
   s.homepage = "http://github.com/robolson/ruby-poker"
   s.has_rdoc = true
   s.files    = ["CHANGELOG", 
@@ -38,7 +38,7 @@ spec = Gem::Specification.new do |s|
                     '--main'  << 'README.rdoc' <<
                     '--inline-source' << '-q'
 
-  # s.add_dependency("thoughtbot-shoulda", ["> 2.0.0"])
+  s.add_development_dependency('thoughtbot-shoulda', '> 2.0.0')
 end
 
 require 'rake/gempackagetask'

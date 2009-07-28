@@ -2,8 +2,8 @@
 ===
 
 Author:: {Rob Olson}[http://thinkingdigitally.com]
-Email:: rko618 [at] gmail.com
-GitHub:: http://github.com/robolson/ruby-poker/
+Email:: [first name] [at] thinkingdigitally.com
+GitHub:: http://github.com/robolson/ruby-poker
 
 == Description
 
