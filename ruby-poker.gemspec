@@ -1,6 +1,6 @@
 spec = Gem::Specification.new do |s|
   s.name     = "ruby-poker"
-  s.version  = RUBYPOKER_VERSION
+  s.version  = "0.3.2"
   s.date     = "2009-07-27"
   s.rubyforge_project = "rubypoker"
   s.platform = Gem::Platform::RUBY
