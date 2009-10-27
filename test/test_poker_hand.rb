@@ -1,15 +1,28 @@
 require File.expand_path(File.dirname(__FILE__) + '/test_helper')
+require 'ruby-debug'
 
 class TestPokerHand < Test::Unit::TestCase
   context "A PokerHand instance" do
   
     setup do
       @trips = PokerHand.new("2D 9C AS AH AC")
+      @pair = PokerHand.new("As Ac Kc Qd 2s")
+      @two_pair = PokerHand.new("As Ac Kc Kd 2s")
       @full_boat = PokerHand.new(["2H", "2D", "4C", "4D", "4S"])
       @flush = PokerHand.new("3D 6D 7D TD QD 5H 2S")
       @straight = PokerHand.new("8H 9D TS JH QC AS")
+      @ace_high = PokerHand.new("As Jh 9c 7d 5s")
     end
   
+    should "handle single card hands" do
+      assert_equal(PokerHand.new('As').rank, @ace_high.rank)
+    end
+
+    should "handle two card hands" do
+      p = PokerHand.new('As Ac')
+      assert_equal(p.rank, @pair.rank)
+    end
+
     # there are a lot of combinations that should be tested here. I will add more
     # troublesome cases as I think of them.
     should "sort using rank" do
