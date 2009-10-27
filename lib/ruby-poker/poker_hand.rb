@@ -95,14 +95,11 @@ class PokerHand
   def four_of_a_kind?
     if (md = (by_face =~ /(.). \1. \1. \1./))
       # get kicker
-      (md.pre_match + md.post_match).match(/(\S)/)
-      [
-        [8, Card::face_value(md[1]), Card::face_value($1)],
-        arrange_hand(md)
-      ]
-    else
-      false
+      result = [8, Card::face_value(md[1])]
+      result << Card::face_value($1) if (md.pre_match + md.post_match).match(/(\S)/)
+      return [result, arrange_hand(md)]
     end
+    false
   end
 
   def full_house?

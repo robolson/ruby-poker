@@ -5,12 +5,13 @@ class TestPokerHand < Test::Unit::TestCase
   context "A PokerHand instance" do
   
     setup do
-      @trips = PokerHand.new("2D 9C AS AH AC")
-      @pair = PokerHand.new("As Ac Kc Qd 2s")
-      @two_pair = PokerHand.new("As Ac Kc Kd 2s")
+      @quads = PokerHand.new('Kc Kh Kd Ks Qs')
       @full_boat = PokerHand.new(["2H", "2D", "4C", "4D", "4S"])
       @flush = PokerHand.new("3D 6D 7D TD QD 5H 2S")
       @straight = PokerHand.new("8H 9D TS JH QC AS")
+      @trips = PokerHand.new("2D 9C AS AH AC")
+      @two_pair = PokerHand.new("As Ac Kc Kd 2s")
+      @pair = PokerHand.new("As Ac Kc Qd 2s")
       @ace_high = PokerHand.new("As Jh 9c 7d 5s")
     end
   
@@ -19,18 +20,21 @@ class TestPokerHand < Test::Unit::TestCase
     end
 
     should "handle two card hands" do
-      p = PokerHand.new('As Ac')
-      assert_equal(p.rank, @pair.rank)
+      assert_equal(PokerHand.new('As Ac').rank, @pair.rank)
     end
 
     should "handle three card hands" do
-      p = PokerHand.new('As Ac Ah')
-      assert_equal(p.rank, @trips.rank)
+      assert_equal(PokerHand.new('As Ac Ah').rank, @trips.rank)
     end
 
     should "handle four card hands" do
-      p = PokerHand.new('As Ac Kd Kh')
-      assert_equal(p.rank, @two_pair.rank)
+      assert_equal(PokerHand.new('As Ac Kd Kh').rank, @two_pair.rank)
+      assert_equal(PokerHand.new('As Ac Ad Ah').rank, @quads.rank)
+    end
+
+    should "handle lower case face card names" do
+      assert_equal(0, PokerHand.new('kc kd') <=> PokerHand.new('Kc Kd'))
+      assert_equal(0, PokerHand.new('kc kd') <=> PokerHand.new('Kc KD'))
     end
 
     # there are a lot of combinations that should be tested here. I will add more
@@ -237,7 +241,6 @@ class TestPokerHand < Test::Unit::TestCase
         PokerHand.allow_duplicates = true
       end
     end
-    
   end
 end
 
