@@ -1,3 +1,4 @@
+require 'ruby-debug'
 class PokerHand
   include Comparable
   attr_reader :hand
@@ -25,7 +26,7 @@ class PokerHand
     else
       @hand = cards
     end
-    
+
     check_for_duplicates if !@@allow_duplicates
   end
 
@@ -44,7 +45,7 @@ class PokerHand
   def by_face
     PokerHand.new(@hand.sort_by { |c| [c.face, c.suit] }.reverse)
   end
-  
+
   # Returns string representation of the hand without the rank
   #
   #     PokerHand.new(["3c", "Kh"]).just_cards     # => "3c Kh"
@@ -52,7 +53,7 @@ class PokerHand
     @hand.join(" ")
   end
   alias :cards :just_cards
-  
+
   # Returns an array of the card values in the hand.
   # The values returned are 1 less than the value on the card.
   # For example: 2's will be shown as 1.
@@ -210,25 +211,26 @@ class PokerHand
     if (md = (by_face =~ /(.). \1./))
       # get kicker
       arranged_hand = arrange_hand(md)
-      arranged_hand.match(/(?:\S\S ){2}(\S)\S\s+(\S)\S\s+(\S)/)
-      [
-        [
-          2,
-          Card::face_value(md[1]),
-          Card::face_value($1),
-          Card::face_value($2),
-          Card::face_value($3)
-        ],
-        arranged_hand
-      ]
-    else
-      false
+      matches = arranged_hand.match(/(?:\S\S \S\S)/) #(\S)\S\s+(\S)\S\s+(\S)/)
+      if matches
+        result = []
+        result << 2
+        result << Card::face_value(md[1])
+        matches = arranged_hand.match(/(?:\S\S ){2}(\S)/) #\S\s+(\S)\S\s+(\S)/)
+        result << Card::face_value($1) if matches
+        matches = arranged_hand.match(/(?:\S\S ){2}(\S)\S\s+(\S)/) #\S\s+(\S)/)
+        result << Card::face_value($2) if matches
+        matches = arranged_hand.match(/(?:\S\S ){2}(\S)\S\s+(\S)\S\s+(\S)/)
+        result << Card::face_value($3) if matches
+        return [result, arranged_hand]
+      end
     end
+    false
   end
 
   def highest_card?
     result = by_face
-    [[1, *result.face_values[0..4]], result.hand.join(' ')]
+    [[1, *result.face_values[0..result.face_values.length]], result.hand.join(' ')]
   end
 
   OPS = [
