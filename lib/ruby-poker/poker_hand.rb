@@ -165,19 +165,17 @@ class PokerHand
     if (md = (by_face =~ /(.). \1. \1./))
       # get kicker
       arranged_hand = arrange_hand(md)
-      arranged_hand.match(/(?:\S\S ){3}(\S)\S (\S)/)
-      [
-        [
-          4,
-          Card::face_value(md[1]),
-          Card::face_value($1),
-          Card::face_value($2)
-        ],
-        arranged_hand
-      ]
-    else
-      false
+      matches = arranged_hand.match(/(?:\S\S ){2}(\S\S)/)
+      if matches
+        result = [4, Card::face_value(md[1])]
+        matches = arranged_hand.match(/(?:\S\S ){3}(\S)/)
+        result << Card::face_value($1) if matches
+        matches = arranged_hand.match(/(?:\S\S ){3}(\S)\S (\S)/)
+        result << Card::face_value($2) if matches
+        return [result, arranged_hand]
+      end
     end
+    false
   end
 
   def two_pair?
@@ -192,19 +190,18 @@ class PokerHand
       # that were in-between, and the cards that came after.
       arranged_hand = arrange_hand(md[0].sub(md[2], '') + ' ' +
           md.pre_match + ' ' + md[2] + ' ' + md.post_match)
-      arranged_hand.match(/(?:\S\S ){4}(\S)/)
-      [
-        [
-          3,
-          Card::face_value(md[1]),    # face value of the first pair
-          Card::face_value(md[3]),    # face value of the second pair
-          Card::face_value($1)        # face value of the kicker
-        ],
-        arranged_hand
-      ]
-    else
-      false
+      matches = arranged_hand.match(/(?:\S\S ){3}(\S\S)/)
+      if matches
+        result = []
+        result << 3
+        result << Card::face_value(md[1])    # face value of the first pair
+        result << Card::face_value(md[3])    # face value of the second pair
+        matches = arranged_hand.match(/(?:\S\S ){4}(\S)/)
+        result << Card::face_value($1) if matches    # face value of the kicker
+      return [result, arranged_hand]
+      end
     end
+    false
   end
 
   def pair?

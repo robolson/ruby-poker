@@ -23,6 +23,16 @@ class TestPokerHand < Test::Unit::TestCase
       assert_equal(p.rank, @pair.rank)
     end
 
+    should "handle three card hands" do
+      p = PokerHand.new('As Ac Ah')
+      assert_equal(p.rank, @trips.rank)
+    end
+
+    should "handle four card hands" do
+      p = PokerHand.new('As Ac Kd Kh')
+      assert_equal(p.rank, @two_pair.rank)
+    end
+
     # there are a lot of combinations that should be tested here. I will add more
     # troublesome cases as I think of them.
     should "sort using rank" do
