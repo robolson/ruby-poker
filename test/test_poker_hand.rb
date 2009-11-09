@@ -1,5 +1,4 @@
 require File.expand_path(File.dirname(__FILE__) + '/test_helper')
-require 'ruby-debug'
 
 class TestPokerHand < Test::Unit::TestCase
   context "A PokerHand instance" do
@@ -37,8 +36,6 @@ class TestPokerHand < Test::Unit::TestCase
       assert_equal(0, PokerHand.new('kc kd') <=> PokerHand.new('Kc KD'))
     end
 
-    # there are a lot of combinations that should be tested here. I will add more
-    # troublesome cases as I think of them.
     should "sort using rank" do
       assert_equal("As Ah Ac 9c 2d", @trips.sort_using_rank)
       assert_equal("4s 4d 4c 2h 2d", @full_boat.sort_using_rank)
@@ -159,7 +156,7 @@ class TestPokerHand < Test::Unit::TestCase
       assert_equal(0, hand1 <=> hand2)
     end
   
-    should "be able to add a Card to itself" do
+    should "be able to insert new cards into the hand" do
       ph = PokerHand.new()
       ph << "Qd"
       ph << Card.new("2D")
@@ -242,5 +239,83 @@ class TestPokerHand < Test::Unit::TestCase
       end
     end
   end
+  
+  context "PokerHand#pair?" do
+    
+    should "return false with one card" do
+      assert !PokerHand.new("2h").pair?
+    end
+    
+    context "with a pair" do
+      
+      should "return 2, followed by the pair value" do
+        assert_equal [2, 5-1], PokerHand.new("5h 5s").pair?[0]
+      end
+      
+      context "with a two card hand" do
+        setup do
+          @ph = PokerHand.new("5h 5s")
+          @scoring = @ph.pair?[0]
+        end
+        
+        should "return scoring with 2 entries" do
+          assert_equal 2, @scoring.size
+        end
+      end
+      
+      context "with a three card hand" do
+        setup do
+          @ph = PokerHand.new("5h 5s 8s")
+          @scoring = @ph.pair?[0]
+        end
+        
+        should "return scoring with 3 entries" do
+          assert_equal 3, @scoring.size
+        end
+        
+        should "return the value of the kicker" do
+          assert_equal 8-1, @scoring[2]
+        end
+      end
+      
+      context "with a four card hand" do
+        setup do
+          @ph = PokerHand.new("5h 5s 8s 7s")
+          @scoring = @ph.pair?[0]
+        end
+        
+        should "return scoring with 4 entries" do
+          assert_equal 4, @scoring.size
+        end
+        
+        should "return the values of the kickers" do
+          assert_equal 8-1, @scoring[2]
+          assert_equal 7-1, @scoring[3]
+        end
+      end
+      
+      context "with a five (or more) card hand" do
+        setup do
+          @ph = PokerHand.new("5h 5s 8s 7s 6s 2h")
+          @scoring = @ph.pair?[0]
+        end
+        
+        should "return scoring with 5 entries" do
+          assert_equal 5, @scoring.size
+        end
+        
+        should "return the values of the kickers" do
+          assert_equal 8-1, @scoring[2]
+          assert_equal 7-1, @scoring[3]
+          assert_equal 6-1, @scoring[4]
+        end
+      end
+    end
+    
+    context "without a pair" do
+      should "return false" do
+        assert !PokerHand.new("2h 3h").pair?
+      end
+    end
+  end
 end
-

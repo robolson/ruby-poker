@@ -54,11 +54,6 @@ Rake::TestTask.new(:test) do |test|
   test.warning = true
 end
 
-desc "Start autotest"
-task :autotest do
-  ruby "-I lib -w /usr/bin/autotest"
-end
-
 require 'rake/rdoctask'
 Rake::RDocTask.new(:docs) do |rdoc|
   rdoc.main     = 'README.rdoc'

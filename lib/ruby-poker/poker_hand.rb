@@ -1,4 +1,3 @@
-require 'ruby-debug'
 class PokerHand
   include Comparable
   attr_reader :hand
@@ -203,23 +202,21 @@ class PokerHand
 
   def pair?
     if (md = (by_face =~ /(.). \1./))
-      # get kicker
-      arranged_hand = arrange_hand(md)
-      matches = arranged_hand.match(/(?:\S\S \S\S)/) #(\S)\S\s+(\S)\S\s+(\S)/)
-      if matches
-        result = []
-        result << 2
-        result << Card::face_value(md[1])
-        matches = arranged_hand.match(/(?:\S\S ){2}(\S)/) #\S\s+(\S)\S\s+(\S)/)
-        result << Card::face_value($1) if matches
-        matches = arranged_hand.match(/(?:\S\S ){2}(\S)\S\s+(\S)/) #\S\s+(\S)/)
-        result << Card::face_value($2) if matches
-        matches = arranged_hand.match(/(?:\S\S ){2}(\S)\S\s+(\S)\S\s+(\S)/)
-        result << Card::face_value($3) if matches
-        return [result, arranged_hand]
+      arranged_hand_str = arrange_hand(md)
+      arranged_hand = PokerHand.new(arranged_hand_str)
+      
+      if arranged_hand.hand[0].face == arranged_hand.hand[1].face && 
+          arranged_hand.hand[0].suit != arranged_hand.hand[1].suit
+        result = [2, arranged_hand.hand[0].face]
+        result << arranged_hand.hand[2].face if arranged_hand.size > 2
+        result << arranged_hand.hand[3].face if arranged_hand.size > 3
+        result << arranged_hand.hand[4].face if arranged_hand.size > 4
+        
+        return [result, arranged_hand_str]
       end
+    else
+      false
     end
-    false
   end
 
   def highest_card?
@@ -346,7 +343,7 @@ class PokerHand
   # if md is a MatchData, arrange_hand returns the matched segment
   # followed by the pre_match and the post_match
   def arrange_hand(md)
-      hand = if (md.respond_to?(:to_str))
+      hand = if md.respond_to?(:to_str)
         md
       else
         md[0] + ' ' + md.pre_match + md.post_match
