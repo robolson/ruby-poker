@@ -19,7 +19,7 @@ Card representations can be passed to the PokerHand constructor as a string or a
 
     require 'rubygems'
     require 'ruby-poker'
-    
+
     hand1 = PokerHand.new("8H 9C TC JD QH")
     hand2 = PokerHand.new(["3D", "3C", "3S", "KD", "AH"])
     puts hand1                => 8h 9c Tc Jd Qh (Straight)
@@ -34,7 +34,7 @@ Card representations can be passed to the PokerHand constructor as a string or a
 By default ruby-poker will not raise an exception if you add the same card to a hand twice. You can tell ruby-poker to not allow duplicates by doing the following
 
     PokerHand.allow_duplicates = false
-    
+
 Place that line near the beginning of your program. The change is program wide so once allow_duplicates is set to false, _all_ poker hands will raise an exception if a duplicate card is added to the hand.
 
 == Compatibility

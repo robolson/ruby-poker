@@ -20,15 +20,15 @@ spec = Gem::Specification.new do |s|
   s.email    = "rob@thinkingdigitally.com"
   s.homepage = "http://github.com/robolson/ruby-poker"
   s.has_rdoc = true
-  s.files    = ["CHANGELOG", 
-                "examples/deck.rb", 
-                "examples/quick_example.rb", 
+  s.files    = ["CHANGELOG",
+                "examples/deck.rb",
+                "examples/quick_example.rb",
                 "lib/ruby-poker.rb",
-                "lib/ruby-poker/card.rb", 
-                "lib/ruby-poker/poker_hand.rb", 
-                "LICENSE", 
-                "Rakefile", 
-                "README.rdoc", 
+                "lib/ruby-poker/card.rb",
+                "lib/ruby-poker/poker_hand.rb",
+                "LICENSE",
+                "Rakefile",
+                "README.rdoc",
                 "ruby-poker.gemspec"]
   s.test_files = ["test/test_helper.rb", "test/test_card.rb", "test/test_poker_hand.rb"]
   s.require_paths << 'lib'
@@ -42,8 +42,8 @@ spec = Gem::Specification.new do |s|
 end
 
 require 'rake/gempackagetask'
-Rake::GemPackageTask.new(spec) do |pkg| 
-  pkg.need_tar = true 
+Rake::GemPackageTask.new(spec) do |pkg|
+  pkg.need_tar = true
   pkg.need_zip = true
 end
 

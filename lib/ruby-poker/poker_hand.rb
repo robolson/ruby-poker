@@ -1,11 +1,11 @@
 class PokerHand
   include Comparable
   attr_reader :hand
-  
+
   @@allow_duplicates = true    # true by default
   def self.allow_duplicates; @@allow_duplicates; end
   def self.allow_duplicates=(v); @@allow_duplicates = v; end
-  
+
   # Returns a new PokerHand object. Accepts the cards represented
   # in a string or an array
   #
@@ -204,14 +204,14 @@ class PokerHand
     if (md = (by_face =~ /(.). \1./))
       arranged_hand_str = arrange_hand(md)
       arranged_hand = PokerHand.new(arranged_hand_str)
-      
-      if arranged_hand.hand[0].face == arranged_hand.hand[1].face && 
+
+      if arranged_hand.hand[0].face == arranged_hand.hand[1].face &&
           arranged_hand.hand[0].suit != arranged_hand.hand[1].suit
         result = [2, arranged_hand.hand[0].face]
         result << arranged_hand.hand[2].face if arranged_hand.size > 2
         result << arranged_hand.hand[3].face if arranged_hand.size > 3
         result << arranged_hand.hand[4].face if arranged_hand.size > 4
-        
+
         return [result, arranged_hand_str]
       end
     else
@@ -245,9 +245,9 @@ class PokerHand
       (method(op[1]).call()) ? op[0] : false
     }.find { |v| v }
   end
-  
+
   alias :rank :hand_rating
-  
+
   def score
     # OPS.map returns an array containing the result of calling each OPS method again
     # the poker hand. The non-nil cell closest to the front of the array represents
@@ -264,11 +264,11 @@ class PokerHand
   #
   #     ph = PokerHand.new("As 3s 5s 2s 4s")
   #     ph.sort_using_rank        # => "5s 4s 3s 2s As"
-  #     ph.by_face.just_cards       # => "As 5s 4s 3s 2s"   
+  #     ph.by_face.just_cards       # => "As 5s 4s 3s 2s"
   def sort_using_rank
     score[1]
   end
-  
+
   # Returns string with a listing of the cards in the hand followed by the hand's rank.
   #
   #     h = PokerHand.new("8c 8s")
@@ -276,20 +276,20 @@ class PokerHand
   def to_s
     just_cards + " (" + hand_rating + ")"
   end
-  
+
   # Returns an array of `Card` objects that make up the `PokerHand`.
   def to_a
     @hand
   end
-  
+
   alias :to_ary :to_a
-  
+
   def <=> other_hand
     self.score[0].compact <=> other_hand.score[0].compact
   end
-  
+
   # Add a card to the hand
-  # 
+  #
   #     hand = PokerHand.new("5d")
   #     hand << "6s"          # => Add a six of spades to the hand by passing a string
   #     hand << ["7h", "8d"]  # => Add multiple cards to the hand using an array
@@ -297,16 +297,16 @@ class PokerHand
     if new_cards.is_a?(Card) || new_cards.is_a?(String)
       new_cards = [new_cards]
     end
-    
+
     new_cards.each do |nc|
       unless @@allow_duplicates
         raise "A card with the value #{nc} already exists in this hand. Set PokerHand.allow_duplicates to true if you want to be able to add a card more than once." if self =~ /#{nc}/
       end
-      
+
       @hand << Card.new(nc)
     end
   end
-  
+
   # Remove a card from the hand.
   #
   #     hand = PokerHand.new("5d Jd")
@@ -315,12 +315,12 @@ class PokerHand
   def delete card
     @hand.delete(Card.new(card))
   end
-  
+
   # Same concept as Array#uniq
   def uniq
     PokerHand.new(@hand.uniq)
   end
-  
+
   # Resolving methods are just passed directly down to the @hand array
   RESOLVING_METHODS = [:size, :+, :-]
   RESOLVING_METHODS.each do |method|
@@ -330,15 +330,15 @@ class PokerHand
       end
     }
   end
-  
+
   private
-  
+
   def check_for_duplicates
     if @hand.size != @hand.uniq.size && !@@allow_duplicates
       raise "Attempting to create a hand that contains duplicate cards. Set PokerHand.allow_duplicates to true if you do not want to ignore this error."
     end
   end
-  
+
   # if md is a string, arrange_hand will remove extra white space
   # if md is a MatchData, arrange_hand returns the matched segment
   # followed by the pre_match and the post_match
@@ -396,5 +396,5 @@ class PokerHand
     # careful to use gsub as gsub! can return nil here
     arranged_hand.gsub(/\s+$/, '')
   end
-  
+
 end

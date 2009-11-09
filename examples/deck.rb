@@ -10,7 +10,7 @@ class Deck
     end
     shuffle
   end
-  
+
   def shuffle
     @cards = @cards.sort_by { rand }
     return self
@@ -21,7 +21,7 @@ class Deck
   def deal
     @cards.pop
   end
-  
+
   # delete an array or a single card from the deck
   # converts a string to a new card, if a string is given
   def burn(burn_cards)
@@ -29,7 +29,7 @@ class Deck
     if burn_cards.is_a?(Card) || burn_cards.is_a?(String)
       burn_cards = [burn_cards]
     end
-    
+
     burn_cards.map! do |c|
       c = Card.new(c) unless c.class == Card
       @cards.delete(c)

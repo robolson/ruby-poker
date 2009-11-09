@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/test_helper')
 
 class TestPokerHand < Test::Unit::TestCase
   context "A PokerHand instance" do
-  
+
     setup do
       @quads = PokerHand.new('Kc Kh Kd Ks Qs')
       @full_boat = PokerHand.new(["2H", "2D", "4C", "4D", "4S"])
@@ -13,7 +13,7 @@ class TestPokerHand < Test::Unit::TestCase
       @pair = PokerHand.new("As Ac Kc Qd 2s")
       @ace_high = PokerHand.new("As Jh 9c 7d 5s")
     end
-  
+
     should "handle single card hands" do
       assert_equal(PokerHand.new('As').rank, @ace_high.rank)
     end
@@ -41,7 +41,7 @@ class TestPokerHand < Test::Unit::TestCase
       assert_equal("4s 4d 4c 2h 2d", @full_boat.sort_using_rank)
       assert_equal("Qd Td 7d 6d 3d 2s 5h", @flush.sort_using_rank)
       assert_equal("Qc Jh Ts 9d 8h As", @straight.sort_using_rank)
-    
+
       assert_equal("As Ah 3d 3c Kd", PokerHand.new("AS AH KD 3D 3C").sort_using_rank)
       assert_equal("As Ah 3d 3c 2d", PokerHand.new("2D AS AH 3D 3C").sort_using_rank)
     end
@@ -57,13 +57,13 @@ class TestPokerHand < Test::Unit::TestCase
     should "return just the face values of the cards" do
       assert_equal([1, 8, 13, 13, 13], @trips.face_values)
     end
-    
+
     should "recognize a straight flush" do
       assert !@flush.straight_flush?
       assert !@straight.straight_flush?
       assert PokerHand.new("8H 9H TH JH QH AS").straight_flush?
     end
-  
+
     should "recognize a royal flush" do
       assert !@flush.royal_flush?
       assert PokerHand.new("AD KD QD JD TD").royal_flush?
@@ -83,7 +83,7 @@ class TestPokerHand < Test::Unit::TestCase
       assert !@trips.full_house?
       assert @full_boat.full_house?
     end
-    
+
     should "recognize a straight" do
       assert @straight.straight?
       assert PokerHand.new("AH 2S 3D 4H 5D").straight?
@@ -97,12 +97,12 @@ class TestPokerHand < Test::Unit::TestCase
       assert PokerHand.new("2S 2D TH TD 4S").two_pair?
       assert !PokerHand.new("6D 7C 5D 5H 3S").two_pair?
     end
-    
+
     should "recognize a pair" do
       assert !PokerHand.new("5C JC 2H 7S 3D").pair?
       assert PokerHand.new("6D 7C 5D 5H 3S").pair?
     end
-    
+
     should "recognize a hand with the rank highest_card" do
       # hard to test, make sure it does not return null
       assert PokerHand.new("2D 4S 6C 8C TH").highest_card?
@@ -134,28 +134,28 @@ class TestPokerHand < Test::Unit::TestCase
       assert_match(/9c/, @trips.to_s)
       assert_no_match(/AD/, @trips.to_s)
     end
-  
+
     should "return the correct number of cards in the hand" do
       assert_equal(0, PokerHand.new.size)
       assert_equal(1, PokerHand.new("2c").size)
       assert_equal(2, PokerHand.new("2c 3d").size)
     end
-  
+
     should "be comparable to other PokerHands" do
       hand1 = PokerHand.new("5C JC 2H 5S 3D")
       hand2 = PokerHand.new("6D 7C 5D 5H 3S")
       assert_equal(1, hand1 <=> hand2)
       assert_equal(-1, hand2 <=> hand1)
     end
-  
+
     should "be considered equal to other poker hands that contain the same cards" do
       assert_equal(0, @trips <=> @trips)
-    
+
       hand1 = PokerHand.new("Ac Qc Ks Kd 9d 3c")
       hand2 = PokerHand.new("Ah Qs 9h Kh Kc 3s")
       assert_equal(0, hand1 <=> hand2)
     end
-  
+
     should "be able to insert new cards into the hand" do
       ph = PokerHand.new()
       ph << "Qd"
@@ -163,13 +163,13 @@ class TestPokerHand < Test::Unit::TestCase
       ph << ["3d", "4d"]
       assert_equal("Qd 2d 3d 4d", ph.just_cards)
     end
-  
+
     should "be able to delete a card" do
       ph = PokerHand.new("Ac")
       ph.delete("Ac")
       assert_equal(Array.new, ph.hand)
     end
-    
+
     should "detect the two highest pairs when there are more than two" do
       ph = PokerHand.new("7d 7s 4d 4c 2h 2d")
       assert_equal([3, 6, 3, 1], ph.two_pair?[0])
@@ -179,131 +179,131 @@ class TestPokerHand < Test::Unit::TestCase
       # 3: second highest pair is two 4's
       # 1: kicker is a 2
     end
-  
+
     context "when duplicates are allowed" do
       setup do
         PokerHand.allow_duplicates = true
       end
-    
+
       should "create a PokerHand of unique cards" do
         uniq_ph = PokerHand.new("3s 4s 3s").uniq
         assert_instance_of(PokerHand, uniq_ph)  # want to be sure uniq hands back a PokerHand
         assert_contains(uniq_ph.hand, Card.new('3s'))
         assert_contains(uniq_ph.hand, Card.new('4s'))
       end
-    
+
       should "allow five of a kind" do
         # there is no five of a kind. This just tests to make sure
         # that ruby-poker doesn't crash if given 5 of the same card
         ph = PokerHand.new("KS KS KS KS KS")
         assert_equal("Four of a kind", ph.rank)
       end
-  
+
       should "allow duplicates on initialize" do
         assert_nothing_raised RuntimeError do
           PokerHand.new("3s 3s")
         end
       end
-    
+
       should "allow duplicate card to be added after initialize" do
         ph = PokerHand.new("2d")
         ph << "2d"
         assert_equal("2d 2d", ph.just_cards)
       end
     end
-  
+
     context "when duplicates are not allowed" do
       setup do
         PokerHand.allow_duplicates = false
       end
-  
+
       should "not allow duplicates on initialize" do
         PokerHand.allow_duplicates = false
-    
+
         assert_raise RuntimeError do
           PokerHand.new("3s 3s")
         end
-    
+
         PokerHand.allow_duplicates = true
       end
-    
+
       should "not allow duplicates after initialize" do
         PokerHand.allow_duplicates = false
-    
-        ph = PokerHand.new("2d")    
+
+        ph = PokerHand.new("2d")
         assert_raise RuntimeError do
           ph << "2d"
         end
-    
+
         PokerHand.allow_duplicates = true
       end
     end
   end
-  
+
   context "PokerHand#pair?" do
-    
+
     should "return false with one card" do
       assert !PokerHand.new("2h").pair?
     end
-    
+
     context "with a pair" do
-      
+
       should "return 2, followed by the pair value" do
         assert_equal [2, 5-1], PokerHand.new("5h 5s").pair?[0]
       end
-      
+
       context "with a two card hand" do
         setup do
           @ph = PokerHand.new("5h 5s")
           @scoring = @ph.pair?[0]
         end
-        
+
         should "return scoring with 2 entries" do
           assert_equal 2, @scoring.size
         end
       end
-      
+
       context "with a three card hand" do
         setup do
           @ph = PokerHand.new("5h 5s 8s")
           @scoring = @ph.pair?[0]
         end
-        
+
         should "return scoring with 3 entries" do
           assert_equal 3, @scoring.size
         end
-        
+
         should "return the value of the kicker" do
           assert_equal 8-1, @scoring[2]
         end
       end
-      
+
       context "with a four card hand" do
         setup do
           @ph = PokerHand.new("5h 5s 8s 7s")
           @scoring = @ph.pair?[0]
         end
-        
+
         should "return scoring with 4 entries" do
           assert_equal 4, @scoring.size
         end
-        
+
         should "return the values of the kickers" do
           assert_equal 8-1, @scoring[2]
           assert_equal 7-1, @scoring[3]
         end
       end
-      
+
       context "with a five (or more) card hand" do
         setup do
           @ph = PokerHand.new("5h 5s 8s 7s 6s 2h")
           @scoring = @ph.pair?[0]
         end
-        
+
         should "return scoring with 5 entries" do
           assert_equal 5, @scoring.size
         end
-        
+
         should "return the values of the kickers" do
           assert_equal 8-1, @scoring[2]
           assert_equal 7-1, @scoring[3]
@@ -311,7 +311,7 @@ class TestPokerHand < Test::Unit::TestCase
         end
       end
     end
-    
+
     context "without a pair" do
       should "return false" do
         assert !PokerHand.new("2h 3h").pair?
