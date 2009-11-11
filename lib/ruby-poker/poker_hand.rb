@@ -1,4 +1,3 @@
-require 'ruby-debug'
 class PokerHand
   include Comparable
   attr_reader :hand

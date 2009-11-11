@@ -1,5 +1,4 @@
 require File.expand_path(File.dirname(__FILE__) + '/test_helper')
-require 'ruby-debug'
 
 class TestPokerHand < Test::Unit::TestCase
   context "A PokerHand instance" do
