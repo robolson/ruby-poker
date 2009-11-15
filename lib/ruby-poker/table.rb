@@ -3,10 +3,11 @@ require 'ruby-debug'
 
 class Table
   attr_accessor :seats, :button, :pot
+  attr_accessor :flop, :turn, :river, :community
 
-  def initialize(seats=10)
+  def initialize(seats=10, seed=nil)
     @seats = []
-    (1..seats).each {
+    seats.times {
       @seats << Seat.new
     }
     @button = nil
@@ -14,17 +15,22 @@ class Table
     @big_blind = 20
     @pot = 0
     @deck = Deck.new
+    @flop = nil
+    @turn = nil
+    @river = nil
+    @seed = seed if seed
   end
 
   def sit(player, seat, buyin)
     unless @seats[seat].player
       @seats[seat].player = player
       @seats[seat].chips = buyin
+      @seats[seat].number = seat
       @button = seat unless @button
     end
   end
 
-  def deal
+  def deal_holes
     raise "No players" if seated_players.length < 1
     raise "Less than 2 players" if seated_players.length < 2
 
@@ -33,11 +39,68 @@ class Table
 
     # XXX: move button
 
-    # XXX: take blinds
-    @deck.shuffle
+    collect_blinds
 
-    seated = seated_players
-    @seats[utg].player.hand = @deck.deal
+    @deck.shuffle(@seed) if @seed
+    @deck.shuffle() unless @seed
+
+    @community = PokerHand.new
+
+    action_order_preflop.each { |x|
+      @seats[x].player.hand = PokerHand.new
+      @seats[x].player.hand << @deck.deal
+    }
+    action_order_preflop.each { |x|
+      @seats[x].player.hand << @deck.deal
+    }
+  end
+
+  def deal_flop
+    #@deck.burn(@deck.deal)
+    @community << [@deck.deal, @deck.deal, @deck.deal]
+  end
+
+  def deal_turn
+    #@deck.burn(@deck.deal)
+    @community << @deck.deal
+  end
+
+  def deal_river
+    #@deck.burn(@deck.deal)
+    @community << @deck.deal
+  end
+
+  def winner
+    best_hand = nil
+    winner = nil
+    puts
+    @seats.each { |seat|
+      if seat.player
+        seat.player.hand << @community.to_a
+        unless best_hand
+          best_hand = seat.player.hand
+          winner = seat.number
+          puts "first hand: #{best_hand.to_s}: seat #{seat.number}"
+        else
+          if seat.player.hand > best_hand
+            puts "better hand: #{seat.player.hand.to_s}: seat #{seat.number}"
+            best_hand = seat.player.hand
+            winner = seat.number
+          else
+            puts "worse hand: #{seat.player.hand.to_s}: seat #{seat.number}"
+          end
+        end
+      end
+    }
+    puts "Winner: #{winner} (#{best_hand.to_s}"
+    return [winner, best_hand]
+  end
+
+  def collect_blinds
+    @seats[sb].chips -= @small_blind
+    @seats[bb].chips -= @big_blind
+    @pot += @small_blind
+    @pot += @big_blind
   end
 
   def button_move

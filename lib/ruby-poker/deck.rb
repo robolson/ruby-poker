@@ -11,7 +11,8 @@ class Deck
     shuffle
   end
 
-  def shuffle
+  def shuffle(seed=nil)
+    srand(seed) if seed
     @cards = @cards.sort_by { rand }
     return self
   end
