@@ -81,21 +81,21 @@ class Table
         unless best_hand
           best_hand = hand
           winner = seat.number
-          puts "seat #{seat.number} (#{seat.player.hand.just_cards}): #{hand.five_card_s}"
+          #puts "seat #{seat.number} (#{seat.player.hand.just_cards}): #{hand.five_card_s}"
         else
           if hand > best_hand
-            puts "seat #{seat.number} (#{seat.player.hand.just_cards}): better hand: #{hand.five_card_s}"
+            #puts "seat #{seat.number} (#{seat.player.hand.just_cards}): better hand: #{hand.five_card_s}"
             best_hand = hand
             winner = seat.number
           elsif hand == best_hand
             # XXX: finish this
           else
-            puts "seat #{seat.number} (#{seat.player.hand.just_cards}): worse hand: #{hand.five_card_s}"
+            #puts "seat #{seat.number} (#{seat.player.hand.just_cards}): worse hand: #{hand.five_card_s}"
           end
         end
       end
     }
-    puts "Winner: seat #{winner} with #{best_hand.five_card_s}"
+    #puts "Winner: seat #{winner} with #{best_hand.five_card_s}"
     return [winner, best_hand]
   end
 
