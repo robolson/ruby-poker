@@ -278,19 +278,24 @@ class PokerHand
       return "#{rank} #{suit}s #{high} high"
     when 'Four of a kind'
       kicker = score[1][12..13] || 'no'
-      return "#{rank} #{high}'s #{kicker} kicker"
+      return "#{rank} #{high}'s, #{kicker} kicker"
     when "Flush"
       return "#{rank} #{suit} #{high} high"
     when "Straight"
       return "#{rank} #{high} high"
     when "Three of a kind"
-      return "#{rank} #{high}'s"
+      kickers = score[1][9..13]
+      return "#{rank} #{high}'s, #{kickers} kickers"
     when "Two pair"
-      return "#{rank} #{high}'s"
+      kicker = score[1][12..13] || 'no'
+      second_high = score[1][6..6]
+      return "#{rank} #{high}'s & #{second_high}'s, #{kicker} kicker"
     when "Pair"
-      return "#{rank} #{high}'s"
+      kickers = score[1][6..13] || 'no'
+      return "#{rank} #{high}'s, #{kickers} kickers"
     when "Highest Card"
-      return "#{rank} #{high_card}"
+      kickers = score[1][3..13] || 'no'
+      return "#{rank} #{high_card}, #{kickers} kickers"
     end
   end
 

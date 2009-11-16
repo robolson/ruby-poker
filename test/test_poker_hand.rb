@@ -124,11 +124,14 @@ class TestPokerHand < Test::Unit::TestCase
     should "return full rank info" do
       assert_equal "Royal Flush clubs", @royal.rank_full
       assert_equal "Straight Flush clubs Q high", @straight_flush.rank_full
-      assert_equal "Four of a kind K's Qs kicker", @quads.rank_full
+      assert_equal "Four of a kind K's, Qs kicker", @quads.rank_full
       assert_equal "Flush diamond Q high", @flush.rank_full
       assert_equal "Straight Q high", @straight.rank_full
-      assert_equal "Three of a kind A's", @trips.rank_full
+      assert_equal "Three of a kind A's, 9c 2d kickers", @trips.rank_full
       assert_equal "Flush diamond Q high", @flush.rank_full
+      assert_equal "Two pair A's & K's, 2s kicker", @two_pair.rank_full
+      assert_equal "Pair A's, Kc Qd 2s kickers", @pair.rank_full
+      assert_equal "Highest Card As, Jh 9c 7d 5s kickers", @ace_high.rank_full
     end
 
     should "respond to rank" do
