@@ -1,3 +1,5 @@
+require 'rubygems'
+require 'ruby-debug'
 class PokerHand
   include Comparable
   attr_reader :hand
@@ -247,9 +249,51 @@ class PokerHand
       (method(op[1]).call()) ? op[0] : false
     }.find { |v| v }
   end
-  
+
   alias :rank :hand_rating
-  
+
+  def rank_full
+    rank = OPS.map { |op|
+      (method(op[1]).call()) ? op[0] : false
+    }.find { |v| v }
+
+    high = score[1][0..0]
+    high_card = score[1][0..1]
+
+    case score[1][1..1]
+    when 'd'
+      suit = 'diamond'
+    when 'h'
+      suit = 'heart'
+    when 's'
+      suit = 'spade'
+    when 'c'
+      suit = 'club'
+    end
+
+    case rank
+    when 'Royal Flush'
+      return "#{rank} #{suit}s"
+    when 'Straight Flush'
+      return "#{rank} #{suit}s #{high} high"
+    when 'Four of a kind'
+      kicker = score[1][12..13] || 'no'
+      return "#{rank} #{high}'s #{kicker} kicker"
+    when "Flush"
+      return "#{rank} #{suit} #{high} high"
+    when "Straight"
+      return "#{rank} #{high} high"
+    when "Three of a kind"
+      return "#{rank} #{high}'s"
+    when "Two pair"
+      return "#{rank} #{high}'s"
+    when "Pair"
+      return "#{rank} #{high}'s"
+    when "Highest Card"
+      return "#{rank} #{high_card}"
+    end
+  end
+
   def score
     # OPS.map returns an array containing the result of calling each OPS method again
     # the poker hand. The non-nil cell closest to the front of the array represents
@@ -277,6 +321,14 @@ class PokerHand
   #     h.to_s                      # => "8c 8s (Pair)"
   def to_s
     just_cards + " (" + hand_rating + ")"
+  end
+
+  def five_card_s
+    card_list = score[1]
+    used = card_list[0..13]
+    unused = card_list[15..-1]
+    return "#{used} (#{rank_full} - #{card_list[15..-1]} not used)" if unused
+    return "#{used} (#{rank_full})"
   end
   
   # Returns an array of `Card` objects that make up the `PokerHand`.

@@ -4,6 +4,8 @@ class TestPokerHand < Test::Unit::TestCase
   context "A PokerHand instance" do
   
     setup do
+      @royal = PokerHand.new('Ac Kc Qc Jc Tc')
+      @straight_flush = PokerHand.new('Qc Jc Tc 9c 8c')
       @quads = PokerHand.new('Kc Kh Kd Ks Qs')
       @full_boat = PokerHand.new(["2H", "2D", "4C", "4D", "4S"])
       @flush = PokerHand.new("3D 6D 7D TD QD 5H 2S")
@@ -119,6 +121,16 @@ class TestPokerHand < Test::Unit::TestCase
       assert_equal "Full house", @full_boat.hand_rating
     end
 
+    should "return full rank info" do
+      assert_equal "Royal Flush clubs", @royal.rank_full
+      assert_equal "Straight Flush clubs Q high", @straight_flush.rank_full
+      assert_equal "Four of a kind K's Qs kicker", @quads.rank_full
+      assert_equal "Flush diamond Q high", @flush.rank_full
+      assert_equal "Straight Q high", @straight.rank_full
+      assert_equal "Three of a kind A's", @trips.rank_full
+      assert_equal "Flush diamond Q high", @flush.rank_full
+    end
+
     should "respond to rank" do
       # rank is an alias for hand_rating
       assert_respond_to @trips, :rank
@@ -200,7 +212,7 @@ class TestPokerHand < Test::Unit::TestCase
         ph = PokerHand.new("KS KS KS KS KS")
         assert_equal("Four of a kind", ph.rank)
       end
-  
+
       should "allow duplicates on initialize" do
         assert_nothing_raised RuntimeError do
           PokerHand.new("3s 3s")

@@ -76,23 +76,26 @@ class Table
     puts
     @seats.each { |seat|
       if seat.player
-        seat.player.hand << @community.to_a
+        hand = PokerHand.new(seat.player.hand.to_a)
+        hand << @community.to_a
         unless best_hand
-          best_hand = seat.player.hand
+          best_hand = hand
           winner = seat.number
-          puts "first hand: #{best_hand.to_s}: seat #{seat.number}"
+          puts "seat #{seat.number} (#{seat.player.hand.just_cards}): #{hand.five_card_s}"
         else
-          if seat.player.hand > best_hand
-            puts "better hand: #{seat.player.hand.to_s}: seat #{seat.number}"
-            best_hand = seat.player.hand
+          if hand > best_hand
+            puts "seat #{seat.number} (#{seat.player.hand.just_cards}): better hand: #{hand.five_card_s}"
+            best_hand = hand
             winner = seat.number
+          elsif hand == best_hand
+            # XXX: finish this
           else
-            puts "worse hand: #{seat.player.hand.to_s}: seat #{seat.number}"
+            puts "seat #{seat.number} (#{seat.player.hand.just_cards}): worse hand: #{hand.five_card_s}"
           end
         end
       end
     }
-    puts "Winner: #{winner} (#{best_hand.to_s}"
+    puts "Winner: seat #{winner} with #{best_hand.five_card_s}"
     return [winner, best_hand]
   end
 
