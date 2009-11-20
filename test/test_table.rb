@@ -124,14 +124,19 @@ class TestTable < Test::Unit::TestCase
 
   context "Outcomes" do
     should "Handle full houses correctly" do
-      table = Table.new(10, 206)
+      table = Table.new(10, 12)
       # T's full of A's
       table.sit(Player.new(5000), 1, 1000)
       table.sit(Player.new(5000), 3, 1000)
       table.sit(Player.new(5000), 5, 1000)
       table.sit(Player.new(5000), 7, 1000)
-      winner, best_hand = table.run_hand
-      assert_equal("Full house T's full of A's", best_hand.rank_full)
+      winner, best_hand, hands = table.run_hand
+      #puts
+      #hands.each { |h|
+      #  puts "#{h.rank_full} : #{h.just_cards}"
+      #}
+      #puts "Best: #{best_hand.rank_full}"
+      assert_equal("Full house T's full of 5's", best_hand.rank_full)
     end
 
     should "Handle Ties" do
