@@ -217,7 +217,6 @@ class TestPokerHand < Test::Unit::TestCase
 
     should "full house - detect the highest pair when there are more than two" do
       ph = PokerHand.new("Kd Ks Kc 4c 4h Ad Ac")
-      debugger
       assert_equal([7, 12, 13], ph.full_house?[0])
       assert_equal("Ks Kd Kc Ad Ac 4h 4c", ph.full_house?[1])
       # Explanation of [7, 6, 3, 1]
