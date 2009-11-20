@@ -14,18 +14,19 @@ class PokerHand
   #     PokerHand.new("3d 5c 8h Ks")   # => #<PokerHand:0x5c673c ...
   #     PokerHand.new(["3d", "5c", "8h", "Ks"])  # => #<PokerHand:0x5c2d6c ...
   def initialize(cards = [])
+    @hand = []
     if cards.is_a? Array
-      @hand = cards.map do |card|
+      cards.each do |card|
         if card.is_a? Card
-          card
+          @hand << card
         else
-          Card.new(card.to_s)
+          @hand << Card.new(card.to_s)
         end
       end
     elsif cards.respond_to?(:to_str)
-      @hand = cards.scan(/\S{2,3}/).map { |str| Card.new(str) }
+      cards.scan(/\S{2,3}/).map { |str| @hand << Card.new(str) }
     else
-      @hand = cards
+      @hand << cards
     end
 
     check_for_duplicates if !@@allow_duplicates
@@ -133,32 +134,11 @@ class PokerHand
           return res2
         end
       end
-    elsif res1
-      return res1
-    elsif res2
-      return res2
-#    elsif (md = (by_face =~ /(.). \1. \1. (.*)(.). \3./))
-#      # Catch Ks Kc Kd 8d 7s 5c 5d & Ah Ad Ac Kc Ks Hd
-#      #   this is next because of hands with two sets
-#      arranged_hand = arrange_hand(md[0] + ' ' +
-#          md.pre_match + ' ' + md[2] + ' ' + md.post_match)
-#      [
-#        [7, Card::face_value(md[1]), Card::face_value(md[3])],
-#        arranged_hand
-#      ]
-#    # catch Ac Ad 8d 8c 8h 
-#    elsif (md = (by_face =~ /((.). \2.) (.*)((.). \5. \5.)/))
-#      debugger
-#      #if md.pre_match
-#      arranged_hand = arrange_hand(md[4] + ' '  + md[1] + ' ' +
-#          md.pre_match + ' ' + md[3] + ' ' + md.post_match)
-#      [
-#        [7, Card::face_value(md[5]), Card::face_value(md[2])],
-#        arranged_hand
-#      ]
-    else
-      false
     end
+
+    return res1 if res1
+    return res2 if res2
+    false
   end
 
   def flush?
@@ -397,10 +377,13 @@ class PokerHand
   #     hand << "6s"          # => Add a six of spades to the hand by passing a string
   #     hand << ["7h", "8d"]  # => Add multiple cards to the hand using an array
   def << new_cards
-    if new_cards.is_a?(Card) || new_cards.is_a?(String)
+    if new_cards.is_a?(PokerHand)
+      new_cards = new_cards.to_a
+    elsif new_cards.is_a?(Card) || new_cards.is_a?(String)
       new_cards = [new_cards]
     end
     
+    #debugger
     new_cards.each do |nc|
       unless @@allow_duplicates
         raise "A card with the value #{nc} already exists in this hand. Set PokerHand.allow_duplicates to true if you want to be able to add a card more than once." if self =~ /#{nc}/

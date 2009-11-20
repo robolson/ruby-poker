@@ -1,6 +1,7 @@
 # This is a sample Deck implementation.
 class Deck
-  def initialize
+  def initialize(seed=nil)
+    @seed = seed
     @cards = []
     Card::SUITS.each_byte do |suit|
       # careful not to double include the aces...
@@ -13,6 +14,7 @@ class Deck
 
   def shuffle(seed=nil)
     srand(seed) if seed
+    srand(@seed) if @seed
     @cards = @cards.sort_by { rand }
     return self
   end

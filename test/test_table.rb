@@ -107,47 +107,43 @@ class TestTable < Test::Unit::TestCase
       assert_equal(5, @table.community.to_a.length)
     end
 
-    should "determine winner" do
+    should "determine winners" do
       @table.deal_holes
       @table.deal_flop
       @table.deal_turn
       @table.deal_river
-      winner, best_hand = @table.winner
-      assert_equal(1, winner)
+      winners, best_hand = @table.winners
+      assert_equal([1], winners)
     end
 
     should "determine winner (running whole hand)" do
-      winner, best_hand = @table.run_hand
-      assert_equal(1, winner)
+      winners, best_hand = @table.run_hand
+      assert_equal([1], winners)
     end
   end
 
   context "Outcomes" do
     should "Handle full houses correctly" do
-      table = Table.new(10, 12)
+      table = Table.new(10, 59)
       # T's full of A's
       table.sit(Player.new(5000), 1, 1000)
       table.sit(Player.new(5000), 3, 1000)
       table.sit(Player.new(5000), 5, 1000)
       table.sit(Player.new(5000), 7, 1000)
       winner, best_hand, hands = table.run_hand
-      #puts
-      #hands.each { |h|
-      #  puts "#{h.rank_full} : #{h.just_cards}"
-      #}
-      #puts "Best: #{best_hand.rank_full}"
-      assert_equal("Full house T's full of 5's", best_hand.rank_full)
+      assert_equal("Full house 2's full of A's", best_hand.rank_full)
     end
 
     should "Handle Ties" do
-      table = Table.new(10, 204)
+      table = Table.new(10, 75)
       # 7's full of 4's
       table.sit(Player.new(5000), 1, 1000)
       table.sit(Player.new(5000), 3, 1000)
       table.sit(Player.new(5000), 5, 1000)
       table.sit(Player.new(5000), 7, 1000)
-      winner, best_hand = table.run_hand
-      assert_equal(winner, 5)
+      winners, best_hand = table.run_hand
+      #table.dump_hands
+      assert_equal(winners, [1,5])
     end
 
   end

@@ -1,9 +1,10 @@
 class Seat
-  attr_accessor :player, :chips, :number
+  attr_accessor :player, :chips
+  attr_reader :number
 
-  def initialize(chips = 1000)
-    @player = nil
-    @number = nil
-    @chips = chips
+  def initialize(opts = {:number => nil, :player => nil, :chips => 0})
+    @number = opts[:number]
+    @player = opts[:player]
+    @chips = opts[:chips]
   end
 end

@@ -7,14 +7,14 @@ class Table
 
   def initialize(seats=10, seed=nil)
     @seats = []
-    seats.times {
-      @seats << Seat.new
+    (0..seats-1).each { |x|
+      @seats << Seat.new(:number => x)
     }
     @button = nil
     @small_blind = 10
     @big_blind = 20
     @pot = 0
-    @deck = Deck.new
+    @deck = Deck.new(seed)
     @flop = nil
     @turn = nil
     @river = nil
@@ -25,7 +25,6 @@ class Table
     unless @seats[seat].player
       @seats[seat].player = player
       @seats[seat].chips = buyin
-      @seats[seat].number = seat
       @button = seat unless @button
     end
   end
@@ -35,10 +34,10 @@ class Table
     deal_flop
     deal_turn
     deal_river
-    seat, best_hand, hands = winner
+    seats, best_hand, hands = winners
     # XXX: handle pot
     # XXX: move button
-    return seat, best_hand, hands
+    return seats, best_hand, hands
   end
 
   def deal_holes
@@ -65,22 +64,45 @@ class Table
 
   def deal_flop
     #@deck.burn(@deck.deal)
-    @community << [@deck.deal, @deck.deal, @deck.deal]
+    @flop = PokerHand.new([@deck.deal, @deck.deal, @deck.deal])
+    @community << @flop.to_a
   end
 
   def deal_turn
     #@deck.burn(@deck.deal)
-    @community << @deck.deal
+    @turn = PokerHand.new(@deck.deal)
+    @community << @turn.to_a
   end
 
   def deal_river
     #@deck.burn(@deck.deal)
-    @community << @deck.deal
+    @river = PokerHand.new(@deck.deal)
+    @community << @river.to_a
   end
 
-  def winner
+  def dump_hands
+    puts
+    @seats.each { |s|
+      msg = "%02d: " % s.number
+      unless s.player
+        msg += "empty"
+      else
+        if s.player.hand
+          holes = s.player.hand
+          hand = PokerHand.new(@community.to_a + holes.to_a)
+          rank = hand.rank_full
+          msg += "#{holes} - #{rank} (#{hand.just_cards})"
+        else
+          msg += "no cards"
+        end
+      end
+      puts msg
+    }
+  end
+
+  def winners
     best_hand = nil
-    winner = nil
+    winners = []
     hands = []
     #puts
     @seats.each { |seat|
@@ -90,24 +112,26 @@ class Table
         hands << hand
         unless best_hand
           best_hand = hand
-          winner = seat.number
+          winners << seat.number
           #puts "seat #{seat.number} (#{seat.player.hand.just_cards}): #{hand.five_card_s}"
         else
           if hand > best_hand
             #puts "seat #{seat.number} (#{seat.player.hand.just_cards}): better hand: #{hand.five_card_s}"
             best_hand = hand
-            winner = seat.number
+            winners.clear
+            winners << seat.number
           elsif hand == best_hand
             # XXX: finish this
             #puts "XXX Tie: seat #{seat.number} (#{seat.player.hand.just_cards}): tie hand: #{hand.five_card_s}"
+            winners << seat.number
           else
             #puts "seat #{seat.number} (#{seat.player.hand.just_cards}): worse hand: #{hand.five_card_s}"
           end
         end
       end
     }
-    #puts "Winner: seat #{winner} with #{best_hand.five_card_s}"
-    return [winner, best_hand, hands]
+    #puts "Winners: seats #{winners.join(',')} with #{best_hand.five_card_s}"
+    return [winners, best_hand, hands]
   end
 
   def collect_blinds
