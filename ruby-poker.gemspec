@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ruby-poker}
-  s.version = "0.3.3"
+  s.version = "0.3.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Rob Olson"]
@@ -26,9 +26,13 @@ Gem::Specification.new do |s|
      "examples/quick_example.rb",
      "lib/ruby-poker.rb",
      "lib/ruby-poker/card.rb",
-     "lib/ruby-poker/combinatoria.rb",
+     "lib/ruby-poker/deck.rb",
+     "lib/ruby-poker/mathpc.rb",
      "lib/ruby-poker/odds.rb",
-     "lib/ruby-poker/poker_hand.rb"
+     "lib/ruby-poker/player.rb",
+     "lib/ruby-poker/poker_hand.rb",
+     "lib/ruby-poker/seat.rb",
+     "lib/ruby-poker/table.rb"
   ]
   s.homepage = %q{http://github.com/robolson/ruby-poker}
   s.rdoc_options = ["--charset=UTF-8", "--title", "Ruby Poker Documentation", "--main", "README.rdoc", "--inline-source", "-q"]
@@ -38,8 +42,10 @@ Gem::Specification.new do |s|
   s.summary = %q{Poker library in Ruby}
   s.test_files = [
     "test/test_helper.rb",
-     "test/test_card.rb",
-     "test/test_poker_hand.rb"
+    "test/test_card.rb",
+    "test/test_poker_hand.rb",
+    "test/test_poker_odds.rb",
+    "test/test_table.rb"
   ]
 
   if s.respond_to? :specification_version then

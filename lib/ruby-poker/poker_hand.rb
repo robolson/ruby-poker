@@ -102,22 +102,60 @@ class PokerHand
     end
     false
   end
+  alias :quads? :four_of_a_kind?
 
   def full_house?
-    if (md = (by_face =~ /(.). \1. \1. (.*)(.). \3./))
-      arranged_hand = arrange_hand(md[0] + ' ' +
-          md.pre_match + ' ' + md[2] + ' ' + md.post_match)
-      [
-        [7, Card::face_value(md[1]), Card::face_value(md[3])],
-        arranged_hand
-      ]
-    elsif (md = (by_face =~ /((.). \2.) (.*)((.). \5. \5.)/))
-      arranged_hand = arrange_hand(md[4] + ' '  + md[1] + ' ' +
-          md.pre_match + ' ' + md[3] + ' ' + md.post_match)
-      [
-        [7, Card::face_value(md[5]), Card::face_value(md[2])],
-        arranged_hand
-      ]
+    res1 = nil
+    res2 = nil
+    # XXX: fails on Th Td Tc 5d 5h Ac Ah - arranges as T's full of 5's
+    if (md = (by_face =~ /((.). \2.) (.*)((.). \5. \5.)/))
+      # handle pair followed by set
+      ah1 = arrange_hand(md[4] + ' ' + md[1] + ' ' + md[3] + 
+                         ' ' + md.pre_match + ' ' + md.post_match)
+      res1 = [ [7, Card::face_value(md[5]), Card::face_value(md[2])], ah1]
+    end
+    if (md = (by_face =~ /((.). \2. \2.) (.*)((.). \5.)/))
+      # handle set followed by pair
+      ah2 = arrange_hand(md[1] + ' ' + md[4] + ' ' + md.pre_match + ' ' + 
+                         md[3] + ' ' + md.post_match)
+      res2 = [ [7, Card::face_value(md[2]), Card::face_value(md[5])], ah2]
+    end
+
+    if res1 && res2
+      if res1[0][1] > res2[0][1]
+        return res1
+      elsif res1[0][1] < res2[0][1]
+        return res2
+      else # ==
+        if res1[0][2] > res2[0][2]
+          return res1
+        else # <=
+          return res2
+        end
+      end
+    elsif res1
+      return res1
+    elsif res2
+      return res2
+#    elsif (md = (by_face =~ /(.). \1. \1. (.*)(.). \3./))
+#      # Catch Ks Kc Kd 8d 7s 5c 5d & Ah Ad Ac Kc Ks Hd
+#      #   this is next because of hands with two sets
+#      arranged_hand = arrange_hand(md[0] + ' ' +
+#          md.pre_match + ' ' + md[2] + ' ' + md.post_match)
+#      [
+#        [7, Card::face_value(md[1]), Card::face_value(md[3])],
+#        arranged_hand
+#      ]
+#    # catch Ac Ad 8d 8c 8h 
+#    elsif (md = (by_face =~ /((.). \2.) (.*)((.). \5. \5.)/))
+#      debugger
+#      #if md.pre_match
+#      arranged_hand = arrange_hand(md[4] + ' '  + md[1] + ' ' +
+#          md.pre_match + ' ' + md[3] + ' ' + md.post_match)
+#      [
+#        [7, Card::face_value(md[5]), Card::face_value(md[2])],
+#        arranged_hand
+#      ]
     else
       false
     end
@@ -175,6 +213,8 @@ class PokerHand
     end
     false
   end
+  alias :set? :three_of_a_kind?
+  alias :trips? :three_of_a_kind?
 
   def two_pair?
     # \1 is the face value of the first pair
@@ -279,6 +319,9 @@ class PokerHand
     when 'Four of a kind'
       kicker = score[1][12..13] || 'no'
       return "#{rank} #{high}'s, #{kicker} kicker"
+    when 'Full house'
+      kicker = score[1][9..9]
+      return "#{rank} #{high}'s full of #{kicker}'s"
     when "Flush"
       return "#{rank} #{suit} #{high} high"
     when "Straight"
@@ -289,7 +332,7 @@ class PokerHand
     when "Two pair"
       kicker = score[1][12..13] || 'no'
       second_high = score[1][6..6]
-      return "#{rank} #{high}'s & #{second_high}'s, #{kicker} kicker"
+      return "#{rank} #{high}'s and #{second_high}'s, #{kicker} kicker"
     when "Pair"
       kickers = score[1][6..13] || 'no'
       return "#{rank} #{high}'s, #{kickers} kickers"
@@ -329,10 +372,11 @@ class PokerHand
   end
 
   def five_card_s
+    # XXX: this doesn't get or return the right arranged hand
     card_list = score[1]
     used = card_list[0..13]
     unused = card_list[15..-1]
-    return "#{used} (#{rank_full} - #{card_list[15..-1]} not used)" if unused
+    return "#{used} (#{rank_full} - #{unused} not used)" if unused
     return "#{used} (#{rank_full})"
   end
   

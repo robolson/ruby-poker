@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/test_helper')
 
 class TestPokerHand < Test::Unit::TestCase
   context "A PokerHand instance" do
-  
+
     setup do
       @royal = PokerHand.new('Ac Kc Qc Jc Tc')
       @straight_flush = PokerHand.new('Qc Jc Tc 9c 8c')
@@ -15,7 +15,7 @@ class TestPokerHand < Test::Unit::TestCase
       @pair = PokerHand.new("As Ac Kc Qd 2s")
       @ace_high = PokerHand.new("As Jh 9c 7d 5s")
     end
-  
+
     should "handle single card hands" do
       assert_equal(PokerHand.new('As').rank, @ace_high.rank)
     end
@@ -45,12 +45,14 @@ class TestPokerHand < Test::Unit::TestCase
       assert_equal("4s 4d 4c 2h 2d", @full_boat.sort_using_rank)
       assert_equal("Qd Td 7d 6d 3d 2s 5h", @flush.sort_using_rank)
       assert_equal("Qc Jh Ts 9d 8h As", @straight.sort_using_rank)
-    
+
       assert_equal("As Ah 3d 3c Kd", PokerHand.new("AS AH KD 3D 3C").sort_using_rank)
       assert_equal("As Ah 3d 3c 2d", PokerHand.new("2D AS AH 3D 3C").sort_using_rank)
     end
 
     should "return card sorted by face value" do
+      assert_equal([12, 12, 12, 13, 13, 3, 3], 
+                   PokerHand.new('Kh Kd Kc Ac Ad 4s 4d').hand.collect {|c| c.face})
       assert_equal([13, 13, 13, 8, 1], @trips.by_face.hand.collect {|c| c.face})
     end
 
@@ -61,13 +63,13 @@ class TestPokerHand < Test::Unit::TestCase
     should "return just the face values of the cards" do
       assert_equal([1, 8, 13, 13, 13], @trips.face_values)
     end
-    
+
     should "recognize a straight flush" do
       assert !@flush.straight_flush?
       assert !@straight.straight_flush?
       assert PokerHand.new("8H 9H TH JH QH AS").straight_flush?
     end
-  
+
     should "recognize a royal flush" do
       assert !@flush.royal_flush?
       assert PokerHand.new("AD KD QD JD TD").royal_flush?
@@ -86,8 +88,9 @@ class TestPokerHand < Test::Unit::TestCase
     should "recognize a full house" do
       assert !@trips.full_house?
       assert @full_boat.full_house?
+      assert PokerHand.new("8c 8d 8h 2d 2c").full_house?
     end
-    
+
     should "recognize a straight" do
       assert @straight.straight?
       assert PokerHand.new("AH 2S 3D 4H 5D").straight?
@@ -101,12 +104,12 @@ class TestPokerHand < Test::Unit::TestCase
       assert PokerHand.new("2S 2D TH TD 4S").two_pair?
       assert !PokerHand.new("6D 7C 5D 5H 3S").two_pair?
     end
-    
+
     should "recognize a pair" do
       assert !PokerHand.new("5C JC 2H 7S 3D").pair?
       assert PokerHand.new("6D 7C 5D 5H 3S").pair?
     end
-    
+
     should "recognize a hand with the rank highest_card" do
       # hard to test, make sure it does not return null
       assert PokerHand.new("2D 4S 6C 8C TH").highest_card?
@@ -125,11 +128,12 @@ class TestPokerHand < Test::Unit::TestCase
       assert_equal "Royal Flush clubs", @royal.rank_full
       assert_equal "Straight Flush clubs Q high", @straight_flush.rank_full
       assert_equal "Four of a kind K's, Qs kicker", @quads.rank_full
+      assert_equal "Full house 4's full of 2's", @full_boat.rank_full
       assert_equal "Flush diamond Q high", @flush.rank_full
       assert_equal "Straight Q high", @straight.rank_full
       assert_equal "Three of a kind A's, 9c 2d kickers", @trips.rank_full
       assert_equal "Flush diamond Q high", @flush.rank_full
-      assert_equal "Two pair A's & K's, 2s kicker", @two_pair.rank_full
+      assert_equal "Two pair A's and K's, 2s kicker", @two_pair.rank_full
       assert_equal "Pair A's, Kc Qd 2s kickers", @pair.rank_full
       assert_equal "Highest Card As, Jh 9c 7d 5s kickers", @ace_high.rank_full
     end
@@ -186,7 +190,7 @@ class TestPokerHand < Test::Unit::TestCase
       ph.delete("Ac")
       assert_equal(Array.new, ph.hand)
     end
-    
+
     should "detect the two highest pairs when there are more than two" do
       ph = PokerHand.new("7d 7s 4d 4c 2h 2d")
       assert_equal([3, 6, 3, 1], ph.two_pair?[0])
@@ -195,6 +199,31 @@ class TestPokerHand < Test::Unit::TestCase
       # 6: highest pair is two 7's
       # 3: second highest pair is two 4's
       # 1: kicker is a 2
+    end
+
+    should "detect the highest full house (7d 7s 7c 2c 2h 2d)" do
+      ph = PokerHand.new("7d 7s 7c 2c 2h 2d")
+      assert_equal([7, 6, 1], ph.full_house?[0])
+    end
+
+    should "detect the highest full house (2d 2s 2c 7c 7h 7d)" do
+      ph = PokerHand.new("2d 2s 2c 7c 7h 7d")
+      assert_equal([7, 6, 1], ph.full_house?[0])
+      # Explanation of [7, 6, 1]
+      # 7: the number for a set
+      # 6: highest set is 7's
+      # 1: pair is therefore 2's
+    end
+
+    should "full house - detect the highest pair when there are more than two" do
+      ph = PokerHand.new("Kd Ks Kc 4c 4h Ad Ac")
+      debugger
+      assert_equal([7, 12, 13], ph.full_house?[0])
+      assert_equal("Ks Kd Kc Ad Ac 4h 4c", ph.full_house?[1])
+      # Explanation of [7, 6, 3, 1]
+      # 7: the number for a full house
+      # 12: set is K's
+      # 13: highest filler is A's
     end
   
     context "when duplicates are allowed" do

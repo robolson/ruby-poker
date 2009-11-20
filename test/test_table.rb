@@ -113,23 +113,36 @@ class TestTable < Test::Unit::TestCase
       @table.deal_turn
       @table.deal_river
       winner, best_hand = @table.winner
-      assert_equal(winner, 1)
+      assert_equal(1, winner)
+    end
+
+    should "determine winner (running whole hand)" do
+      winner, best_hand = @table.run_hand
+      assert_equal(1, winner)
     end
   end
 
   context "Outcomes" do
+    should "Handle full houses correctly" do
+      table = Table.new(10, 206)
+      # T's full of A's
+      table.sit(Player.new(5000), 1, 1000)
+      table.sit(Player.new(5000), 3, 1000)
+      table.sit(Player.new(5000), 5, 1000)
+      table.sit(Player.new(5000), 7, 1000)
+      winner, best_hand = table.run_hand
+      assert_equal("Full house T's full of A's", best_hand.rank_full)
+    end
+
     should "Handle Ties" do
-      @table = Table.new(10, 2)
-      @table.sit(Player.new(5000), 1, 1000)
-      @table.sit(Player.new(5000), 3, 1000)
-      @table.sit(Player.new(5000), 5, 1000)
-      @table.sit(Player.new(5000), 7, 1000)
-      @table.sit(Player.new(5000), 9, 1000)
-      @table.deal_holes
-      @table.deal_flop
-      @table.deal_turn
-      @table.deal_river
-      winner, best_hand = @table.winner
+      table = Table.new(10, 204)
+      # 7's full of 4's
+      table.sit(Player.new(5000), 1, 1000)
+      table.sit(Player.new(5000), 3, 1000)
+      table.sit(Player.new(5000), 5, 1000)
+      table.sit(Player.new(5000), 7, 1000)
+      winner, best_hand = table.run_hand
+      assert_equal(winner, 5)
     end
 
   end

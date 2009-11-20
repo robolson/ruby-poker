@@ -30,14 +30,22 @@ class Table
     end
   end
 
+  def run_hand
+    deal_holes
+    deal_flop
+    deal_turn
+    deal_river
+    seat, best_hand = winner
+    # XXX: handle pot
+    # XXX: move button
+    return seat, best_hand
+  end
+
   def deal_holes
     raise "No players" if seated_players.length < 1
     raise "Less than 2 players" if seated_players.length < 2
 
-
     # XXX: make sure that all players have $
-
-    # XXX: move button
 
     collect_blinds
 
@@ -81,21 +89,22 @@ class Table
         unless best_hand
           best_hand = hand
           winner = seat.number
-          #puts "seat #{seat.number} (#{seat.player.hand.just_cards}): #{hand.five_card_s}"
+          puts "seat #{seat.number} (#{seat.player.hand.just_cards}): #{hand.five_card_s}"
         else
           if hand > best_hand
-            #puts "seat #{seat.number} (#{seat.player.hand.just_cards}): better hand: #{hand.five_card_s}"
+            puts "seat #{seat.number} (#{seat.player.hand.just_cards}): better hand: #{hand.five_card_s}"
             best_hand = hand
             winner = seat.number
           elsif hand == best_hand
             # XXX: finish this
+            puts "XXX Tie: seat #{seat.number} (#{seat.player.hand.just_cards}): tie hand: #{hand.five_card_s}"
           else
-            #puts "seat #{seat.number} (#{seat.player.hand.just_cards}): worse hand: #{hand.five_card_s}"
+            puts "seat #{seat.number} (#{seat.player.hand.just_cards}): worse hand: #{hand.five_card_s}"
           end
         end
       end
     }
-    #puts "Winner: seat #{winner} with #{best_hand.five_card_s}"
+    puts "Winner: seat #{winner} with #{best_hand.five_card_s}"
     return [winner, best_hand]
   end
 
