@@ -1,6 +1,9 @@
-require File.expand_path(File.dirname(__FILE__) + '/test_helper')
+require 'test_helper'
+require 'ruby-poker/simulation'
 
 class TestTable < Test::Unit::TestCase
+  include RubyPoker::Simulation
+  
   context "Basic stuff" do
     setup do
       @table = Table.new

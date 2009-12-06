@@ -42,15 +42,16 @@ begin
     '--main'  << 'README.rdoc' <<
     '--inline-source' << '-q'
 
-    s.add_development_dependency('thoughtbot-shoulda', '> 2.0.0')
+    s.add_development_dependency('shoulda', '> 2.0.0')
   end
 rescue LoadError
-  puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
+  puts "Jeweler not available. Install it with: sudo gem install jeweler -s http://gemcutter.org"
 end
 
 require 'rake/testtask'
 Rake::TestTask.new(:test) do |test|
-  test.libs << 'lib' << 'test'
+  test.libs << 'test'
+  test.pattern = 'test/**/test_*.rb'
   test.verbose = true
   test.warning = true
 end

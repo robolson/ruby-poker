@@ -1,7 +1,7 @@
-require File.join(File.dirname(__FILE__), 'mathpc')
+require 'ruby-poker/poker_odds/mathpc'
 
-module PokerOdds
-  module HoldEm
+module RubyPoker::PokerOdds
+  module TexasHoldem
     @cards_max = 7
     @preflop_denom = 52.c(2)
     @flop_denom = 52.c(5)
@@ -31,8 +31,9 @@ module PokerOdds
 end
 
 if __FILE__ == $0
+  include RubyPoker::PokerOdds
   puts "one card:"
-  puts "- odds 4 flush completing: #{PokerOdds::HoldEm.next_card(9, 5)}"
+  puts "- odds 4 flush completing: #{TexasHoldem.next_card(9, 5)}"
   puts "two cards:"
-  puts "- odds 4 flush completing: #{PokerOdds::HoldEm.by_river(9)}"
+  puts "- odds 4 flush completing: #{TexasHoldem.by_river(9)}"
 end

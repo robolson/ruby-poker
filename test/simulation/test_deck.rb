@@ -1,6 +1,9 @@
-require File.expand_path(File.dirname(__FILE__) + '/test_helper')
+require 'test_helper'
+require 'ruby-poker/simulation'
 
 class TestDeck < Test::Unit::TestCase
+  include RubyPoker::Simulation  
+  
   context "Seeded deck" do
     setup do
     end

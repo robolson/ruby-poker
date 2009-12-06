@@ -1,5 +1,3 @@
-require File.expand_path(File.dirname(__FILE__) + '/test_helper')
-
 class TestCard < Test::Unit::TestCase
   def setup
     # testing various input formats for cards
