@@ -12,21 +12,22 @@ class PokerHand
   #     PokerHand.new("3d 5c 8h Ks")   # => #<PokerHand:0x5c673c ...
   #     PokerHand.new(["3d", "5c", "8h", "Ks"])  # => #<PokerHand:0x5c2d6c ...
   def initialize(cards = [])
-    if cards.is_a? Array
-      @hand = cards.map do |card|
+    @hand = case cards
+    when Array
+      cards.map do |card|
         if card.is_a? Card
           card
         else
           Card.new(card.to_s)
         end
       end
-    elsif cards.respond_to?(:to_str)
-      @hand = cards.scan(/\S{2,3}/).map { |str| Card.new(str) }
+    when String
+      cards.scan(/\S{2,3}/).map { |str| Card.new(str) }
     else
-      @hand = cards
+      cards
     end
 
-    check_for_duplicates if !@@allow_duplicates
+    check_for_duplicates unless allow_duplicates
   end
 
   # Returns a new PokerHand object with the cards sorted by suit
@@ -299,7 +300,7 @@ class PokerHand
     end
 
     new_cards.each do |nc|
-      unless @@allow_duplicates
+      unless allow_duplicates
         raise "A card with the value #{nc} already exists in this hand. Set PokerHand.allow_duplicates to true if you want to be able to add a card more than once." if self =~ /#{nc}/
       end
 
@@ -331,10 +332,14 @@ class PokerHand
     }
   end
 
+  def allow_duplicates
+    @@allow_duplicates
+  end
+
   private
 
   def check_for_duplicates
-    if @hand.size != @hand.uniq.size && !@@allow_duplicates
+    if @hand.size != @hand.uniq.size && !allow_duplicates
       raise "Attempting to create a hand that contains duplicate cards. Set PokerHand.allow_duplicates to true if you do not want to ignore this error."
     end
   end
