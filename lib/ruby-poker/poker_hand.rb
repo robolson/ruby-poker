@@ -22,7 +22,7 @@ class PokerHand
         end
       end
     when String
-      cards.scan(/\S{2,3}/).map { |str| Card.new(str) }
+      cards.scan(/\S{2}/).map { |str| Card.new(str) }
     else
       cards
     end

@@ -35,6 +35,11 @@ class TestPokerHand < Test::Unit::TestCase
       assert_equal(0, PokerHand.new('kc kd') <=> PokerHand.new('Kc Kd'))
       assert_equal(0, PokerHand.new('kc kd') <=> PokerHand.new('Kc KD'))
     end
+    
+    should "handle hands without space" do
+      assert_equal(0, PokerHand.new('KcKd') <=> PokerHand.new('Kc Kd'))
+      assert_equal(0, PokerHand.new('KcKd9d') <=> PokerHand.new('Kc Kd 9d'))
+    end
 
     should "sort using rank" do
       assert_equal("As Ah Ac 9c 2d", @trips.sort_using_rank)
