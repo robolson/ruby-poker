@@ -250,6 +250,19 @@ class TestPokerHand < Test::Unit::TestCase
         PokerHand.allow_duplicates = true
       end
     end
+    
+    should "have an each method" do
+      cards = []
+      @straight.each do |card|
+        cards << card
+      end
+      assert_equal @straight.to_a, cards
+    end
+    
+    should "be Enumerable" do
+      assert PokerHand.include?(Enumerable)
+    end
+
   end
 
   context "PokerHand#pair?" do

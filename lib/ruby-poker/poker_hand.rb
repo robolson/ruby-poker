@@ -284,6 +284,12 @@ class PokerHand
   end
 
   alias :to_ary :to_a
+  
+  def each(*args, &block)
+    @hand.each(*args, &block)
+  end
+  
+  include Enumerable
 
   def <=> other_hand
     self.score[0].compact <=> other_hand.score[0].compact
