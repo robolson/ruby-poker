@@ -408,6 +408,21 @@ class PokerHand
       raise ArgumentError, "Invalid expression: #{expression.inspect}"
     end
   end
+  
+  def +(other)
+    cards = @hand.map { |card| Card.new(card) }
+    case other
+    when String
+      cards << Card.new(other)
+    when Card
+      cards << other
+    when PokerHand
+      cards += other.hand
+    else
+      raise ArgumentError, "Invalid argument: #{other.inspect}"
+    end
+    PokerHand.new(cards)
+  end
 
   private
 

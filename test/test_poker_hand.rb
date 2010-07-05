@@ -262,7 +262,35 @@ class TestPokerHand < Test::Unit::TestCase
     should "be Enumerable" do
       assert PokerHand.include?(Enumerable)
     end
+  end
+  
+  context "addition" do
+    setup do
+      @base = PokerHand.new('Ac Kc')
+    end
+    
+    should "work with a string" do
+      assert_equal PokerHand.new('Ac Kc Qc'), @base + 'Qc'
+    end
+    
+    should "work with a card" do
+      assert_equal PokerHand.new('Ac Kc Qc'), @base + Card.new('Qc')
+    end
+    
+    should "work with a hand" do
+      assert_equal PokerHand.new('Ac Kc Qc'), @base + PokerHand.new('Qc')
+    end
+    
+    should "not affect receiver hand" do
+      @base + 'Qc'
+      assert_equal PokerHand.new('Ac Kc'), @base
+    end
 
+    should "not affect receiver cards" do
+      result = @base + 'Qc'
+      result.to_a.first.instance_eval { @face = Card.face_value('2') }
+      assert_equal PokerHand.new('Ac Kc'), @base
+    end
   end
 
   context "PokerHand#pair?" do
