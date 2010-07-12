@@ -22,7 +22,7 @@ class PokerHand
         end
       end
     when String
-      cards.scan(/\S{2,3}/).map { |str| Card.new(str) }
+      cards.scan(/\S{2}/).map { |str| Card.new(str) }
     else
       cards
     end
@@ -284,6 +284,12 @@ class PokerHand
   end
 
   alias :to_ary :to_a
+  
+  def each(*args, &block)
+    @hand.each(*args, &block)
+  end
+  
+  include Enumerable
 
   def <=> other_hand
     self.score[0].compact <=> other_hand.score[0].compact
@@ -334,6 +340,88 @@ class PokerHand
 
   def allow_duplicates
     @@allow_duplicates
+  end
+  
+  # Checks whether the hand matches usual expressions like AA, AK, AJ+, 66+, AQs, AQo...
+  # 
+  # Valid expressions:
+  # * "AJ": Matches exact faces (in this case an Ace and a Jack), suited or not
+  # * "AJs": Same but suited only
+  # * "AJo": Same but offsuit only
+  # * "AJ+": Matches an Ace with any card >= Jack, suited or not
+  # * "AJs+": Same but suited only
+  # * "AJo+": Same but offsuit only
+  # * "JJ+": Matches any pair >= "JJ".
+  # * "8T+": Matches connectors (in this case with 1 gap : 8T, 9J, TQ, JK, QA)
+  # * "8Ts+": Same but suited only
+  # * "8To+": Same but offsuit only
+  #
+  # The order of the cards in the expression is important (8T+ is not the same as T8+), but the order of the cards in the hand is not ("AK" will match "Ad Kc" and "Kc Ad").
+  #
+  # The expression can be an array of expressions. In this case the method returns true if any expression matches.
+  #
+  # This method only works on hands with 2 cards.
+  #
+  #     PokerHand.new('Ah Ad').match? 'AA' # => true
+  #     PokerHand.new('Ah Kd').match? 'AQ+' # => true
+  #     PokerHand.new('Jc Qc').match? '89s+' # => true
+  #     PokerHand.new('Ah Jd').match? %w( 22+ A6s+ AJ+ ) # => true
+  #     PokerHand.new('Ah Td').match? %w( 22+ A6s+ AJ+ ) # => false
+  #
+  def match? expression
+    raise "Hands with #{@hand.size} cards is not supported" unless @hand.size == 2
+    
+    if expression.is_a? Array
+      return expression.any? { |e| match?(e) }
+    end
+    
+    faces = @hand.map { |card| card.face }.sort.reverse
+    suited = @hand.map { |card| card.suit }.uniq.size == 1
+    if expression =~ /^(.)(.)(s|o|)(\+|)$/
+      face1 = Card.face_value($1)
+      face2 = Card.face_value($2)
+      raise ArgumentError, "Invalid expression: #{expression.inspect}" unless face1 and face2
+      suit_match = $3
+      plus = ($4 != "")
+      
+      if plus
+        if face1 == face2
+          face_match = (faces.first == faces.last and faces.first >= face1)
+        elsif face1 > face2
+          face_match = (faces.first == face1 and faces.last >= face2)
+        else
+          face_match = ((faces.first - faces.last) == (face2 - face1) and faces.last >= face1)
+        end
+      else
+        expression_faces = [face1, face2].sort.reverse
+        face_match = (expression_faces == faces)
+      end
+      case suit_match
+      when ''
+        face_match
+      when 's'
+        face_match and suited
+      when 'o'
+        face_match and !suited
+      end
+    else
+      raise ArgumentError, "Invalid expression: #{expression.inspect}"
+    end
+  end
+  
+  def +(other)
+    cards = @hand.map { |card| Card.new(card) }
+    case other
+    when String
+      cards << Card.new(other)
+    when Card
+      cards << other
+    when PokerHand
+      cards += other.hand
+    else
+      raise ArgumentError, "Invalid argument: #{other.inspect}"
+    end
+    PokerHand.new(cards)
   end
 
   private

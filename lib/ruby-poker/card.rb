@@ -45,6 +45,7 @@ class Card
     suit.downcase!
     @face  = Card::face_value(face)
     @suit  = SUIT_LOOKUP[suit]
+    raise ArgumentError, "Invalid card: \"#{face}#{suit}\"" unless @face and @suit
     @value = (@suit * FACES.size()) + (@face - 1)
   end
 
