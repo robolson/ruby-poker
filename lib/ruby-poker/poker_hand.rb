@@ -1,5 +1,6 @@
 class PokerHand
   include Comparable
+  include Enumerable
   attr_reader :hand
 
   @@allow_duplicates = true    # true by default
@@ -282,14 +283,7 @@ class PokerHand
   def to_a
     @hand
   end
-
   alias :to_ary :to_a
-  
-  def each(*args, &block)
-    @hand.each(*args, &block)
-  end
-  
-  include Enumerable
 
   def <=> other_hand
     self.score[0].compact <=> other_hand.score[0].compact
@@ -329,7 +323,7 @@ class PokerHand
   end
 
   # Resolving methods are just passed directly down to the @hand array
-  RESOLVING_METHODS = [:size, :-]
+  RESOLVING_METHODS = [:each, :size, :-]
   RESOLVING_METHODS.each do |method|
     class_eval %{
       def #{method}(*args, &block)
