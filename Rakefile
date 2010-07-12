@@ -38,7 +38,7 @@ spec = Gem::Specification.new do |s|
                     '--main'  << 'README.rdoc' <<
                     '--inline-source' << '-q'
 
-  s.add_development_dependency('thoughtbot-shoulda', '> 2.0.0')
+  s.add_development_dependency('shoulda', '> 2.0.0')
 end
 
 require 'rake/gempackagetask'
