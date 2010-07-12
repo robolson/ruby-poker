@@ -329,7 +329,7 @@ class PokerHand
   end
 
   # Resolving methods are just passed directly down to the @hand array
-  RESOLVING_METHODS = [:size, :+, :-]
+  RESOLVING_METHODS = [:size, :-]
   RESOLVING_METHODS.each do |method|
     class_eval %{
       def #{method}(*args, &block)
