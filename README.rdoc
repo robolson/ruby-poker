@@ -13,7 +13,7 @@ Card representations can be passed to the PokerHand constructor as a string or a
 
 == Install
 
-    sudo gem install ruby-poker
+    gem install ruby-poker
 
 == Example
 
@@ -39,7 +39,7 @@ Place that line near the beginning of your program. The change is program wide s
 
 == Compatibility
 
-Ruby-Poker is compatible with Ruby 1.8.6 and Ruby 1.9.1.
+Ruby-Poker is compatible with Ruby 1.8 and Ruby 1.9
 
 == History
 
