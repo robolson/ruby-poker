@@ -9,13 +9,13 @@ class TestCard < Test::Unit::TestCase
     @c4 = Card.new("qS")
   end
 
-  def test_build_from_card
-    assert_equal("9c", Card.new(@c1).to_s)
-  end
-
   def test_class_face_value
     assert_nil(Card.face_value('L'))
     assert_equal(13, Card.face_value('A'))
+  end
+
+  def test_build_from_card
+    assert_equal("9c", Card.new(@c1).to_s)
   end
 
   def test_build_from_value
@@ -23,6 +23,13 @@ class TestCard < Test::Unit::TestCase
     assert_equal(@c2, Card.new(22))
     assert_equal(@c3, Card.new(37))
     assert_equal(@c4, Card.new(52))
+  end
+
+  def test_build_from_face_suit
+    assert_equal(7, Card.new('9', 'c').value)
+    assert_equal(22, Card.new('T', 'd').value)
+    assert_equal(37, Card.new('J', 'h').value)
+    assert_equal(52, Card.new('Q', 's').value)
   end
 
   def test_face
@@ -61,9 +68,5 @@ class TestCard < Test::Unit::TestCase
     c = Card.new("9h")
     assert_not_equal(@c1, c)
     assert_equal(@c1, @c1)
-  end
-
-  def test_hash
-    assert_equal(15, @c1.hash)
   end
 end

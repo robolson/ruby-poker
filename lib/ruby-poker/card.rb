@@ -66,22 +66,24 @@ class Card
 
   public
 
-  def initialize(*value)
-    if (value.size == 1)
-      if (value[0].respond_to?(:to_card))
-        build_from_card(value[0])
-      elsif (value[0].respond_to?(:to_str))
-        build_from_string(value[0])
-      elsif (value[0].respond_to?(:to_int))
-        build_from_value(value[0])
+  def initialize(*args)
+    if (args.size == 1)
+      value = args.first
+      if (value.respond_to?(:to_card))
+        build_from_card(value)
+      elsif (value.respond_to?(:to_str))
+        build_from_string(value)
+      elsif (value.respond_to?(:to_int))
+        build_from_value(value)
       end
-    elsif (value.size == 2)
-      if (value[0].respond_to?(:to_str) &&
-          value[1].respond_to?(:to_str))
-        build_from_face_suit(value[0], value[1])
-      elsif (value[0].respond_to?(:to_int) &&
-             value[1].respond_to?(:to_int))
-        build_from_face_suit_values(value[0], value[1])
+    elsif (args.size == 2)
+      arg1, arg2 = args
+      if (arg1.respond_to?(:to_str) &&
+          arg2.respond_to?(:to_str))
+        build_from_face_suit(arg1, arg2)
+      elsif (arg1.respond_to?(:to_int) &&
+             arg2.respond_to?(:to_int))
+        build_from_face_suit_values(arg1, arg2)
       end
     end
   end
