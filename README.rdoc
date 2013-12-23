@@ -39,7 +39,7 @@ Place that line near the beginning of your program. The change is program wide s
 
 == Compatibility
 
-Ruby-Poker is compatible with Ruby 1.8 and Ruby 1.9
+Ruby-Poker is compatible with Ruby 1.8, Ruby 1.9, Ruby 2.0.
 
 == History
 
