@@ -14,6 +14,10 @@ class TestPokerHand < Test::Unit::TestCase
       @ace_high = PokerHand.new("As Jh 9c 7d 5s")
     end
 
+    should "handle empty hands" do
+      assert_equal(PokerHand.new.rank, "Empty Hand")
+    end
+
     should "handle single card hands" do
       assert_equal(PokerHand.new('As').rank, @ace_high.rank)
     end

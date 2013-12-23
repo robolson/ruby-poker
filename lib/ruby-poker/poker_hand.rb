@@ -222,8 +222,18 @@ class PokerHand
   end
 
   def highest_card?
-    result = by_face
-    [[1, *result.face_values[0..result.face_values.length]], result.hand.join(' ')]
+    if size > 0
+      result = by_face
+      [[1, *result.face_values[0..result.face_values.length]], result.hand.join(' ')]
+    else
+      false
+    end
+  end
+
+  def empty_hand?
+    if size == 0
+      [[0]]
+    end
   end
 
   OPS = [
@@ -237,6 +247,7 @@ class PokerHand
     ['Two pair',        :two_pair? ],
     ['Pair',            :pair? ],
     ['Highest Card',    :highest_card? ],
+    ['Empty Hand',      :empty_hand? ],
   ]
 
   # Returns the verbose hand rating
@@ -251,14 +262,12 @@ class PokerHand
   alias :rank :hand_rating
 
   def score
-    # OPS.map returns an array containing the result of calling each OPS method again
-    # the poker hand. The non-nil cell closest to the front of the array represents
+    # OPS.map returns an array containing the result of calling each OPS method against
+    # the poker hand. The truthy cell closest to the front of the array represents
     # the highest ranking.
-    # find([0]) returns [0] instead of nil if the hand does not match any of the rankings
-    # which is not likely to occur since every hand should at least have a highest card
     OPS.map { |op|
       method(op[1]).call()
-    }.find([0]) { |score| score }
+    }.find { |score| score }
   end
 
   # Returns a string of the hand arranged based on its rank. Usually this will be the
