@@ -35,12 +35,12 @@ class TestPokerHand < Test::Unit::TestCase
       assert_equal(0, PokerHand.new('kc kd') <=> PokerHand.new('Kc Kd'))
       assert_equal(0, PokerHand.new('kc kd') <=> PokerHand.new('Kc KD'))
     end
-    
+
     should "handle hands without space" do
       assert_equal(0, PokerHand.new('KcKd') <=> PokerHand.new('Kc Kd'))
       assert_equal(0, PokerHand.new('KcKd9d') <=> PokerHand.new('Kc Kd 9d'))
     end
-    
+
     should "raise a clear error with invalid cards" do
       e = assert_raises(ArgumentError) { PokerHand.new('Fc') }
       assert_match(/"Fc"/, e.message)
@@ -250,7 +250,7 @@ class TestPokerHand < Test::Unit::TestCase
         PokerHand.allow_duplicates = true
       end
     end
-    
+
     should "have an each method" do
       cards = []
       @straight.each do |card|
@@ -258,25 +258,25 @@ class TestPokerHand < Test::Unit::TestCase
       end
       assert_equal @straight.to_a, cards
     end
-    
+
     should "be Enumerable" do
       assert PokerHand.include?(Enumerable)
     end
   end
-  
+
   context "addition" do
     setup do
       @base = PokerHand.new('Ac Kc')
     end
-    
+
     should "work with a string" do
       assert_equal PokerHand.new('Ac Kc Qc'), @base + 'Qc'
     end
-    
+
     should "work with a card" do
       assert_equal PokerHand.new('Ac Kc Qc'), @base + Card.new('Qc')
     end
-    
+
     should "work with a hand" do
       assert_equal PokerHand.new('Ac Kc Qc'), @base + PokerHand.new('Qc')
     end
@@ -371,18 +371,18 @@ class TestPokerHand < Test::Unit::TestCase
       end
     end
   end
-  
+
 
   def assert_hand_match(expression, cards)
     hand = PokerHand.new(cards)
     assert hand.match?(expression), "#{cards} didn't match #{expression}"
   end
-  
+
   def assert_hand_not_match(expression, cards)
     hand = PokerHand.new(cards)
     assert !hand.match?(expression), "#{cards} did match #{expression}"
   end
-  
+
   context "matching expression" do
     should "match two faces" do
       assert_hand_match 'AA', 'Ah Ad'
@@ -393,7 +393,7 @@ class TestPokerHand < Test::Unit::TestCase
       assert_hand_not_match 'T9', 'Tc 8s'
       assert_hand_not_match 'QQ', 'Tc 8s'
     end
-    
+
     should "match unordered faces" do
       assert_hand_match 'K7', '7c Ks'
     end
@@ -402,7 +402,7 @@ class TestPokerHand < Test::Unit::TestCase
       assert_hand_match 'Q8s', 'Qc 8c'
       assert_hand_match '56s', '5h 6h'
     end
-    
+
     should "not match suited when offsuit" do
       assert_hand_not_match 'Q8s', 'Qc 8d'
       assert_hand_not_match '56s', '5h 6c'
@@ -412,24 +412,24 @@ class TestPokerHand < Test::Unit::TestCase
       assert_hand_match 'Q8o', 'Qc 8h'
       assert_hand_match '56o', '5h 6s'
     end
-    
+
     should "not match offsuit when suited" do
       assert_hand_not_match 'Q8o', 'Qc 8c'
       assert_hand_not_match '56o', '5h 6h'
     end
-    
+
     should "match pair min" do
       assert_hand_match 'JJ+', 'Jc Js'
       assert_hand_match '66+', 'Qc Qh'
       assert_hand_match 'JJ+', 'Ad Ac'
     end
-    
+
     should "not match pair min" do
       assert_hand_not_match 'JJ+', 'Tc Ts'
       assert_hand_not_match '66+', 'Qc Kh'
       assert_hand_not_match 'AA+', '2d 2c'
     end
-    
+
     should "match face min" do
       assert_hand_match 'AJ+', 'Ac Js'
       assert_hand_match 'AQ+', 'Ac Kc'
@@ -440,7 +440,7 @@ class TestPokerHand < Test::Unit::TestCase
       assert_hand_not_match 'AJ+', 'Ac Ts'
       assert_hand_not_match 'AJ+', 'Tc Ts'
     end
-    
+
     should "match suited face min" do
       assert_hand_match 'AJs+', 'Ac Jc'
       assert_hand_match 'AQs+', 'Ac Kc'
@@ -449,7 +449,7 @@ class TestPokerHand < Test::Unit::TestCase
       assert_hand_not_match 'QTs+', 'Qc Ts'
       assert_hand_not_match 'AJs+', 'Ac Qs'
     end
-    
+
     should "match offsuit face min" do
       assert_hand_match 'AJo+', 'Ac Jd'
       assert_hand_match 'AQo+', 'Ac Kh'
@@ -493,7 +493,7 @@ class TestPokerHand < Test::Unit::TestCase
       assert_hand_match '89o+', '9c Th'
       assert_hand_not_match '89o+', '9d Td'
     end
-    
+
     [
       %w(),
       %w(Ac),
@@ -507,7 +507,7 @@ class TestPokerHand < Test::Unit::TestCase
         end
       end
     end
-    
+
     should "raise an error with invalid expression" do
       hand = PokerHand.new("Ac Kc")
       assert_raises ArgumentError do

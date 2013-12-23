@@ -335,9 +335,9 @@ class PokerHand
   def allow_duplicates
     @@allow_duplicates
   end
-  
+
   # Checks whether the hand matches usual expressions like AA, AK, AJ+, 66+, AQs, AQo...
-  # 
+  #
   # Valid expressions:
   # * "AJ": Matches exact faces (in this case an Ace and a Jack), suited or not
   # * "AJs": Same but suited only
@@ -364,11 +364,11 @@ class PokerHand
   #
   def match? expression
     raise "Hands with #{@hand.size} cards is not supported" unless @hand.size == 2
-    
+
     if expression.is_a? Array
       return expression.any? { |e| match?(e) }
     end
-    
+
     faces = @hand.map { |card| card.face }.sort.reverse
     suited = @hand.map { |card| card.suit }.uniq.size == 1
     if expression =~ /^(.)(.)(s|o|)(\+|)$/
@@ -377,7 +377,7 @@ class PokerHand
       raise ArgumentError, "Invalid expression: #{expression.inspect}" unless face1 and face2
       suit_match = $3
       plus = ($4 != "")
-      
+
       if plus
         if face1 == face2
           face_match = (faces.first == faces.last and faces.first >= face1)
@@ -402,7 +402,7 @@ class PokerHand
       raise ArgumentError, "Invalid expression: #{expression.inspect}"
     end
   end
-  
+
   def +(other)
     cards = @hand.map { |card| Card.new(card) }
     case other
