@@ -280,10 +280,10 @@ class TestPokerHand < Test::Unit::TestCase
     should "work with a hand" do
       assert_equal PokerHand.new('Ac Kc Qc'), @base + PokerHand.new('Qc')
     end
-    
-    should "not affect receiver hand" do
+
+    should "not modify the receiver hand" do
       result = @base + 'Qc'
-      assert_equal PokerHand.new('Ac Kc'), @base
+      assert_not_equal result, @base
     end
 
     should "not affect receiver cards" do
