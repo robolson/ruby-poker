@@ -1,11 +1,9 @@
-require 'rubygems'
-require 'rake'
-
 require 'rake/testtask'
-Rake::TestTask.new(:test) do |test|
-  test.libs << 'lib' << 'test'
-  test.verbose = true
-  test.warning = true
+Rake::TestTask.new do |t|
+  t.libs = ['lib']
+  t.verbose = true
+  t.warning = true
+  t.test_files = FileList['test/test_card.rb', 'test/test_poker_hand.rb']
 end
 
 task :default => :test
