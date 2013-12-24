@@ -50,7 +50,7 @@ class Card
   end
 
   def build_from_face_suit_values(face, suit)
-    build_from_value((face - 1) + (suit * FACES.size()))
+    build_from_value((face - 1) + (suit * FACES.size))
   end
 
   def build_from_string(card)
@@ -68,13 +68,13 @@ class Card
 
   def initialize(*args)
     if (args.size == 1)
-      value = args.first
-      if (value.respond_to?(:to_card))
-        build_from_card(value)
-      elsif (value.respond_to?(:to_str))
-        build_from_string(value)
-      elsif (value.respond_to?(:to_int))
-        build_from_value(value)
+      arg = args.first
+      if (arg.respond_to?(:to_card))
+        build_from_card(arg)
+      elsif (arg.respond_to?(:to_str))
+        build_from_string(arg)
+      elsif (arg.respond_to?(:to_int))
+        build_from_value(arg)
       end
     elsif (args.size == 2)
       arg1, arg2 = args
