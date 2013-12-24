@@ -7,10 +7,11 @@ class TestCard < Test::Unit::TestCase
     @c2 = Card.new("TD")
     @c3 = Card.new("jh")
     @c4 = Card.new("qS")
+    @c5 = Card.new("AC")
   end
 
   def test_class_face_value
-    assert_nil(Card.face_value('L'))
+    assert_equal(0,  Card.face_value('L'))
     assert_equal(13, Card.face_value('A'))
   end
 
@@ -19,17 +20,45 @@ class TestCard < Test::Unit::TestCase
   end
 
   def test_build_from_value
-    assert_equal(@c1, Card.new(7))
+    assert_equal(@c1, Card.new(8))
     assert_equal(@c2, Card.new(22))
-    assert_equal(@c3, Card.new(37))
-    assert_equal(@c4, Card.new(52))
+    assert_equal(@c3, Card.new(36))
+    assert_equal(@c4, Card.new(50))
+    assert_equal(@c5, Card.new(13))
   end
 
   def test_build_from_face_suit
-    assert_equal(7, Card.new('9', 'c').value)
+    assert_equal(8, Card.new('9', 'c').value)
     assert_equal(22, Card.new('T', 'd').value)
-    assert_equal(37, Card.new('J', 'h').value)
-    assert_equal(52, Card.new('Q', 's').value)
+    assert_equal(36, Card.new('J', 'h').value)
+    assert_equal(50, Card.new('Q', 's').value)
+    assert_equal(13, Card.new('A', 'c').value)
+  end
+
+  def test_build_from_value_and_from_face_suit_match
+    ticker = 0
+    Card::SUITS.each_char do |suit|
+      "23456789TJQKA".each_char do |face|
+        ticker += 1
+        from_value = Card.new(ticker)
+        from_face_suit = Card.new(face, suit)
+        assert_equal(from_face_suit, from_value,
+                     "Face and suit #{face + suit} did not match card from value #{ticker}")
+      end
+    end
+  end
+
+  def test_build_from_value_and_from_face_suit_values_match
+    ticker = 0
+    0.upto(3) do |suit|
+      1.upto(13) do |face|
+        ticker += 1
+        from_value = Card.new(ticker)
+        from_face_suit_values = Card.new(face, suit)
+        assert_equal(from_face_suit_values, from_value,
+                     "Face=#{face} and suit=#{suit} did not match card from value #{ticker}")
+      end
+    end
   end
 
   def test_face
@@ -47,10 +76,11 @@ class TestCard < Test::Unit::TestCase
   end
 
   def test_value
-    assert_equal(7, @c1.value)
+    assert_equal(8, @c1.value)
     assert_equal(22, @c2.value)
-    assert_equal(37, @c3.value)
-    assert_equal(52, @c4.value)
+    assert_equal(36, @c3.value)
+    assert_equal(50, @c4.value)
+    assert_equal(13, @c5.value)
   end
 
   def test_natural_value

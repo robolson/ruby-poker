@@ -39,7 +39,7 @@ class PokerHand
     PokerHand.new(@hand.sort_by { |c| [c.suit, c.face] }.reverse)
   end
 
-  # Returns a new PokerHand object with the cards sorted by value
+  # Returns a new PokerHand object with the cards sorted by face value
   # with the highest value first.
   #
   #     PokerHand.new("3d 5c 8h Ks").by_face.just_cards   # => "Ks 8h 5c 3d"
@@ -447,12 +447,23 @@ class PokerHand
       hand.strip.squeeze(" ")   # remove extra whitespace
   end
 
-  # delta transform creates a version of the cards where the delta
-  # between card values is in the string, so a regexp can then match a
-  # straight and/or straight flush
+  # delta transform returns a string representation of the cards where the
+  # delta between card values is in the string. This is necessary so a regexp
+  # can then match a straight and/or straight flush
+  #
+  # Examples
+  #
+  #   PokerHand.new("As Qc Jh Ts 9d 8h")
+  #   # => '0As 2Qc 1Jh 1Ts 19d 18h'
+  #
+  #   PokerHand.new("Ah Qd Td 5d 4d")
+  #   # => '0Ah 2Qd 2Td 55d 14d'
+  #
   def delta_transform(use_suit = false)
+    # In order to check for both ace high and ace low straights we create low
+    # ace duplicates of all of the high aces.
     aces = @hand.select { |c| c.face == Card::face_value('A') }
-    aces.map! { |c| Card.new(1,c.suit) }
+    aces.map! { |c| Card.new(0, c.suit) }  # hack to give the appearance of a low ace
 
     base = if (use_suit)
       (@hand + aces).sort_by { |c| [c.suit, c.face] }.reverse
@@ -460,6 +471,7 @@ class PokerHand
       (@hand + aces).sort_by { |c| [c.face, c.suit] }.reverse
     end
 
+    # Insert delta in front of each card
     result = base.inject(['',nil]) do |(delta_hand, prev_card), card|
       if (prev_card)
         delta = prev_card - card.face

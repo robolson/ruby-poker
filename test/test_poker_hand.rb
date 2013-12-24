@@ -102,7 +102,10 @@ class TestPokerHand < Test::Unit::TestCase
 
     should "recognize a straight" do
       assert @straight.straight?
+      # ace low straight
       assert PokerHand.new("AH 2S 3D 4H 5D").straight?
+      # ace high straight
+      assert PokerHand.new("AH KS QD JH TD").straight?
     end
 
     should "recognize a three of a kind" do

@@ -8,37 +8,31 @@ class Card
     's' => 3
   }
   FACE_VALUES = {
-    'L' =>  1,   # this is a magic low ace
-    '2' =>  2,
-    '3' =>  3,
-    '4' =>  4,
-    '5' =>  5,
-    '6' =>  6,
-    '7' =>  7,
-    '8' =>  8,
-    '9' =>  9,
-    'T' => 10,
-    'J' => 11,
-    'Q' => 12,
-    'K' => 13,
-    'A' => 14
+    'L' =>  0,   # this is a low ace
+    '2' =>  1,
+    '3' =>  2,
+    '4' =>  3,
+    '5' =>  4,
+    '6' =>  5,
+    '7' =>  6,
+    '8' =>  7,
+    '9' =>  8,
+    'T' =>  9,
+    'J' => 10,
+    'Q' => 11,
+    'K' => 12,
+    'A' => 13
   }
 
   def Card.face_value(face)
-    face.upcase!
-    if face == 'L' || !FACE_VALUES.has_key?(face)
-      nil
-    else
-      FACE_VALUES[face] - 1
-    end
+    FACE_VALUES[face.upcase]
   end
 
   private
 
-  def build_from_value(value)
-    @value = value
-    @suit  = value / FACES.size()
-    @face  = (value % FACES.size())
+  def build_from_value(given_value)
+    @suit  = given_value / 13
+    @face  = given_value % 13
   end
 
   def build_from_face_suit(face, suit)
@@ -46,11 +40,11 @@ class Card
     @face  = Card::face_value(face)
     @suit  = SUIT_LOOKUP[suit]
     raise ArgumentError, "Invalid card: \"#{face}#{suit}\"" unless @face and @suit
-    @value = (@suit * FACES.size()) + (@face - 1)
   end
 
-  def build_from_face_suit_values(face, suit)
-    build_from_value((face - 1) + (suit * FACES.size))
+  def build_from_face_suit_values(face_int, suit_int)
+    @face = face_int
+    @suit = suit_int
   end
 
   def build_from_string(card)
@@ -59,7 +53,6 @@ class Card
 
   # Constructs this card object from another card object
   def build_from_card(card)
-    @value = card.value
     @suit = card.suit
     @face = card.face
   end
@@ -88,8 +81,12 @@ class Card
     end
   end
 
-  attr_reader :suit, :face, :value
+  attr_reader :suit, :face
   include Comparable
+
+  def value
+    (@suit * 13) + @face
+  end
 
   # Returns a string containing the representation of Card
   #
@@ -114,14 +111,14 @@ class Card
   # Returns true if the cards are the same card. Meaning they
   # have the same suit and the same face value.
   def == card2
-    @value == card2.value
+    value == card2.value
   end
   alias :eql? :==
 
   # Compute a hash-code for this Card. Two Cards with the same
   # content will have the same hash code (and will compare using eql?).
   def hash
-    @value.hash
+    value.hash
   end
 
   # A card's natural value is the closer to it's intuitive value in a deck
