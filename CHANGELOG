@@ -1,3 +1,8 @@
+2013-12-28 (1.0.0)
+    * Add Gemfile
+    * Add "Empty Hand" rank for empty hands. Fixes #1.
+    * Simplify internal calculation of `value` in Card class. Fixes #2.
+
 2009-07-12 (0.3.2)
     * Reorganized ruby-poker's lib folder to match the standard layout for gems. This makes ruby-poker compatible with Rip.
     * Bug [#26276] improper two_pair? behavior. Applied patch by Uro.
@@ -6,7 +11,7 @@
 
 2009-01-24 (0.3.1)
     * Bug [#23623] undefined method <=> for nil:NilClass
-    
+
 2008-12-30 (0.3.1)
     * Bug (#20407) Raise an exception when creating a new hand with duplicates
     * Added PokerHand#uniq method
@@ -18,34 +23,34 @@
     * Bug [#20196] 'rank' goes into an infinite loop.
     * Bug [#20195] Allows the same card to be entered into the hand.
     * Bug [#20344] sort_using_rank does not return expected results
-    
+
 2008-04-20 (0.2.4)
     * Modernized the Rakefile
     * Updated to be compatible with Ruby 1.9    
-    
+
 2008-04-06 (0.2.2)
     * Fixed bug where two hands that had the same values but different suits returned not equal    
-    
+
 2008-02-08 (0.2.1)
     * Cards can be added to a hand after it is created by using (<<) on a PokerHand
     * Cards can be deleted from a hand with PokerHand.delete()
-    
+
 2008-01-21 (0.2.0)
     * Merged Patrick Hurley's poker solver
     * Added support for hands with >5 cards
     * Straights with a low Ace count now
     * to_s on a PokerHand now includes the rank after the card list
     * Finally wrote the Unit Tests suite      
-    
+
 2008-01-12 (0.1.2)
-    * Fixed critical bug that was stopping the whole program to not work
+    * Fixed critical bug that was causing the whole program to not work
     * Added some test cases as a result
     * More test cases coming soon      
-    
+
 2008-01-12 (0.1.1)
     * Ranks are now a class.
     * Extracted card, rank, and arrays methods to individual files
     * Added gem packaging
-        
+
 2008-01-10 (0.1.0)
     * Initial version
