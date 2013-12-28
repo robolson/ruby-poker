@@ -1,9 +1,9 @@
 = Poker library in Ruby
 ===
 
-Author:: {Rob Olson}[http://thinkingdigitally.com]
+Author:: {Rob Olson}[https://github.com/robolson]
 Email:: [first name] [at] thinkingdigitally.com
-GitHub:: http://github.com/robolson/ruby-poker
+GitHub:: https://github.com/robolson/ruby-poker
 
 == Description
 
@@ -40,6 +40,10 @@ Place that line near the beginning of your program. The change is program wide s
 == Compatibility
 
 Ruby-Poker is compatible with Ruby 1.8, Ruby 1.9, Ruby 2.0.
+
+== RDoc
+
+View the {generated documentation for ruby-poker}[http://rdoc.info/gems/ruby-poker/frames] on rdoc.info.
 
 == History
 
