@@ -1,4 +1,4 @@
-= Poker library in Ruby
+= Poker library in Ruby  {<img src="https://travis-ci.org/robolson/ruby-poker.png?branch=master" alt="Build Status" />}[https://travis-ci.org/robolson/ruby-poker]
 ===
 
 Author:: {Rob Olson}[https://github.com/robolson]
@@ -39,7 +39,7 @@ Place that line near the beginning of your program. The change is program wide s
 
 == Compatibility
 
-Ruby-Poker is compatible with Ruby 1.8, Ruby 1.9, Ruby 2.0.
+Ruby-Poker is compatible with Ruby 1.8, Ruby 1.9, and Ruby 2.X.
 
 == RDoc
 
