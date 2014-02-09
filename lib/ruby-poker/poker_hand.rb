@@ -139,7 +139,6 @@ class PokerHand
   end
 
   def straight?
-    result = false
     if hand.size >= 5
       transform = delta_transform
       # note we can have more than one delta 0 that we
@@ -154,9 +153,10 @@ class PokerHand
       if (md = (/.(.). 1.. 1.. 1.. 1../.match(transform)))
         high_card = Card::face_value(md[1])
         arranged_hand = fix_low_ace_display(md[0] + ' ' + md.pre_match + ' ' + md.post_match)
-        result = [[5, high_card], arranged_hand]
+        return [[5, high_card], arranged_hand]
       end
     end
+    false
   end
 
   def three_of_a_kind?
