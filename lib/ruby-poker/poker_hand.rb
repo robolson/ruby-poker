@@ -105,15 +105,13 @@ class PokerHand
 
   def full_house?
     if (md = (by_face =~ /(.). \1. \1. (.*)(.). \3./))
-      arranged_hand = arrange_hand(md[0] + ' ' +
-          md.pre_match + ' ' + md[2] + ' ' + md.post_match)
+      arranged_hand = rearrange_full_house(by_face.cards)
       [
         [7, Card::face_value(md[1]), Card::face_value(md[3])],
         arranged_hand
       ]
     elsif (md = (by_face =~ /((.). \2.) (.*)((.). \5. \5.)/))
-      arranged_hand = arrange_hand(md[4] + ' '  + md[1] + ' ' +
-          md.pre_match + ' ' + md[3] + ' ' + md.post_match)
+      arranged_hand = rearrange_full_house(by_face.cards)
       [
         [7, Card::face_value(md[5]), Card::face_value(md[2])],
         arranged_hand
@@ -503,6 +501,14 @@ class PokerHand
     arranged_hand.gsub!(/\s+/, ' ')
     # careful to use gsub as gsub! can return nil here
     arranged_hand.gsub(/\s+$/, '')
+  end
+
+  def rearrange_full_house(cards)
+    card_array = cards.split.uniq
+    card_hash = Hash[card_array.collect{|c| [c[0], card_array.count{|n| n[0] == c[0]}]}]
+    arranged_hand = card_array.select{|c| c if c[0] == card_hash.key(3)}
+    arranged_hand += card_array.select{|c| c if c[0] == card_hash.key(2)}
+    (arranged_hand + (card_array - arranged_hand)).join(" ")
   end
 
 end
