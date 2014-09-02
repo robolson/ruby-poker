@@ -1,3 +1,6 @@
+2014-09-01 (1.0.1)
+    * Rearrange full house cards to return correct order when low pairs. (Stuart Hanscombe)
+
 2013-12-28 (1.0.0)
     * Add Gemfile
     * Add "Empty Hand" rank for empty hands. Fixes #1.
