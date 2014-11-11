@@ -87,10 +87,10 @@ File.new(data_file).each do |line|
     # in ruby-poker Aces have the highest value
     rp_face_value = 13 if rp_face_value == 0
 
-    cards << Card.new(rp_face_value, rp_suit)
+    cards << ::RubyPoker::Card.new(rp_face_value, rp_suit)
   end
 
-  hand = PokerHand.new(cards)
+  hand = ::RubyPoker::PokerHand.new(cards)
   score = hand.score[0][0]  # don't know what was I thinking with this double nested array
 
   if score - 1 != expected_rank
