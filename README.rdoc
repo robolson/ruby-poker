@@ -45,6 +45,16 @@ Ruby-Poker is compatible with Ruby 1.8, Ruby 1.9, and Ruby 2.X.
 
 View the {generated documentation for ruby-poker}[http://rdoc.info/gems/ruby-poker/frames] on rdoc.info.
 
+== Running test suite
+
+`bundle exec rake`
+
+There is also a more compreshenive test, testing all permuations of poker hands, but it requires third party data I don't wish to include in the repo.
+```
+wget -P ./test/support/fixtures http://archive.ics.uci.edu/ml/machine-learning-databases/poker/poker-hand-testing.data
+bundle exec rake test:integration
+```
+
 == History
 
 In the 0.2.0 release Patrick Hurley's Texas Holdem code from http://www.rubyquiz.com/quiz24.html was merged into ruby-poker.

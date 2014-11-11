@@ -53,15 +53,21 @@
 # 8: Straight flush; straight + flush
 # 9: Royal flush; {Ace, King, Queen, Jack, Ten} + flush
 
-require 'rubygems'
-require 'bundler/setup'
-require 'ruby-poker'
+require File.expand_path(File.dirname(__FILE__) + '/../test_helper')
 
 SUITS = ['H', 'S', 'D', 'C']
 
-data_file = ARGV[0]
+data_file = File.expand_path(File.dirname(__FILE__) + "/../support/fixtures/poker-hand-testing.data")
 
-puts data_file
+if File.exist?(data_file)
+  puts "Starting integration test....this could take a while...."
+else
+  warn "*"*80
+  warn "Could not find #{data_file}"
+  warn "Please see README for instructions running integration tests"
+  warn "*"*80
+  exit(1)
+end
 
 File.new(data_file).each do |line|
   columns = line.split(',')
@@ -96,4 +102,5 @@ File.new(data_file).each do |line|
   if score - 1 != expected_rank
     puts "Inconsistency found in: #{line}"
   end
+  print "."
 end
