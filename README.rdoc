@@ -47,13 +47,12 @@ View the {generated documentation for ruby-poker}[http://rdoc.info/gems/ruby-pok
 
 == Running test suite
 
-`bundle exec rake`
+    bundle exec rake
 
-There is also a more compreshenive test, testing all permuations of poker hands, but it requires third party data I don't wish to include in the repo.
-```
-wget -P ./test/support/fixtures http://archive.ics.uci.edu/ml/machine-learning-databases/poker/poker-hand-testing.data
-bundle exec rake test:integration
-```
+There is also a more compreshenive test, testing all permuations of poker hands, but it requires a large data file that must be downloaded first.
+
+    wget -P ./test/support/fixtures http://archive.ics.uci.edu/ml/machine-learning-databases/poker/poker-hand-testing.data
+    bundle exec rake test:integration
 
 == History
 

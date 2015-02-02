@@ -1,9 +1,9 @@
 # Instructions:
 #
 # Download 'poker-hand-testing.data' dataset from http://archive.ics.uci.edu/ml/datasets/Poker+Hand.
-# Execute this script with path to the data file as the first argument.
+# wget -P ./test/support/fixtures http://archive.ics.uci.edu/ml/machine-learning-databases/poker/poker-hand-testing.data
 #
-# bundle exec ruby test/integration/test_a_million_hands.rb ~/Downloads/poker-hand-testing.data
+# bundle exec ruby test/integration/test_a_million_hands.rb
 
 # Attribute information for poker-hand-testing.data
 #
@@ -60,7 +60,7 @@ SUITS = ['H', 'S', 'D', 'C']
 data_file = File.expand_path(File.dirname(__FILE__) + "/../support/fixtures/poker-hand-testing.data")
 
 if File.exist?(data_file)
-  puts "Starting integration test....this could take a while...."
+  puts "Starting integration test....this could take a while"
 else
   warn "*"*80
   warn "Could not find #{data_file}"
@@ -100,7 +100,7 @@ File.new(data_file).each do |line|
   score = hand.score[0][0]  # don't know what was I thinking with this double nested array
 
   if score - 1 != expected_rank
-    puts "Inconsistency found in: #{line}"
+    puts "\nInconsistency found in: #{line}"
   end
   print "."
 end
