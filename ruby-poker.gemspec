@@ -26,5 +26,6 @@ Gem::Specification.new do |s|
                     '--main'  << 'README.rdoc' <<
                     '--inline-source' << '-q'
 
+  s.add_development_dependency('test-unit', '~> 3.1') if /^2.[2-9]/ =~ RUBY_VERSION && RUBY_ENGINE == 'ruby'
   s.add_development_dependency('shoulda-context', '~> 1.1')
 end
