@@ -1,0 +1,7 @@
+test_command: 'bundle install && bundle exec rake'
+
+ruby:
+ - 2.3.0
+
+targets:
+  - type: unit
